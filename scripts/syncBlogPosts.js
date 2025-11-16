@@ -36,14 +36,38 @@ const BLOG_POSTS_DIR = path.join(BLOG_DIR, "posts");
 const DATA_DIR = path.join(__dirname, "..", "data");
 
 /**
- * Query all blog posts from Wix
+ * Fetch a single blog post by ID with full content
+ */
+async function fetchBlogPost(postId) {
+  // Use fieldsets parameter to request RICH_CONTENT
+  const url = `${BLOG_API_URL}/${postId}?fieldsets=RICH_CONTENT`;
+  
+  let response = await fetch(url, {
+    method: "GET",
+    headers: HEADERS,
+  });
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ message: response.statusText }));
+    throw new Error(`Failed to fetch post ${postId} (${response.status}): ${error.message || response.statusText}`);
+  }
+
+  const payload = await response.json();
+  const post = payload.post || null;
+  
+  return post;
+}
+
+/**
+ * Query all blog posts from Wix and fetch full content for each
  */
 async function queryBlogPosts() {
   const url = `${BLOG_API_URL}/query`;
-  let allPosts = [];
+  let allPostIds = [];
   let offset = 0;
   const limit = 100;
 
+  // First, get all post IDs
   while (true) {
     const body = {
       query: {
@@ -64,16 +88,34 @@ async function queryBlogPosts() {
 
     const payload = await response.json();
     const posts = payload.posts || [];
-    allPosts = allPosts.concat(posts);
+    allPostIds = allPostIds.concat(posts.map(p => p.id));
 
     const total = payload.pagingMetadata?.total || 0;
-    console.log(`   📄 Fetched ${allPosts.length} of ${total} posts...`);
+    console.log(`   📄 Fetched ${allPostIds.length} of ${total} post IDs...`);
 
-    if (allPosts.length >= total || posts.length < limit) {
+    if (allPostIds.length >= total || posts.length < limit) {
       break;
     }
 
     offset += limit;
+  }
+
+  // Then fetch full content for each post
+  console.log(`\n   📄 Fetching full content for ${allPostIds.length} posts...`);
+  const allPosts = [];
+  for (let i = 0; i < allPostIds.length; i++) {
+    const postId = allPostIds[i];
+    try {
+      const post = await fetchBlogPost(postId);
+      if (post) {
+        allPosts.push(post);
+        if ((i + 1) % 5 === 0 || i === allPostIds.length - 1) {
+          console.log(`   📄 Fetched ${i + 1} of ${allPostIds.length} posts...`);
+        }
+      }
+    } catch (err) {
+      console.warn(`   ⚠️  Failed to fetch post ${postId}: ${err.message}`);
+    }
   }
 
   return allPosts;
@@ -218,7 +260,23 @@ function generatePostHTML(post, allPosts) {
   const slug = post.slug || slugify(title);
   const publishDate = formatDate(post.publishDate);
   const excerpt = post.excerpt || "";
-  const content = ricosToHTML(post.richContent);
+  
+  // Try different possible field names for content
+  // Wix Blog API might store content in preview.richContent or preview itself
+  let richContent = post.richContent || post.content || post.body || null;
+  
+  // If preview is an object with nodes, use it directly as richContent
+  if (!richContent && post.preview && typeof post.preview === 'object' && post.preview.nodes) {
+    richContent = post.preview;
+  } else if (!richContent && post.preview && typeof post.preview === 'object' && post.preview.richContent) {
+    richContent = post.preview.richContent;
+  }
+  
+  const content = ricosToHTML(richContent);
+  
+  // If content is still empty, use excerpt as fallback
+  const finalContent = content || (excerpt ? `<p>${escapeHTML(excerpt)}</p>` : "");
+  
   const coverImage = post.coverImage?.url || "";
   const author = post.author?.name || "TrueSight DAO";
   const tags = (post.tags || []).map((tag) => tag.name || tag).join(", ");
@@ -295,7 +353,7 @@ function generatePostHTML(post, allPosts) {
           ${coverImage ? `<img src="${coverImage}" alt="${escapeHTML(title)}" class="blog-post-cover" loading="eager" />` : ""}
         </header>
         <div class="blog-post-content">
-          ${content}
+          ${finalContent}
         </div>
         <footer class="blog-post-footer">
           ${prevPost ? `<a href="${slugify(prevPost.title || prevPost.slug || "")}.html" class="text-link">← ${escapeHTML(prevPost.title || "Previous Post")}</a>` : ""}
@@ -567,6 +625,18 @@ async function main() {
       const slug = post.slug || slugify(post.title || "");
       const filename = `${slug}.html`;
       const filepath = path.join(BLOG_POSTS_DIR, filename);
+      
+      // Debug: Check if content was found
+      if (post.richContent) {
+        const nodeCount = post.richContent.nodes?.length || 0;
+        console.log(`   ✅ Post "${post.title}" has richContent (${nodeCount} nodes)`);
+      } else if (post.preview && typeof post.preview === 'object' && post.preview.nodes) {
+        const nodeCount = post.preview.nodes.length || 0;
+        console.log(`   ✅ Post "${post.title}" has preview with nodes (${nodeCount} nodes)`);
+      } else {
+        console.warn(`   ⚠️  Post "${post.title}" has no richContent - using excerpt fallback`);
+      }
+      
       const html = generatePostHTML(post, posts);
       await fs.promises.writeFile(filepath, html, "utf8");
       console.log(`   ✅ ${filename}`);
