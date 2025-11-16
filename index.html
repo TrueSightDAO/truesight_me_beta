@@ -270,6 +270,13 @@
           statElements.forEach(function(el) {
             const key = el.getAttribute('data-key');
             const data = exchangeRatesData[key];
+            
+            // Debug: log missing keys
+            if (!data) {
+              console.warn(`⚠️  Missing data for key: ${key}`);
+              console.log('Available keys:', Object.keys(exchangeRatesData));
+            }
+            
             el.textContent = formatStatValue(key, data, exchangeRatesData);
           });
         }
@@ -309,6 +316,9 @@
             return;
           }
 
+          // Debug: log loaded data
+          console.log('✅ Loaded exchange rates:', Object.keys(exchangeRatesData));
+
           // Cache for offline fallback
           try {
             localStorage.setItem('exchangeRatesCache', JSON.stringify({
@@ -320,6 +330,8 @@
           }
 
           populateStats(exchangeRatesData);
+        }).catch(function(error) {
+          console.error('❌ Failed to load exchange rates:', error);
         });
       })();
     </script>
