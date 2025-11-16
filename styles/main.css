@@ -656,9 +656,61 @@ a {
 }
 
 /* Override text-align for hero sections with inline left alignment */
-.hero[style*="text-align: left"] h1,
-.hero[style*="text-align: left"] .section-lead {
+.hero[style*="text-align: left"] {
   text-align: left;
+}
+
+.hero[style*="text-align: left"] h1,
+.hero[style*="text-align: left"] .section-lead,
+.hero[style*="text-align: left"] .pill {
+  text-align: left;
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.hero[style*="text-align: left"] h1 {
+  margin-left: 0;
+  margin-right: auto;
+  width: 100%;
+  margin-top: var(--space-sm);
+  margin-bottom: var(--space-sm);
+}
+
+.hero[style*="text-align: left"] .section-lead {
+  margin-left: 0;
+  margin-right: auto;
+  max-width: 100%;
+  margin-top: var(--space-xs);
+  margin-bottom: 0;
+}
+
+/* Reduce section margin-top when following a left-aligned hero */
+.hero[style*="text-align: left"] + section {
+  margin-top: var(--space-lg);
+}
+
+/* Mobile fixes for individual shipment/pledge pages */
+@media (max-width: 640px) {
+  /* Make the main content grid single column on mobile */
+  .shipment-detail-grid {
+    grid-template-columns: 1fr !important;
+    gap: var(--space-md) !important;
+  }
+  
+  /* Fix definition lists to stack on mobile */
+  .shipment-detail-row {
+    grid-template-columns: 1fr !important;
+    gap: var(--space-xs) !important;
+  }
+  
+  .shipment-detail-row dt {
+    margin-bottom: 0.25rem;
+  }
+  
+  /* Reduce padding on sections for mobile */
+  .hero[style*="text-align: left"] + section {
+    padding: var(--space-md) !important;
+  }
 }
 
 .hero-logo {
@@ -906,6 +958,12 @@ section h2 {
   line-height: 1.7;
   margin-bottom: var(--space-md);
   font-weight: 400;
+}
+
+/* Reduce spacing for section-lead in left-aligned hero sections */
+.hero[style*="text-align: left"] .section-lead {
+  margin-top: var(--space-xs);
+  margin-bottom: 0;
 }
 
 .section-lead strong {

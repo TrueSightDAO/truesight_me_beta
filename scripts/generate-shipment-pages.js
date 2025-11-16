@@ -309,11 +309,11 @@ function generateAgroverseShipmentPage(shipment) {
       </div>
     </nav>
     <div class="page">
-      <div style="margin-bottom: var(--space-md);">
+      <div style="margin-bottom: var(--space-sm);">
         <a href="../../agroverse.html" class="text-link">← Back to Agroverse</a>
       </div>
       
-      <header class="hero" style="text-align: left; padding-bottom: var(--space-md);">
+      <header class="hero" style="text-align: left; padding-top: var(--space-sm); padding-bottom: var(--space-md);">
         <p class="pill">Shipment</p>
         <h1>${title}</h1>
         <p class="section-lead">
@@ -322,7 +322,7 @@ function generateAgroverseShipmentPage(shipment) {
       </header>
 
       <section>
-        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: var(--space-lg); margin-bottom: var(--space-lg);">
+        <div class="shipment-detail-grid" style="display: grid; grid-template-columns: 1fr 2fr; gap: var(--space-lg); margin-bottom: var(--space-lg);">
           <div>
             ${fs.existsSync(path.join(__dirname, `../${imagePath}`)) ? `<img src="../../${imagePath}" alt="${title}" style="width: 100%; max-height: 400px; object-fit: cover; border-radius: 12px; margin-bottom: var(--space-md);" loading="lazy" />` : ''}
             <h2 style="margin-top: 0;">${title}</h2>
@@ -333,30 +333,30 @@ function generateAgroverseShipmentPage(shipment) {
           <div>
             <h3>Shipment Overview</h3>
             <dl style="display: grid; gap: var(--space-xs);">
-              <div style="display: grid; grid-template-columns: 200px 1fr; gap: var(--space-sm); padding: var(--space-xs) 0; border-bottom: 1px solid rgba(95, 111, 82, 0.1);">
+              <div class="shipment-detail-row" style="display: grid; grid-template-columns: 200px 1fr; gap: var(--space-sm); padding: var(--space-xs) 0; border-bottom: 1px solid rgba(95, 111, 82, 0.1);">
                 <dt style="font-weight: 600; color: var(--text);">Shipment Title</dt>
                 <dd style="margin: 0; color: var(--muted);">${title}</dd>
               </div>
               ${status ? `
-              <div style="display: grid; grid-template-columns: 200px 1fr; gap: var(--space-sm); padding: var(--space-xs) 0; border-bottom: 1px solid rgba(95, 111, 82, 0.1);">
+              <div class="shipment-detail-row" style="display: grid; grid-template-columns: 200px 1fr; gap: var(--space-sm); padding: var(--space-xs) 0; border-bottom: 1px solid rgba(95, 111, 82, 0.1);">
                 <dt style="font-weight: 600; color: var(--text);">Status</dt>
                 <dd style="margin: 0; color: var(--muted);">${status}</dd>
               </div>
               ` : ''}
               ${date ? `
-              <div style="display: grid; grid-template-columns: 200px 1fr; gap: var(--space-sm); padding: var(--space-xs) 0; border-bottom: 1px solid rgba(95, 111, 82, 0.1);">
+              <div class="shipment-detail-row" style="display: grid; grid-template-columns: 200px 1fr; gap: var(--space-sm); padding: var(--space-xs) 0; border-bottom: 1px solid rgba(95, 111, 82, 0.1);">
                 <dt style="font-weight: 600; color: var(--text);">Farm Shipment Date</dt>
                 <dd style="margin: 0; color: var(--muted);">${date}</dd>
               </div>
               ` : ''}
               ${cacaoKg ? `
-              <div style="display: grid; grid-template-columns: 200px 1fr; gap: var(--space-sm); padding: var(--space-xs) 0; border-bottom: 1px solid rgba(95, 111, 82, 0.1);">
+              <div class="shipment-detail-row" style="display: grid; grid-template-columns: 200px 1fr; gap: var(--space-sm); padding: var(--space-xs) 0; border-bottom: 1px solid rgba(95, 111, 82, 0.1);">
                 <dt style="font-weight: 600; color: var(--text);">Cacao in kg.</dt>
                 <dd style="margin: 0; color: var(--muted);">${cacaoKg}</dd>
               </div>
               ` : ''}
               ${shopUrl ? `
-              <div style="display: grid; grid-template-columns: 200px 1fr; gap: var(--space-sm); padding: var(--space-xs) 0; border-bottom: 1px solid rgba(95, 111, 82, 0.1);">
+              <div class="shipment-detail-row" style="display: grid; grid-template-columns: 200px 1fr; gap: var(--space-sm); padding: var(--space-xs) 0; border-bottom: 1px solid rgba(95, 111, 82, 0.1);">
                 <dt style="font-weight: 600; color: var(--text);">Transparency Ledger</dt>
                 <dd style="margin: 0;"><a href="${shopUrl}" target="_blank" rel="noreferrer" class="text-link">View Ledger</a></dd>
               </div>
@@ -366,19 +366,19 @@ function generateAgroverseShipmentPage(shipment) {
             <h3 style="margin-top: var(--space-lg);">Financing</h3>
             <dl style="display: grid; gap: var(--space-xs);">
               ${financing ? `
-              <div style="display: grid; grid-template-columns: 200px 1fr; gap: var(--space-sm); padding: var(--space-xs) 0; border-bottom: 1px solid rgba(95, 111, 82, 0.1);">
+              <div class="shipment-detail-row" style="display: grid; grid-template-columns: 200px 1fr; gap: var(--space-sm); padding: var(--space-xs) 0; border-bottom: 1px solid rgba(95, 111, 82, 0.1);">
                 <dt style="font-weight: 600; color: var(--text);">Funding approach</dt>
                 <dd style="margin: 0; color: var(--muted);">${financing}</dd>
               </div>
               ` : ''}
               ${financingContract ? `
-              <div style="display: grid; grid-template-columns: 200px 1fr; gap: var(--space-sm); padding: var(--space-xs) 0; border-bottom: 1px solid rgba(95, 111, 82, 0.1);">
+              <div class="shipment-detail-row" style="display: grid; grid-template-columns: 200px 1fr; gap: var(--space-sm); padding: var(--space-xs) 0; border-bottom: 1px solid rgba(95, 111, 82, 0.1);">
                 <dt style="font-weight: 600; color: var(--text);">Financing Contract</dt>
                 <dd style="margin: 0;"><a href="${financingContract}" target="_blank" rel="noreferrer" class="text-link">View</a></dd>
               </div>
               ` : ''}
               ${roi ? `
-              <div style="display: grid; grid-template-columns: 200px 1fr; gap: var(--space-sm); padding: var(--space-xs) 0; border-bottom: 1px solid rgba(95, 111, 82, 0.1);">
+              <div class="shipment-detail-row" style="display: grid; grid-template-columns: 200px 1fr; gap: var(--space-sm); padding: var(--space-xs) 0; border-bottom: 1px solid rgba(95, 111, 82, 0.1);">
                 <dt style="font-weight: 600; color: var(--text);">Capital Returns</dt>
                 <dd style="margin: 0; color: var(--muted);">${roi}</dd>
               </div>
@@ -553,11 +553,11 @@ function generateSunmintImpactPage(shipment) {
       </div>
     </nav>
     <div class="page">
-      <div style="margin-bottom: var(--space-md);">
+      <div style="margin-bottom: var(--space-sm);">
         <a href="../../sunmint.html" class="text-link">← Back to Sunmint</a>
       </div>
       
-      <header class="hero" style="text-align: left; padding-bottom: var(--space-md);">
+      <header class="hero" style="text-align: left; padding-top: var(--space-sm); padding-bottom: var(--space-md);">
         <p class="pill">PLEDGE TITLE:</p>
         <h1>${title}</h1>
         <p class="section-lead">
@@ -566,7 +566,7 @@ function generateSunmintImpactPage(shipment) {
       </header>
 
       <section>
-        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: var(--space-lg); margin-bottom: var(--space-lg);">
+        <div class="shipment-detail-grid" style="display: grid; grid-template-columns: 1fr 2fr; gap: var(--space-lg); margin-bottom: var(--space-lg);">
           <div>
             ${fs.existsSync(path.join(__dirname, `../${imagePath}`)) ? `<img src="../../${imagePath}" alt="${title}" style="width: 100%; max-height: 400px; object-fit: cover; border-radius: 12px; margin-bottom: var(--space-md);" loading="lazy" />` : ''}
             <h2 style="margin-top: 0;">${title}</h2>
@@ -575,30 +575,30 @@ function generateSunmintImpactPage(shipment) {
           <div>
             <h3>PLEDGE Overview</h3>
             <dl style="display: grid; gap: var(--space-xs);">
-              <div style="display: grid; grid-template-columns: 200px 1fr; gap: var(--space-sm); padding: var(--space-xs) 0; border-bottom: 1px solid rgba(95, 111, 82, 0.1);">
+              <div class="shipment-detail-row" style="display: grid; grid-template-columns: 200px 1fr; gap: var(--space-sm); padding: var(--space-xs) 0; border-bottom: 1px solid rgba(95, 111, 82, 0.1);">
                 <dt style="font-weight: 600; color: var(--text);">PLEDGE TITLE</dt>
                 <dd style="margin: 0; color: var(--muted);">${title}</dd>
               </div>
               ${status ? `
-              <div style="display: grid; grid-template-columns: 200px 1fr; gap: var(--space-sm); padding: var(--space-xs) 0; border-bottom: 1px solid rgba(95, 111, 82, 0.1);">
+              <div class="shipment-detail-row" style="display: grid; grid-template-columns: 200px 1fr; gap: var(--space-sm); padding: var(--space-xs) 0; border-bottom: 1px solid rgba(95, 111, 82, 0.1);">
                 <dt style="font-weight: 600; color: var(--text);">Status</dt>
                 <dd style="margin: 0; color: var(--muted);">${status}</dd>
               </div>
               ` : ''}
               ${date ? `
-              <div style="display: grid; grid-template-columns: 200px 1fr; gap: var(--space-sm); padding: var(--space-xs) 0; border-bottom: 1px solid rgba(95, 111, 82, 0.1);">
+              <div class="shipment-detail-row" style="display: grid; grid-template-columns: 200px 1fr; gap: var(--space-sm); padding: var(--space-xs) 0; border-bottom: 1px solid rgba(95, 111, 82, 0.1);">
                 <dt style="font-weight: 600; color: var(--text);">PLEDGE START Date</dt>
                 <dd style="margin: 0; color: var(--muted);">${date}</dd>
               </div>
               ` : ''}
               ${treesToBePlanted ? `
-              <div style="display: grid; grid-template-columns: 200px 1fr; gap: var(--space-sm); padding: var(--space-xs) 0; border-bottom: 1px solid rgba(95, 111, 82, 0.1);">
+              <div class="shipment-detail-row" style="display: grid; grid-template-columns: 200px 1fr; gap: var(--space-sm); padding: var(--space-xs) 0; border-bottom: 1px solid rgba(95, 111, 82, 0.1);">
                 <dt style="font-weight: 600; color: var(--text);">Trees to be Planted</dt>
                 <dd style="margin: 0; color: var(--muted);">${treesToBePlanted}</dd>
               </div>
               ` : ''}
               ${shopUrl ? `
-              <div style="display: grid; grid-template-columns: 200px 1fr; gap: var(--space-sm); padding: var(--space-xs) 0; border-bottom: 1px solid rgba(95, 111, 82, 0.1);">
+              <div class="shipment-detail-row" style="display: grid; grid-template-columns: 200px 1fr; gap: var(--space-sm); padding: var(--space-xs) 0; border-bottom: 1px solid rgba(95, 111, 82, 0.1);">
                 <dt style="font-weight: 600; color: var(--text);">Transparency Ledger</dt>
                 <dd style="margin: 0;"><a href="${shopUrl}" target="_blank" rel="noreferrer" class="text-link">View Ledger</a></dd>
               </div>
