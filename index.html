@@ -88,7 +88,7 @@
           </article>
           <article class="stat-card">
             <h3>Daily Buy-Back Budget</h3>
-            <p class="stat-value" data-key="DAILY_BUY_BACK_BUDGET">—</p>
+            <p class="stat-value" data-key="TDG_DAILY_BUY_BACK_BUDGET">—</p>
           </article>
         </div>
       </header>
@@ -207,11 +207,8 @@
       TrueSight DAO · Transparent impact data available at <a href="https://truesight.me">truesight.me</a>
     </footer>
     <script>
-      // Inline exchange rates data to avoid CORS issues with file:// protocol
-      // Auto-generated from data/exchange-rates.json
-      const exchangeRatesData = {"USD_TREASURY_BALANCE":{"id":"a0e7364c-716d-49f3-a795-647d2686a22b","description":"USD_TREASURY_BALANCE","exchangeRate":15929.342910917547,"currency":"USD","updatedDate":{"$date":"2025-11-01T02:58:51.932Z"}},"TDG_ISSUED":{"id":"4088e994-2c06-42a8-a1cf-8cd77ee73203","description":"TDG_ISSUED","exchangeRate":2256243.5537057184,"currency":"TDG","updatedDate":{"$date":"2025-11-16T02:36:53.780Z"}},"ASSET_PER_TDG_ISSUED":{"id":"9b04879b-f06a-419a-9ad3-520ad60ea972","description":"ASSET_PER_TDG_ISSUED","exchangeRate":0.007060116752358026,"currency":"USD","updatedDate":{"$date":"2025-11-01T03:22:03.979Z"}},"30_DAYS_SALES":{"id":"956fdb46-bc8d-4c71-8e67-79813effbab3","description":"PAST_30_DAYS_SALES","exchangeRate":241.97,"currency":"USD","updatedDate":{"$date":"2025-11-16T02:18:56.595Z"}},"TDG_USDC_PRICE":{"id":"8edde502-ac79-4e66-ab2d-8ebb99108665","description":"USDC_EXCHANGE_RATE_RAYDIUM","exchangeRate":0.03297,"currency":"USDC","updatedDate":{"$date":"2025-11-16T01:43:23.771Z"}}};
-
-      // Format and display stats
+      // Load exchange rates dynamically from JSON file
+      // Data is updated by Google App Script via GitHub API
       (function() {
         function formatNumber(num, decimals) {
           if (num === null || num === undefined) return '—';
@@ -221,7 +218,7 @@
           });
         }
 
-        function formatStatValue(key, data) {
+        function formatStatValue(key, data, exchangeRatesData) {
           if (!data || data.exchangeRate === null || data.exchangeRate === undefined) {
             return '—';
           }
@@ -239,7 +236,12 @@
             case '30_DAYS_SALES':
               return `${formatNumber(value, 2)} USD`;
             case 'DAILY_BUY_BACK_BUDGET':
-              // Calculate daily buy-back budget from 30 days sales
+            case 'TDG_DAILY_BUY_BACK_BUDGET':
+              // Use value from JSON if available, otherwise calculate from 30 days sales
+              if (data && data.exchangeRate !== null && data.exchangeRate !== undefined) {
+                return `${formatNumber(value, 5)} USD`;
+              }
+              // Fallback calculation
               const sales30Days = exchangeRatesData['30_DAYS_SALES']?.exchangeRate || 0;
               const dailyBudget = sales30Days / 30;
               return `${formatNumber(dailyBudget, 5)} USD`;
@@ -248,12 +250,61 @@
           }
         }
 
-        // Populate stats from JSON data
-        const statElements = document.querySelectorAll('.stat-value[data-key]');
-        statElements.forEach(function(el) {
-          const key = el.getAttribute('data-key');
-          const data = exchangeRatesData[key];
-          el.textContent = formatStatValue(key, data);
+        function populateStats(exchangeRatesData) {
+          const statElements = document.querySelectorAll('.stat-value[data-key]');
+          statElements.forEach(function(el) {
+            const key = el.getAttribute('data-key');
+            const data = exchangeRatesData[key];
+            el.textContent = formatStatValue(key, data, exchangeRatesData);
+          });
+        }
+
+        // Load exchange rates from JSON file
+        async function loadExchangeRates() {
+          try {
+            const response = await fetch('data/exchange-rates.json');
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const json = await response.json();
+            return json.data || json; // Handle both formats (with or without wrapper)
+          } catch (error) {
+            console.error('Error loading exchange rates:', error);
+            // Optionally: try to load from localStorage as fallback
+            try {
+              const cached = localStorage.getItem('exchangeRatesCache');
+              if (cached) {
+                const parsed = JSON.parse(cached);
+                console.log('Using cached exchange rates');
+                return parsed.data || parsed;
+              }
+            } catch (e) {
+              // Ignore localStorage errors
+            }
+            return null;
+          }
+        }
+
+        // Load and populate stats on page load
+        loadExchangeRates().then(function(exchangeRatesData) {
+          if (!exchangeRatesData) {
+            // Show error or use fallback values
+            console.warn('Could not load exchange rates. Showing placeholders.');
+            // Stats will show "—" from the placeholder text
+            return;
+          }
+
+          // Cache for offline fallback
+          try {
+            localStorage.setItem('exchangeRatesCache', JSON.stringify({
+              timestamp: new Date().toISOString(),
+              data: exchangeRatesData
+            }));
+          } catch (e) {
+            // Ignore localStorage errors
+          }
+
+          populateStats(exchangeRatesData);
         });
       })();
     </script>

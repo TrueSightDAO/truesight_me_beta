@@ -152,26 +152,54 @@ async function syncAgroverseShipments() {
 }
 
 /**
- * Sync ExchangeRate collection (specific items)
+ * Sync ExchangeRate collection (all items)
  */
 async function syncExchangeRates() {
-  console.log("💱 Fetching ExchangeRate items...");
+  console.log("💱 Fetching ExchangeRate collection...");
   const rates = {};
 
-  for (const [key, itemId] of Object.entries(EXCHANGE_RATE_ITEMS)) {
-    try {
-      const data = await fetchItem("ExchangeRate", itemId);
-      if (data) {
-        rates[key] = {
-          id: data._id || itemId,
-          description: data.description || key,
-          exchangeRate: data.exchangeRate || null,
-          currency: data.currency || null,
-          updatedDate: data.updatedDate || data._updatedDate || null,
-        };
+  try {
+    // Query all items from the ExchangeRate collection
+    const items = await queryCollection("ExchangeRate");
+    
+    items.forEach((item) => {
+      if (!item?.data) return;
+      
+      const data = item.data;
+      // Use description as key, fallback to _id if description is missing
+      const key = data.description || data._id || item.id || item._id || `ITEM_${Object.keys(rates).length + 1}`;
+      
+      rates[key] = {
+        id: data._id || item.id || item._id || null,
+        description: data.description || key,
+        exchangeRate: data.exchangeRate || null,
+        currency: data.currency || null,
+        updatedDate: data.updatedDate || data._updatedDate || item.updatedDate || item._updatedDate || null,
+        createdDate: data.createdDate || data._createdDate || item.createdDate || item._createdDate || null,
+      };
+    });
+    
+    console.log(`   ✅ Found ${Object.keys(rates).length} exchange rate items in collection`);
+  } catch (err) {
+    console.warn(`   ⚠️  Failed to query ExchangeRate collection: ${err.message}`);
+    // Fallback to individual item fetching if collection query fails
+    console.log("   🔄 Attempting fallback to individual item fetching...");
+    for (const [key, itemId] of Object.entries(EXCHANGE_RATE_ITEMS)) {
+      if (!itemId) continue;
+      try {
+        const data = await fetchItem("ExchangeRate", itemId);
+        if (data) {
+          rates[key] = {
+            id: data._id || itemId,
+            description: data.description || key,
+            exchangeRate: data.exchangeRate || null,
+            currency: data.currency || null,
+            updatedDate: data.updatedDate || data._updatedDate || null,
+          };
+        }
+      } catch (fetchErr) {
+        console.warn(`   ⚠️  Failed to fetch ${key} (${itemId}): ${fetchErr.message}`);
       }
-    } catch (err) {
-      console.warn(`   ⚠️  Failed to fetch ${key} (${itemId}): ${err.message}`);
     }
   }
 
