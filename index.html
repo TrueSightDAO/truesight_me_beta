@@ -84,7 +84,7 @@
           </article>
           <article class="stat-card">
             <h3>Past 30 Days Sales</h3>
-            <p class="stat-value" data-key="30_DAYS_SALES">—</p>
+            <p class="stat-value" data-key="PAST_30_DAYS_SALES">—</p>
           </article>
           <article class="stat-card">
             <h3>Daily Buy-Back Budget</h3>
@@ -142,7 +142,13 @@
               <li>Transparent supply chain evolution</li>
               <li>Community-driven profit sharing</li>
             </ul>
-            <a class="text-link" href="agroverse.html">Explore Agroverse</a>
+            <div style="margin-top: var(--space-md); display: flex; flex-wrap: wrap; gap: var(--space-sm);">
+              <a class="text-link" href="agroverse.html">Explore Agroverse</a>
+              <span style="color: var(--muted);">·</span>
+              <a class="text-link" href="https://truesight.me/agl" target="_blank" rel="noreferrer">AGL Ledger</a>
+              <span style="color: var(--muted);">·</span>
+              <a class="text-link" href="https://truesight.me/dao/agroverse/whitepaper" target="_blank" rel="noreferrer">Whitepaper</a>
+            </div>
           </article>
 
           <article class="card">
@@ -157,6 +163,13 @@
               <li>Agroforestry systems that revitalize the biome</li>
               <li>Carbon credits unlocked as cacao trees are planted</li>
             </ul>
+            <div style="margin-top: var(--space-md); display: flex; flex-wrap: wrap; gap: var(--space-sm);">
+              <a class="text-link" href="sunmint.html">Explore Sunmint</a>
+              <span style="color: var(--muted);">·</span>
+              <a class="text-link" href="https://truesight.me/dao/sunmit/project" target="_blank" rel="noreferrer">Project Board</a>
+              <span style="color: var(--muted);">·</span>
+              <a class="text-link" href="https://truesight.me/dao/sunmint/whitepaper" target="_blank" rel="noreferrer">Whitepaper</a>
+            </div>
           </article>
 
           <article class="card">
@@ -172,6 +185,13 @@
               <li>Automating cacao sales for forest restoration</li>
               <li>Cash-out flows that keep liquidity circulating</li>
             </ul>
+            <div style="margin-top: var(--space-md); display: flex; flex-wrap: wrap; gap: var(--space-sm);">
+              <a class="text-link" href="edgar.html">Explore Edgar</a>
+              <span style="color: var(--muted);">·</span>
+              <a class="text-link" href="https://truesight.me/ledger" target="_blank" rel="noreferrer">Contributions Ledger</a>
+              <span style="color: var(--muted);">·</span>
+              <a class="text-link" href="https://dapp.truesight.me" target="_blank" rel="noreferrer">DApp Tools</a>
+            </div>
           </article>
         </div>
       </section>
@@ -233,18 +253,13 @@
               return `${formatNumber(value, 5)} USD / TDG`;
             case 'TDG_ISSUED':
               return `${formatNumber(value, 2)} TDG`;
+            case 'PAST_30_DAYS_SALES':
             case '30_DAYS_SALES':
               return `${formatNumber(value, 2)} USD`;
-            case 'DAILY_BUY_BACK_BUDGET':
             case 'TDG_DAILY_BUY_BACK_BUDGET':
-              // Use value from JSON if available, otherwise calculate from 30 days sales
-              if (data && data.exchangeRate !== null && data.exchangeRate !== undefined) {
-                return `${formatNumber(value, 5)} USD`;
-              }
-              // Fallback calculation
-              const sales30Days = exchangeRatesData['30_DAYS_SALES']?.exchangeRate || 0;
-              const dailyBudget = sales30Days / 30;
-              return `${formatNumber(dailyBudget, 5)} USD`;
+            case 'DAILY_BUY_BACK_BUDGET':
+              // Use value from JSON (now synced from Wix CMS)
+              return `${formatNumber(value, 5)} USD`;
             default:
               return `${formatNumber(value, 2)} ${currency}`;
           }
