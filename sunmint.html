@@ -58,13 +58,35 @@
         </button>
         <ul class="nav-menu" aria-hidden="true">
           <li><a href="index.html">Home</a></li>
-          <li><a href="agroverse.html">Agroverse</a></li>
-          <li><a href="sunmint.html">Sunmint</a></li>
-          <li><a href="edgar.html">Edgar</a></li>
           <li><a href="about-us.html">About Us</a></li>
+          <li>
+            <button class="dropdown-toggle" aria-expanded="false" aria-haspopup="true">Projects</button>
+            <ul class="dropdown-menu" aria-expanded="false">
+              <li><a href="agroverse.html">Agroverse Community</a></li>
+              <li><a href="sunmint.html">Sunmint Program</a></li>
+              <li><a href="edgar.html">Edgar Platform</a></li>
+            </ul>
+          </li>
+          <li>
+            <button class="dropdown-toggle" aria-expanded="false" aria-haspopup="true">Community</button>
+            <ul class="dropdown-menu" aria-expanded="false">
+              <li><a href="https://truesight.me/quests" target="_blank" rel="noreferrer noopener">Community Challenges</a></li>
+              <li><a href="https://truesight.me/proposals" target="_blank" rel="noreferrer noopener">Community Proposals</a></li>
+              <li><a href="https://truesight.me/governors" target="_blank" rel="noreferrer noopener">Community Leaders</a></li>
+              <li><a href="https://truesight.me/submissions/scored-and-to-be-tokenized" target="_blank" rel="noreferrer noopener">Community Awards</a></li>
+            </ul>
+          </li>
+          <li>
+            <button class="dropdown-toggle" aria-expanded="false" aria-haspopup="true">Resources</button>
+            <ul class="dropdown-menu" aria-expanded="false">
+              <li><a href="faq.html">Frequently Asked Questions</a></li>
+              <li><a href="faq.html#tokenomics">Community Economics</a></li>
+              <li><a href="https://truesight.me/dapp" target="_blank" rel="noreferrer noopener">Web App</a></li>
+              <li><a href="https://truesight.me/ledger" target="_blank" rel="noreferrer noopener">Contributions Record</a></li>
+              <li><a href="https://truesight.me/submissions/raw-telegram-chatlogs" target="_blank" rel="noreferrer noopener">Community Engagement Logs</a></li>
+            </ul>
+          </li>
           <li><a href="blog/index.html">Blog</a></li>
-          <li><a href="https://truesight.me/whitepaper" target="_blank" rel="noreferrer">Whitepaper</a></li>
-          <li><a href="https://dapp.truesight.me" target="_blank" rel="noreferrer">DApp</a></li>
         </ul>
       </div>
     </nav>
@@ -180,6 +202,32 @@
         </div>
       </section>
 
+      <section id="impact">
+        <p class="pill">Impact registry</p>
+        <h2>IMPACT REGISTRY</h2>
+        <p class="section-lead">
+          A directory showcasing the merchandise supporting Amazon rainforest restoration, where every purchase contributes to a story of sustainability and renewal.
+        </p>
+        <div class="table-wrapper">
+          <table class="shipment-table">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Pledge</th>
+                <th>Description</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody id="impact-table-body">
+              <!-- Impact table rows populated dynamically -->
+            </tbody>
+          </table>
+        </div>
+        <div class="shipments-cards" id="impact-cards">
+          <!-- Mobile-friendly impact cards populated dynamically -->
+        </div>
+      </section>
+
       <section id="highlights">
         <p class="pill">Highlights</p>
         <h2>Highlights</h2>
@@ -207,34 +255,28 @@
         </div>
       </section>
 
-      <section id="impact">
-        <p class="pill">Impact registry</p>
-        <h2>IMPACT REGISTRY</h2>
-        <p class="section-lead">
-          A directory showcasing the merchandise supporting Amazon rainforest restoration, where every purchase contributes to a story of sustainability and renewal.
-        </p>
-        <div class="table-wrapper">
-          <table class="shipment-table">
-            <thead>
-              <tr>
-                <th>Image</th>
-                <th>Pledge</th>
-                <th>Description</th>
-                <th>Details</th>
-              </tr>
-            </thead>
-            <tbody id="impact-table-body">
-              <!-- Impact table rows populated dynamically -->
-            </tbody>
-          </table>
-        </div>
-        <div class="shipments-cards" id="impact-cards">
-          <!-- Mobile-friendly impact cards populated dynamically -->
-        </div>
-      </section>
-
       <footer class="footer">
         <div class="footer-content">
+          <div style="margin-bottom: var(--space-lg);">
+          <div style="margin-bottom: var(--space-md);">
+            <h4 style="font-size: 0.875rem; font-weight: 600; margin-bottom: var(--space-xs); color: var(--text); text-align: center; text-transform: uppercase; letter-spacing: 0.05em;">Transparency</h4>
+            <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-sm) var(--space-lg);">
+              <li><a href="https://truesight.me/physical-asset-locations" target="_blank" rel="noreferrer noopener" style="color: var(--muted); text-decoration: none; font-size: 0.9375rem;">Track Shipment Locations</a></li>
+              <li><a href="https://truesight.me/physical-asset-movements" target="_blank" rel="noreferrer noopener" style="color: var(--muted); text-decoration: none; font-size: 0.9375rem;">Shipment History</a></li>
+              <li><a href="https://truesight.me/physical-transactions" target="_blank" rel="noreferrer noopener" style="color: var(--muted); text-decoration: none; font-size: 0.9375rem;">Financial Records</a></li>
+              <li><a href="https://agroverse.shop/consignments" target="_blank" rel="noreferrer noopener" style="color: var(--muted); text-decoration: none; font-size: 0.9375rem;">Consignment Tracking</a></li>
+              <li><a href="https://truesight.me/physical-assets/serialized" target="_blank" rel="noreferrer noopener" style="color: var(--muted); text-decoration: none; font-size: 0.9375rem;">Product Verification</a></li>
+              <li><a href="https://truesight.me/digital-assets" target="_blank" rel="noreferrer noopener" style="color: var(--muted); text-decoration: none; font-size: 0.9375rem;">Token Holdings</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 style="font-size: 0.875rem; font-weight: 600; margin-bottom: var(--space-xs); color: var(--text); text-align: center; text-transform: uppercase; letter-spacing: 0.05em;">Partnerships</h4>
+            <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-sm) var(--space-lg);">
+              <li><a href="https://agroverse.shop/community-warehouse-manager/sla" target="_blank" rel="noreferrer noopener" style="color: var(--muted); text-decoration: none; font-size: 0.9375rem;">Warehouse Partnership Terms</a></li>
+              <li><a href="https://agroverse.shop/community-distributor/agreement" target="_blank" rel="noreferrer noopener" style="color: var(--muted); text-decoration: none; font-size: 0.9375rem;">Distribution Partnership Terms</a></li>
+            </ul>
+          </div>
+          </div>
           <h2>JOIN OUR MOVEMENT</h2>
           <p>Co-Create with us</p>
           <div class="footer-social">
@@ -254,6 +296,9 @@
               </svg>
             </a>
           </div>
+          <p style="margin-top: var(--space-lg); font-size: 0.875rem; color: var(--muted);">
+            TrueSight DAO · Transparent impact data available at <a href="index.html" style="color: var(--accent-2);">truesight.me</a>
+          </p>
         </div>
       </footer>
     </div>
@@ -358,7 +403,7 @@
       })();
     </script>
     <script>
-      // Hamburger menu toggle
+      // Hamburger menu toggle and dropdown functionality
       (function() {
         const menuToggle = document.querySelector('.menu-toggle');
         const navMenu = document.querySelector('.nav-menu');
@@ -366,11 +411,31 @@
         
         if (!menuToggle || !navMenu) return;
         
+        // Hamburger menu toggle
         menuToggle.addEventListener('click', function() {
           const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
           menuToggle.setAttribute('aria-expanded', !isExpanded);
           navMenu.setAttribute('aria-hidden', isExpanded);
           siteHeader.classList.toggle('menu-open', !isExpanded);
+        });
+        
+        // Dropdown toggle functionality (for mobile)
+        const dropdownToggles = navMenu.querySelectorAll('.dropdown-toggle');
+        dropdownToggles.forEach(function(toggle) {
+          toggle.addEventListener('click', function(e) {
+            // On mobile, toggle the dropdown
+            if (window.innerWidth <= 768) {
+              e.preventDefault();
+              e.stopPropagation();
+              const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+              const dropdownMenu = toggle.nextElementSibling;
+              
+              toggle.setAttribute('aria-expanded', !isExpanded);
+              if (dropdownMenu) {
+                dropdownMenu.setAttribute('aria-expanded', !isExpanded);
+              }
+            }
+          });
         });
         
         // Close menu when clicking on a link
@@ -379,6 +444,15 @@
             menuToggle.setAttribute('aria-expanded', 'false');
             navMenu.setAttribute('aria-hidden', 'true');
             siteHeader.classList.remove('menu-open');
+            
+            // Close all dropdowns
+            dropdownToggles.forEach(function(toggle) {
+              toggle.setAttribute('aria-expanded', 'false');
+              const dropdownMenu = toggle.nextElementSibling;
+              if (dropdownMenu) {
+                dropdownMenu.setAttribute('aria-expanded', 'false');
+              }
+            });
           }
         });
         

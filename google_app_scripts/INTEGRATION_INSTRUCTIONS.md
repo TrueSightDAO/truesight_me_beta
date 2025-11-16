@@ -241,3 +241,4 @@ After adding the function and calls:
 - This ensures your Wix updates always succeed even if the sheet sync fails
 - The function will automatically find the correct row by matching the "Key" column
 
+

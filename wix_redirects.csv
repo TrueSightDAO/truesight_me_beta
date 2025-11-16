@@ -1,6 +1,8 @@
 old_url,new_url
 "/shipments/sef1","/sunmint-tree-planting-pledges/sef1"
 "/shipments/pp1","/sunmint-tree-planting-pledges/pp1"
+"/sunmint/sef1","/sunmint-tree-planting-pledges/sef1"
+"/sunmint/pp1","/sunmint-tree-planting-pledges/pp1"
 "/shipments/agl0","/agroverse-shipments/agl0"
 "/shipments/agl5","/agroverse-shipments/agl5"
 "/shipments/agl1","/agroverse-shipments/agl1"
@@ -12,4 +14,3 @@ old_url,new_url
 "/shipments/agl4","/agroverse-shipments/agl4"
 "/shipments/agl8","/agroverse-shipments/agl8"
 "/shipments/agl10","/agroverse-shipments/agl10"
-"/shipments/agl14","/agroverse-shipments/agl14"

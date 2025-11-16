@@ -23,7 +23,7 @@
       {
         "id": "1f9e4dd2-f5ea-4f53-a920-7f0ac7ac8cd4",
         "title": "SEF1",
-        "contractUrl": "https://truesight.me/sunmint/sef1",
+        "contractUrl": "/sunmint-tree-planting-pledges/sef1",
         "status": null,
         "tags": [],
         "updatedDate": null,
@@ -32,7 +32,7 @@
       {
         "id": "2849473b-d97e-4b54-80ec-0a2de5c863c5",
         "title": "PP1",
-        "contractUrl": "https://truesight.me/sunmint/pp1",
+        "contractUrl": "/sunmint-tree-planting-pledges/pp1",
         "status": null,
         "tags": [],
         "updatedDate": null,

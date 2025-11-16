@@ -58,13 +58,35 @@
         </button>
         <ul class="nav-menu" aria-hidden="true">
           <li><a href="index.html">Home</a></li>
-          <li><a href="agroverse.html">Agroverse</a></li>
-          <li><a href="sunmint.html">Sunmint</a></li>
-          <li><a href="edgar.html">Edgar</a></li>
           <li><a href="about-us.html">About Us</a></li>
+          <li>
+            <button class="dropdown-toggle" aria-expanded="false" aria-haspopup="true">Projects</button>
+            <ul class="dropdown-menu" aria-expanded="false">
+              <li><a href="agroverse.html">Agroverse Community</a></li>
+              <li><a href="sunmint.html">Sunmint Program</a></li>
+              <li><a href="edgar.html">Edgar Platform</a></li>
+            </ul>
+          </li>
+          <li>
+            <button class="dropdown-toggle" aria-expanded="false" aria-haspopup="true">Community</button>
+            <ul class="dropdown-menu" aria-expanded="false">
+              <li><a href="https://truesight.me/quests" target="_blank" rel="noreferrer noopener">Community Challenges</a></li>
+              <li><a href="https://truesight.me/proposals" target="_blank" rel="noreferrer noopener">Community Proposals</a></li>
+              <li><a href="https://truesight.me/governors" target="_blank" rel="noreferrer noopener">Community Leaders</a></li>
+              <li><a href="https://truesight.me/submissions/scored-and-to-be-tokenized" target="_blank" rel="noreferrer noopener">Community Awards</a></li>
+            </ul>
+          </li>
+          <li>
+            <button class="dropdown-toggle" aria-expanded="false" aria-haspopup="true">Resources</button>
+            <ul class="dropdown-menu" aria-expanded="false">
+              <li><a href="faq.html">Frequently Asked Questions</a></li>
+              <li><a href="faq.html#tokenomics">Community Economics</a></li>
+              <li><a href="https://truesight.me/dapp" target="_blank" rel="noreferrer noopener">Web App</a></li>
+              <li><a href="https://truesight.me/ledger" target="_blank" rel="noreferrer noopener">Contributions Record</a></li>
+              <li><a href="https://truesight.me/submissions/raw-telegram-chatlogs" target="_blank" rel="noreferrer noopener">Community Engagement Logs</a></li>
+            </ul>
+          </li>
           <li><a href="blog/index.html">Blog</a></li>
-          <li><a href="https://truesight.me/whitepaper" target="_blank" rel="noreferrer">Whitepaper</a></li>
-          <li><a href="https://dapp.truesight.me" target="_blank" rel="noreferrer">DApp</a></li>
         </ul>
       </div>
     </nav>
@@ -90,24 +112,44 @@
         <div class="stats-grid" aria-label="Ecosystem statistics" id="stats-grid">
           <!-- Stats will be populated dynamically from exchange-rates.json -->
           <article class="stat-card">
-            <h3>USD Treasury Balance</h3>
-            <p class="stat-value" data-key="USD_TREASURY_BALANCE">—</p>
+            <div class="stat-label">
+              <h3>USD Treasury Balance</h3>
+            </div>
+            <div class="stat-value-container">
+              <p class="stat-value" data-key="USD_TREASURY_BALANCE">—</p>
+            </div>
           </article>
           <article class="stat-card">
-            <h3>Asset per TDG Issued</h3>
-            <p class="stat-value" data-key="ASSET_PER_TDG_ISSUED">—</p>
+            <div class="stat-label">
+              <h3>Asset per TDG Issued</h3>
+            </div>
+            <div class="stat-value-container">
+              <p class="stat-value" data-key="ASSET_PER_TDG_ISSUED">—</p>
+            </div>
           </article>
           <article class="stat-card">
-            <h3>Total TDG Issued</h3>
-            <p class="stat-value" data-key="TDG_ISSUED">—</p>
+            <div class="stat-label">
+              <h3>Total TDG Issued</h3>
+            </div>
+            <div class="stat-value-container">
+              <p class="stat-value" data-key="TDG_ISSUED">—</p>
+            </div>
           </article>
           <article class="stat-card">
-            <h3>Past 30 Days Sales</h3>
-            <p class="stat-value" data-key="PAST_30_DAYS_SALES">—</p>
+            <div class="stat-label">
+              <h3>Past 30 Days Sales</h3>
+            </div>
+            <div class="stat-value-container">
+              <p class="stat-value" data-key="PAST_30_DAYS_SALES">—</p>
+            </div>
           </article>
           <article class="stat-card">
-            <h3>Daily Buy-Back Budget</h3>
-            <p class="stat-value" data-key="TDG_DAILY_BUY_BACK_BUDGET">—</p>
+            <div class="stat-label">
+              <h3>Daily Buy-Back Budget</h3>
+            </div>
+            <div class="stat-value-container">
+              <p class="stat-value" data-key="TDG_DAILY_BUY_BACK_BUDGET">—</p>
+            </div>
           </article>
         </div>
       </header>
@@ -149,7 +191,9 @@
 
         <div class="card-grid">
           <article class="card card--media-top">
-            <img src="assets/agroverse-module.jpg" alt="Agroverse cacao farmers working together" loading="lazy" />
+            <a href="agroverse.html" style="display: block;">
+              <img src="assets/agroverse-module.jpg" alt="Agroverse cacao farmers working together" loading="lazy" />
+            </a>
             <div class="card-body">
               <div class="pill">Agroverse</div>
               <h3>Transparent Distribution Network</h3>
@@ -173,7 +217,9 @@
           </article>
 
           <article class="card card--media-top">
-            <img src="assets/sunmint-module.jpg" alt="SunMint agroforestry canopy" loading="lazy" />
+            <a href="sunmint.html" style="display: block;">
+              <img src="assets/sunmint-module.jpg" alt="SunMint agroforestry canopy" loading="lazy" />
+            </a>
             <div class="card-body">
               <div class="pill">SunMint</div>
               <h3>Reforesting the Amazon</h3>
@@ -196,7 +242,9 @@
           </article>
 
           <article class="card card--media-top">
-            <img src="assets/edgar-module.jpg" alt="Edgar AI interface visual" loading="lazy" />
+            <a href="edgar.html" style="display: block;">
+              <img src="assets/edgar-module.jpg" alt="Edgar AI interface visual" loading="lazy" />
+            </a>
             <div class="card-body">
               <div class="pill">Edgar</div>
               <h3>AI Agent for Transparent Impact</h3>
@@ -248,8 +296,51 @@
         </div>
       </section>
     </div>
-    <footer>
-      TrueSight DAO · Transparent impact data available at <a href="https://truesight.me">truesight.me</a>
+    <footer class="footer">
+      <div class="footer-content">
+        <div style="margin-bottom: var(--space-lg);">
+          <div style="margin-bottom: var(--space-md);">
+            <h4 style="font-size: 0.875rem; font-weight: 600; margin-bottom: var(--space-xs); color: var(--text); text-align: center; text-transform: uppercase; letter-spacing: 0.05em;">Transparency</h4>
+            <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-sm) var(--space-lg);">
+              <li><a href="https://truesight.me/physical-asset-locations" target="_blank" rel="noreferrer noopener" style="color: var(--muted); text-decoration: none; font-size: 0.9375rem;">Track Shipment Locations</a></li>
+              <li><a href="https://truesight.me/physical-asset-movements" target="_blank" rel="noreferrer noopener" style="color: var(--muted); text-decoration: none; font-size: 0.9375rem;">Shipment History</a></li>
+              <li><a href="https://truesight.me/physical-transactions" target="_blank" rel="noreferrer noopener" style="color: var(--muted); text-decoration: none; font-size: 0.9375rem;">Financial Records</a></li>
+              <li><a href="https://agroverse.shop/consignments" target="_blank" rel="noreferrer noopener" style="color: var(--muted); text-decoration: none; font-size: 0.9375rem;">Consignment Tracking</a></li>
+              <li><a href="https://truesight.me/physical-assets/serialized" target="_blank" rel="noreferrer noopener" style="color: var(--muted); text-decoration: none; font-size: 0.9375rem;">Product Verification</a></li>
+              <li><a href="https://truesight.me/digital-assets" target="_blank" rel="noreferrer noopener" style="color: var(--muted); text-decoration: none; font-size: 0.9375rem;">Token Holdings</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 style="font-size: 0.875rem; font-weight: 600; margin-bottom: var(--space-xs); color: var(--text); text-align: center; text-transform: uppercase; letter-spacing: 0.05em;">Partnerships</h4>
+            <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-sm) var(--space-lg);">
+              <li><a href="https://agroverse.shop/community-warehouse-manager/sla" target="_blank" rel="noreferrer noopener" style="color: var(--muted); text-decoration: none; font-size: 0.9375rem;">Warehouse Partnership Terms</a></li>
+              <li><a href="https://agroverse.shop/community-distributor/agreement" target="_blank" rel="noreferrer noopener" style="color: var(--muted); text-decoration: none; font-size: 0.9375rem;">Distribution Partnership Terms</a></li>
+            </ul>
+          </div>
+        </div>
+        <h2>JOIN OUR MOVEMENT</h2>
+        <p>Co-Create with us</p>
+        <div class="footer-social">
+          <a href="https://t.me/TrueSightDAO" target="_blank" rel="noreferrer noopener" aria-label="Telegram">
+            <img
+              src="assets/telegram-icon.jpg"
+              alt="Telegram"
+              width="48"
+              height="48"
+              loading="lazy"
+            />
+          </a>
+          <a href="https://github.com/TrueSightDAO" target="_blank" rel="noreferrer noopener" aria-label="GitHub">
+            <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor">
+              <title>GitHub</title>
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+        </div>
+        <p style="margin-top: var(--space-lg); font-size: 0.875rem; color: var(--muted);">
+          TrueSight DAO · Transparent impact data available at <a href="index.html" style="color: var(--accent-2);">truesight.me</a>
+        </p>
+      </div>
     </footer>
   <script>
       // Load exchange rates dynamically from Google Apps Script web service
@@ -413,7 +504,7 @@
       })();
 </script>
     <script>
-      // Hamburger menu toggle
+      // Hamburger menu toggle and dropdown functionality
       (function() {
         const menuToggle = document.querySelector('.menu-toggle');
         const navMenu = document.querySelector('.nav-menu');
@@ -421,11 +512,31 @@
         
         if (!menuToggle || !navMenu) return;
         
+        // Hamburger menu toggle
         menuToggle.addEventListener('click', function() {
           const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
           menuToggle.setAttribute('aria-expanded', !isExpanded);
           navMenu.setAttribute('aria-hidden', isExpanded);
           siteHeader.classList.toggle('menu-open', !isExpanded);
+        });
+        
+        // Dropdown toggle functionality (for mobile)
+        const dropdownToggles = navMenu.querySelectorAll('.dropdown-toggle');
+        dropdownToggles.forEach(function(toggle) {
+          toggle.addEventListener('click', function(e) {
+            // On mobile, toggle the dropdown
+            if (window.innerWidth <= 768) {
+              e.preventDefault();
+              e.stopPropagation();
+              const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+              const dropdownMenu = toggle.nextElementSibling;
+              
+              toggle.setAttribute('aria-expanded', !isExpanded);
+              if (dropdownMenu) {
+                dropdownMenu.setAttribute('aria-expanded', !isExpanded);
+              }
+            }
+          });
         });
         
         // Close menu when clicking on a link
@@ -434,6 +545,15 @@
             menuToggle.setAttribute('aria-expanded', 'false');
             navMenu.setAttribute('aria-hidden', 'true');
             siteHeader.classList.remove('menu-open');
+            
+            // Close all dropdowns
+            dropdownToggles.forEach(function(toggle) {
+              toggle.setAttribute('aria-expanded', 'false');
+              const dropdownMenu = toggle.nextElementSibling;
+              if (dropdownMenu) {
+                dropdownMenu.setAttribute('aria-expanded', 'false');
+              }
+            });
           }
         });
         

@@ -11,6 +11,16 @@
       "permanent": true
     },
     {
+      "source": "/sunmint/sef1",
+      "destination": "/sunmint-tree-planting-pledges/sef1",
+      "permanent": true
+    },
+    {
+      "source": "/sunmint/pp1",
+      "destination": "/sunmint-tree-planting-pledges/pp1",
+      "permanent": true
+    },
+    {
       "source": "/shipments/agl0",
       "destination": "/agroverse-shipments/agl0",
       "permanent": true
@@ -68,6 +78,16 @@
     {
       "source": "/shipments/agl14",
       "destination": "/agroverse-shipments/agl14",
+      "permanent": true
+    },
+    {
+      "source": "/whitepaper",
+      "destination": "https://docs.google.com/document/d/1P-IJq71N0lXszUOdqdjrGwonZAfEuG1q_tJFDdKKIic/edit",
+      "permanent": true
+    },
+    {
+      "source": "/ledger",
+      "destination": "https://docs.google.com/spreadsheets/d/1GE7PUq-UT6x2rBN-Q2ksogbWpgyuh2SaxJyG_uEK6PU",
       "permanent": true
     }
   ]
