@@ -179,3 +179,4 @@ function updatePerformanceStatistic(key, value, currency) {
 }
 
 
+

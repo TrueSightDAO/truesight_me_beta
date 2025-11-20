@@ -131,3 +131,4 @@ Test with a known shipment:
 2. Manually count sold QR codes in "Agroverse QR codes" where Column C ends with "agl8"
 3. Verify the formula returns the same count
 
+
