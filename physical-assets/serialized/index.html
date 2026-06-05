@@ -102,15 +102,21 @@
       .verify-show-more:hover { background: #ececec; }
       .verify-footer { margin-top: var(--space-xl); padding-top: var(--space-md); border-top: 1px solid var(--border, #e5e5e5); font-size: 0.8rem; color: var(--muted, #666); }
       .verify-footer a { color: inherit; text-decoration: underline; }
+      /* Mobile: wrap the table in a scrollable container so long QR ids
+         and multi-line farm names don't blow past the viewport. */
+      #verify-table-mount { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      table.verify-table td.qr-id a { word-break: break-all; }
       @media (max-width: 720px) {
         table.verify-table th.col-holder,
         table.verify-table td.col-holder,
         table.verify-table th.col-year,
-        table.verify-table td.col-year { display: none; }
-      }
-      @media (max-width: 540px) {
+        table.verify-table td.col-year,
         table.verify-table th.col-minted,
         table.verify-table td.col-minted { display: none; }
+      }
+      @media (max-width: 540px) {
+        table.verify-table th.col-farm,
+        table.verify-table td.col-farm { display: none; }
       }
       table.verify-table td.col-minted {
         font-family: 'SF Mono', Menlo, monospace;
