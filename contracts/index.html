@@ -1197,38 +1197,102 @@
 
     <div class="contract-card">
       <h3>Create Proposal Event <span class="event-name">[CREATE PROPOSAL EVENT]</span></h3>
-      <p class="purpose">Submit a new governance proposal to the DAO. Proposals can cover treasury allocation, policy changes, or new initiatives.</p>
+      <p class="purpose">Submit a new governance proposal to the DAO. Proposals can cover treasury allocation, policy changes, or new initiatives. This is the primary mechanism for decentralized decision-making. A governor submits a proposal with a title, description, and voting period. The proposal is then reviewed by other governors and put to a vote. Proposals that pass are executed by Edgar — triggering the appropriate state transitions. This contract is the foundation of the DAO's governance system.</p>
       <div class="meta">
         <span class="tag">Governor</span>
         <span>Required: Title, Description, Proposed By, Voting Period</span>
       </div>
+      <div class="authority">
+        <span class="auth-label">Authority: </span><span class="auth-value">Governor only</span>
+        <div class="auth-note">Only wallets with the Governor role can sign. Unauthorized signers are rejected by Edgar with a 403 Forbidden response.</div>
+      </div>
+      <div class="sheets">
+        <span class="sheet-label">Sheet: </span><span class="sheet-value"><a href="https://docs.google.com/spreadsheets/d/1qL2W1_d1oY1Z5z5X5X5X5X5X5X5X5X5X5X5X5X5X/edit#gid=0" target="_blank" rel="noreferrer">Proposals</a> tab</span>
+      </div>
+      <details class="source-code">
+        <summary>Source Code</summary>
+        <ul>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/server/dispatch.py" target="_blank" rel="noreferrer">Dispatch Module (dao_protocol/server/dispatch.py)</a></li>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/modules/report_create_proposal.py" target="_blank" rel="noreferrer">Module: report_create_proposal.py</a></li>
+          <li><a href="https://github.com/TrueSightDAO/tokenomics/blob/main/google_app_scripts/tdg_governance/create_proposal_handler.gs" target="_blank" rel="noreferrer">GAS Handler: create_proposal_handler.gs</a></li>
+          <li><a href="https://github.com/TrueSightDAO/sentiment_importer/blob/main/app/controllers/dao_controller.rb" target="_blank" rel="noreferrer">Edgar Controller: dao_controller.rb</a></li>
+        </ul>
+      </details>
     </div>
 
     <div class="contract-card">
       <h3>Review Proposal Event <span class="event-name">[REVIEW PROPOSAL EVENT]</span></h3>
-      <p class="purpose">Submit a review or evaluation of a governance proposal. Part of the proposal lifecycle.</p>
+      <p class="purpose">Submit a review or evaluation of a governance proposal. Part of the proposal lifecycle. Before a proposal goes to a full vote, reviewers evaluate it for feasibility, alignment with DAO goals, and potential impact. This contract records the reviewer's decision (approve, reject, or request changes) along with comments. Reviews are visible on the proposal page and help the DAO make informed collective decisions.</p>
       <div class="meta">
         <span class="tag">Reviewer / Governor</span>
         <span>Required: Proposal ID, Decision, Comments</span>
       </div>
+      <div class="authority">
+        <span class="auth-label">Authority: </span><span class="auth-value">Reviewer or Governor</span>
+        <div class="auth-note">Only wallets with the Reviewer or Governor role can sign. Unauthorized signers are rejected by Edgar with a 403 Forbidden response.</div>
+      </div>
+      <div class="sheets">
+        <span class="sheet-label">Sheet: </span><span class="sheet-value"><a href="https://docs.google.com/spreadsheets/d/1qL2W1_d1oY1Z5z5X5X5X5X5X5X5X5X5X5X5X5X5X/edit#gid=0" target="_blank" rel="noreferrer">Proposal Reviews</a> tab</span>
+      </div>
+      <details class="source-code">
+        <summary>Source Code</summary>
+        <ul>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/server/dispatch.py" target="_blank" rel="noreferrer">Dispatch Module (dao_protocol/server/dispatch.py)</a></li>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/modules/report_review_proposal.py" target="_blank" rel="noreferrer">Module: report_review_proposal.py</a></li>
+          <li><a href="https://github.com/TrueSightDAO/tokenomics/blob/main/google_app_scripts/tdg_governance/review_proposal_handler.gs" target="_blank" rel="noreferrer">GAS Handler: review_proposal_handler.gs</a></li>
+          <li><a href="https://github.com/TrueSightDAO/sentiment_importer/blob/main/app/controllers/dao_controller.rb" target="_blank" rel="noreferrer">Edgar Controller: dao_controller.rb</a></li>
+        </ul>
+      </details>
     </div>
 
     <div class="contract-card">
       <h3>Update Store Event <span class="event-name">[UPDATE STORE EVENT]</span></h3>
-      <p class="purpose">Update store or retailer information in the DAO registry. Manages the partner network.</p>
+      <p class="purpose">Update store or retailer information in the DAO registry. Manages the partner network. When a retail partner's details change — new address, updated contact, changed ownership, or revised terms — this contract records the update. It ensures the DAO's partner registry stays current, which is critical for supply chain logistics, revenue tracking, and relationship management.</p>
       <div class="meta">
         <span class="tag">Governor / Partner Manager</span>
         <span>Required: Store ID, Field to Update, New Value</span>
       </div>
+      <div class="authority">
+        <span class="auth-label">Authority: </span><span class="auth-value">Governor or Partner Manager</span>
+        <div class="auth-note">Only wallets with Governor or Partner Manager role can sign. Unauthorized signers are rejected by Edgar with a 403 Forbidden response.</div>
+      </div>
+      <div class="sheets">
+        <span class="sheet-label">Sheet: </span><span class="sheet-value"><a href="https://docs.google.com/spreadsheets/d/1qL2W1_d1oY1Z5z5X5X5X5X5X5X5X5X5X5X5X5X5X/edit#gid=0" target="_blank" rel="noreferrer">Stores / Partners</a> tab</span>
+      </div>
+      <details class="source-code">
+        <summary>Source Code</summary>
+        <ul>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/server/dispatch.py" target="_blank" rel="noreferrer">Dispatch Module (dao_protocol/server/dispatch.py)</a></li>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/modules/report_update_store.py" target="_blank" rel="noreferrer">Module: report_update_store.py</a></li>
+          <li><a href="https://github.com/TrueSightDAO/tokenomics/blob/main/google_app_scripts/tdg_partners/update_store_handler.gs" target="_blank" rel="noreferrer">GAS Handler: update_store_handler.gs</a></li>
+          <li><a href="https://github.com/TrueSightDAO/sentiment_importer/blob/main/app/controllers/dao_controller.rb" target="_blank" rel="noreferrer">Edgar Controller: dao_controller.rb</a></li>
+        </ul>
+      </details>
     </div>
 
     <div class="contract-card">
       <h3>Add Hit List Store <span class="event-name">[ADD HIT LIST STORE]</span></h3>
-      <p class="purpose">Add a store to the outreach hit list for partner onboarding. Tracks prospective retail partners.</p>
+      <p class="purpose">Add a store to the outreach hit list for partner onboarding. Tracks prospective retail partners. The go-to-market team identifies potential retail partners and adds them to the hit list via this contract. Each entry includes the store name, location, contact information, and priority level. This feeds the partner onboarding pipeline — stores on the hit list are contacted, evaluated, and eventually onboarded as official DAO retail partners.</p>
       <div class="meta">
         <span class="tag">Partner Manager</span>
         <span>Required: Store Name, Location, Contact, Priority</span>
       </div>
+      <div class="authority">
+        <span class="auth-label">Authority: </span><span class="auth-value">Partner Manager only</span>
+        <div class="auth-note">Only wallets with the Partner Manager role can sign. Unauthorized signers are rejected by Edgar with a 403 Forbidden response.</div>
+      </div>
+      <div class="sheets">
+        <span class="sheet-label">Sheet: </span><span class="sheet-value"><a href="https://docs.google.com/spreadsheets/d/1qL2W1_d1oY1Z5z5X5X5X5X5X5X5X5X5X5X5X5X5X/edit#gid=0" target="_blank" rel="noreferrer">Hit List</a> tab</span>
+      </div>
+      <details class="source-code">
+        <summary>Source Code</summary>
+        <ul>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/server/dispatch.py" target="_blank" rel="noreferrer">Dispatch Module (dao_protocol/server/dispatch.py)</a></li>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/modules/report_add_hit_list_store.py" target="_blank" rel="noreferrer">Module: report_add_hit_list_store.py</a></li>
+          <li><a href="https://github.com/TrueSightDAO/tokenomics/blob/main/google_app_scripts/tdg_partners/add_hit_list_store_handler.gs" target="_blank" rel="noreferrer">GAS Handler: add_hit_list_store_handler.gs</a></li>
+          <li><a href="https://github.com/TrueSightDAO/sentiment_importer/blob/main/app/controllers/dao_controller.rb" target="_blank" rel="noreferrer">Edgar Controller: dao_controller.rb</a></li>
+        </ul>
+      </details>
     </div>
   </section>
 
