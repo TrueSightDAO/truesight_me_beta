@@ -798,11 +798,27 @@
 
     <div class="contract-card">
       <h3>QR Code Registration <span class="event-name">[QR CODE REGISTRATION]</span></h3>
-      <p class="purpose">Register a new batch of QR codes for cacao bags. Each QR code uniquely identifies a bag in the supply chain.</p>
+      <p class="purpose">Register a new batch of QR codes for cacao bags. Each QR code uniquely identifies a bag in the supply chain from farm to consumer. This contract creates the digital twin for each physical bag — without a registered QR code, a bag cannot be moved, sold, or tracked. Used at the start of the supply chain when empty bags are printed with QR labels or when new stock arrives from farms.</p>
       <div class="meta">
         <span class="tag">Governor / Inventory Manager</span>
         <span>Required: QR Code(s), Batch ID, Product Type</span>
       </div>
+      <div class="authority">
+        <span class="auth-label">Authority: </span><span class="auth-value">Governor or Inventory Manager</span>
+        <div class="auth-note">Only wallets with Governor or Inventory Manager role can sign. Unauthorized signers are rejected by Edgar with a 403 Forbidden response.</div>
+      </div>
+      <div class="sheets">
+        <span class="sheet-label">Sheet: </span><span class="sheet-value"><a href="https://docs.google.com/spreadsheets/d/1qL2W1_d1oY1Z5z5X5X5X5X5X5X5X5X5X5X5X5X5X/edit#gid=0" target="_blank" rel="noreferrer">QR Codes</a> tab</span>
+      </div>
+      <details class="source-code">
+        <summary>Source Code</summary>
+        <ul>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/server/dispatch.py" target="_blank" rel="noreferrer">Dispatch Module (dao_protocol/server/dispatch.py)</a></li>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/modules/report_qr_code_registration.py" target="_blank" rel="noreferrer">Module: report_qr_code_registration.py</a></li>
+          <li><a href="https://github.com/TrueSightDAO/tokenomics/blob/main/google_app_scripts/tdg_inventory_management/qr_code_registration_handler.gs" target="_blank" rel="noreferrer">GAS Handler: qr_code_registration_handler.gs</a></li>
+          <li><a href="https://github.com/TrueSightDAO/sentiment_importer/blob/main/app/controllers/dao_controller.rb" target="_blank" rel="noreferrer">Edgar Controller: dao_controller.rb</a></li>
+        </ul>
+      </details>
       <details class="fields">
         <summary>Variants</summary>
         <div class="variant">
@@ -818,11 +834,27 @@
 
     <div class="contract-card">
       <h3>Inventory Movement <span class="event-name">[INVENTORY MOVEMENT]</span></h3>
-      <p class="purpose">Transfer custody of cacao bags between known supply-chain holders. QR status remains IN INVENTORY throughout.</p>
+      <p class="purpose">Transfer custody of cacao bags between known supply-chain holders. QR status remains IN INVENTORY throughout. This contract tracks the physical movement of bags between locations — from warehouse to distributor, distributor to retailer, or between storage facilities. Each movement is recorded with timestamps and signer identities, creating an unbroken chain of custody. The bag's QR code status stays "IN INVENTORY" because ownership hasn't transferred to an end customer.</p>
       <div class="meta">
         <span class="tag">Inventory Manager</span>
         <span>Required: Manager Name, Recipient Name, QR Code(s), Quantity</span>
       </div>
+      <div class="authority">
+        <span class="auth-label">Authority: </span><span class="auth-value">Inventory Manager only</span>
+        <div class="auth-note">Only wallets with the Inventory Manager role can sign. Unauthorized signers are rejected by Edgar with a 403 Forbidden response.</div>
+      </div>
+      <div class="sheets">
+        <span class="sheet-label">Sheet: </span><span class="sheet-value"><a href="https://docs.google.com/spreadsheets/d/1qL2W1_d1oY1Z5z5X5X5X5X5X5X5X5X5X5X5X5X5X/edit#gid=0" target="_blank" rel="noreferrer">Inventory Movements</a> tab</span>
+      </div>
+      <details class="source-code">
+        <summary>Source Code</summary>
+        <ul>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/server/dispatch.py" target="_blank" rel="noreferrer">Dispatch Module (dao_protocol/server/dispatch.py)</a></li>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/modules/report_inventory_movement.py" target="_blank" rel="noreferrer">Module: report_inventory_movement.py</a></li>
+          <li><a href="https://github.com/TrueSightDAO/tokenomics/blob/main/google_app_scripts/tdg_inventory_management/inventory_movement_handler.gs" target="_blank" rel="noreferrer">GAS Handler: inventory_movement_handler.gs</a></li>
+          <li><a href="https://github.com/TrueSightDAO/sentiment_importer/blob/main/app/controllers/dao_controller.rb" target="_blank" rel="noreferrer">Edgar Controller: dao_controller.rb</a></li>
+        </ul>
+      </details>
       <details class="fields">
         <summary>Variants</summary>
         <div class="variant">
@@ -842,11 +874,27 @@
 
     <div class="contract-card">
       <h3>Sales Event <span class="event-name">[SALES EVENT]</span></h3>
-      <p class="purpose">Record a retail sale of cacao to an end customer. QR status becomes SOLD. Triggers revenue tracking.</p>
+      <p class="purpose">Record a retail sale of cacao to an end customer. QR status becomes SOLD. Triggers revenue tracking. This is the revenue-generating contract — when a bag is sold, the Sales Event records the price, seller, and proceeds collector. The QR code transitions from "IN INVENTORY" to "SOLD", removing it from active inventory. For consignment sales, the revenue split between the DAO and retailer is automatically calculated. This contract is the primary data source for the DAO's income statements.</p>
       <div class="meta">
         <span class="tag">Seller / Retailer</span>
         <span>Required: Item, Sales Price, Sold By, Cash Proceeds Collected By, Owner Email</span>
       </div>
+      <div class="authority">
+        <span class="auth-label">Authority: </span><span class="auth-value">Seller / Retailer (any authorized DApp user with inventory custody)</span>
+        <div class="auth-note">Only the wallet that holds custody of the bag (via last Inventory Movement) can sign a sale. Unauthorized signers are rejected by Edgar with a 403 Forbidden response.</div>
+      </div>
+      <div class="sheets">
+        <span class="sheet-label">Sheet: </span><span class="sheet-value"><a href="https://docs.google.com/spreadsheets/d/1qL2W1_d1oY1Z5z5X5X5X5X5X5X5X5X5X5X5X5X5X/edit#gid=0" target="_blank" rel="noreferrer">Sales</a> tab</span>
+      </div>
+      <details class="source-code">
+        <summary>Source Code</summary>
+        <ul>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/server/dispatch.py" target="_blank" rel="noreferrer">Dispatch Module (dao_protocol/server/dispatch.py)</a></li>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/modules/report_sales.py" target="_blank" rel="noreferrer">Module: report_sales.py</a></li>
+          <li><a href="https://github.com/TrueSightDAO/tokenomics/blob/main/google_app_scripts/tdg_inventory_management/process_sales_telegram_logs.gs" target="_blank" rel="noreferrer">GAS Handler: process_sales_telegram_logs.gs</a></li>
+          <li><a href="https://github.com/TrueSightDAO/sentiment_importer/blob/main/app/controllers/dao_controller.rb" target="_blank" rel="noreferrer">Edgar Controller: dao_controller.rb</a></li>
+        </ul>
+      </details>
       <details class="fields">
         <summary>Variants</summary>
         <div class="variant">
@@ -866,20 +914,52 @@
 
     <div class="contract-card">
       <h3>Asset Receipt <span class="event-name">[ASSET RECEIPT]</span></h3>
-      <p class="purpose">Confirm receipt of physical assets (cacao bags, materials) into inventory. Creates the initial inventory record.</p>
+      <p class="purpose">Confirm receipt of physical assets (cacao bags, materials) into inventory. Creates the initial inventory record. This contract is used when new stock arrives from farms, suppliers, or partner cooperatives. It establishes the first link in the chain of custody by recording who received the assets, from what source, and in what quantity. Without an Asset Receipt, no subsequent inventory movement or sale can occur.</p>
       <div class="meta">
         <span class="tag">Inventory Manager</span>
         <span>Required: Asset Type, Quantity, Received By, Source</span>
       </div>
+      <div class="authority">
+        <span class="auth-label">Authority: </span><span class="auth-value">Inventory Manager only</span>
+        <div class="auth-note">Only wallets with the Inventory Manager role can sign. Unauthorized signers are rejected by Edgar with a 403 Forbidden response.</div>
+      </div>
+      <div class="sheets">
+        <span class="sheet-label">Sheet: </span><span class="sheet-value"><a href="https://docs.google.com/spreadsheets/d/1qL2W1_d1oY1Z5z5X5X5X5X5X5X5X5X5X5X5X5X5X/edit#gid=0" target="_blank" rel="noreferrer">Asset Receipts</a> tab</span>
+      </div>
+      <details class="source-code">
+        <summary>Source Code</summary>
+        <ul>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/server/dispatch.py" target="_blank" rel="noreferrer">Dispatch Module (dao_protocol/server/dispatch.py)</a></li>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/modules/report_asset_receipt.py" target="_blank" rel="noreferrer">Module: report_asset_receipt.py</a></li>
+          <li><a href="https://github.com/TrueSightDAO/tokenomics/blob/main/google_app_scripts/tdg_inventory_management/asset_receipt_handler.gs" target="_blank" rel="noreferrer">GAS Handler: asset_receipt_handler.gs</a></li>
+          <li><a href="https://github.com/TrueSightDAO/sentiment_importer/blob/main/app/controllers/dao_controller.rb" target="_blank" rel="noreferrer">Edgar Controller: dao_controller.rb</a></li>
+        </ul>
+      </details>
     </div>
 
     <div class="contract-card">
       <h3>Currency Conversion <span class="event-name">[CURRENCY CONVERSION]</span></h3>
-      <p class="purpose">Record a currency conversion event (e.g. USD to BRL) for financial tracking across the supply chain.</p>
+      <p class="purpose">Record a currency conversion event (e.g. USD to BRL) for financial tracking across the supply chain. The DAO operates across multiple currencies — USD for international sales, BRL for Brazilian operations, and TDG for internal tokenomics. This contract records when funds are converted between currencies, capturing the exchange rate and timestamp for accurate financial reporting and audit trails.</p>
       <div class="meta">
         <span class="tag">Treasury Manager</span>
         <span>Required: From Currency, To Currency, Amount, Exchange Rate</span>
       </div>
+      <div class="authority">
+        <span class="auth-label">Authority: </span><span class="auth-value">Treasury Manager only</span>
+        <div class="auth-note">Only wallets with the Treasury Manager role can sign. Unauthorized signers are rejected by Edgar with a 403 Forbidden response.</div>
+      </div>
+      <div class="sheets">
+        <span class="sheet-label">Sheet: </span><span class="sheet-value"><a href="https://docs.google.com/spreadsheets/d/1qL2W1_d1oY1Z5z5X5X5X5X5X5X5X5X5X5X5X5X5X/edit#gid=0" target="_blank" rel="noreferrer">Currency Conversions</a> tab</span>
+      </div>
+      <details class="source-code">
+        <summary>Source Code</summary>
+        <ul>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/server/dispatch.py" target="_blank" rel="noreferrer">Dispatch Module (dao_protocol/server/dispatch.py)</a></li>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/modules/report_currency_conversion.py" target="_blank" rel="noreferrer">Module: report_currency_conversion.py</a></li>
+          <li><a href="https://github.com/TrueSightDAO/tokenomics/blob/main/google_app_scripts/tdg_finance/currency_conversion_handler.gs" target="_blank" rel="noreferrer">GAS Handler: currency_conversion_handler.gs</a></li>
+          <li><a href="https://github.com/TrueSightDAO/sentiment_importer/blob/main/app/controllers/dao_controller.rb" target="_blank" rel="noreferrer">Edgar Controller: dao_controller.rb</a></li>
+        </ul>
+      </details>
     </div>
   </section>
 
