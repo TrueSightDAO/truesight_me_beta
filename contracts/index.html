@@ -692,6 +692,28 @@
           <p>Register multiple QR codes in a single transaction for efficiency.</p>
         </div>
       </details>
+      <details class="fields">
+        <summary>Sample Payload (Single)</summary>
+        <pre style="background: #1e1e1e; color: #d4d4d4; border-radius: 8px; padding: var(--space-sm); font-size: 0.75rem; line-height: 1.5; overflow-x: auto; margin-top: var(--space-xs); font-family: 'JetBrains Mono', monospace;">{
+  "event": "QR CODE REGISTRATION",
+  "QR Code": "2024OSCAR_20260121_12",
+  "Batch ID": "BATCH-2026-001",
+  "Product Type": "Ceremonial Cacao",
+  "Registered By": "Kirsten",
+  "Timestamp": "2026-06-20T12:00:00Z"
+}</pre>
+      </details>
+      <details class="fields">
+        <summary>Sample Payload (Batch)</summary>
+        <pre style="background: #1e1e1e; color: #d4d4d4; border-radius: 8px; padding: var(--space-sm); font-size: 0.75rem; line-height: 1.5; overflow-x: auto; margin-top: var(--space-xs); font-family: 'JetBrains Mono', monospace;">{
+  "event": "QR CODE REGISTRATION",
+  "QR Codes": "2024OSCAR_20260121_12 2024OSCAR_20260121_13 2024OSCAR_20260121_14",
+  "Batch ID": "BATCH-2026-001",
+  "Product Type": "Ceremonial Cacao",
+  "Registered By": "Kirsten",
+  "Timestamp": "2026-06-20T12:00:00Z"
+}</pre>
+      </details>
     </div>
 
     <div class="contract-card">
