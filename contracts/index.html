@@ -1306,38 +1306,102 @@
 
     <div class="contract-card">
       <h3>Partner Add Event <span class="event-name">[PARTNER ADD EVENT]</span></h3>
-      <p class="purpose">Onboard a new partner organization to the DAO ecosystem. Partners can be retailers, distributors, or program collaborators.</p>
+      <p class="purpose">Onboard a new partner organization to the DAO ecosystem. Partners can be retailers, distributors, or program collaborators. This contract creates the initial partner record in the DAO registry. It records the partner's name, email, and type (retailer, distributor, program collaborator). Once added, the partner can be onboarded, receive inventory on consignment, and participate in the DAO's supply chain. Only governors can add partners to ensure strategic alignment.</p>
       <div class="meta">
         <span class="tag">Governor</span>
         <span>Required: Partner Name, Partner Email, Partner Type</span>
       </div>
+      <div class="authority">
+        <span class="auth-label">Authority: </span><span class="auth-value">Governor only</span>
+        <div class="auth-note">Only wallets with the Governor role can sign. Unauthorized signers are rejected by Edgar with a 403 Forbidden response.</div>
+      </div>
+      <div class="sheets">
+        <span class="sheet-label">Sheet: </span><span class="sheet-value"><a href="https://docs.google.com/spreadsheets/d/1qL2W1_d1oY1Z5z5X5X5X5X5X5X5X5X5X5X5X5X5X/edit#gid=0" target="_blank" rel="noreferrer">Partners</a> tab</span>
+      </div>
+      <details class="source-code">
+        <summary>Source Code</summary>
+        <ul>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/server/dispatch.py" target="_blank" rel="noreferrer">Dispatch Module (dao_protocol/server/dispatch.py)</a></li>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/modules/report_partner_add.py" target="_blank" rel="noreferrer">Module: report_partner_add.py</a></li>
+          <li><a href="https://github.com/TrueSightDAO/tokenomics/blob/main/google_app_scripts/tdg_partners/partner_add_handler.gs" target="_blank" rel="noreferrer">GAS Handler: partner_add_handler.gs</a></li>
+          <li><a href="https://github.com/TrueSightDAO/sentiment_importer/blob/main/app/controllers/dao_controller.rb" target="_blank" rel="noreferrer">Edgar Controller: dao_controller.rb</a></li>
+        </ul>
+      </details>
     </div>
 
     <div class="contract-card">
       <h3>Partner Check-in Event <span class="event-name">[PARTNER CHECK-IN EVENT]</span></h3>
-      <p class="purpose">Log a check-in with an existing partner. Tracks relationship health and follow-up actions.</p>
+      <p class="purpose">Log a check-in with an existing partner. Tracks relationship health and follow-up actions. The Partner Manager uses this contract to record regular check-ins with retail partners. Each check-in captures the date, notes about the conversation, and the partner's current status (active, at-risk, dormant, etc.). This builds a relationship history that helps the DAO identify partners needing support, recognize high performers, and maintain strong retail relationships.</p>
       <div class="meta">
         <span class="tag">Partner Manager</span>
         <span>Required: Partner Name, Check-in Date, Notes, Status</span>
       </div>
+      <div class="authority">
+        <span class="auth-label">Authority: </span><span class="auth-value">Partner Manager only</span>
+        <div class="auth-note">Only wallets with the Partner Manager role can sign. Unauthorized signers are rejected by Edgar with a 403 Forbidden response.</div>
+      </div>
+      <div class="sheets">
+        <span class="sheet-label">Sheet: </span><span class="sheet-value"><a href="https://docs.google.com/spreadsheets/d/1qL2W1_d1oY1Z5z5X5X5X5X5X5X5X5X5X5X5X5X5X/edit#gid=0" target="_blank" rel="noreferrer">Partner Check-ins</a> tab</span>
+      </div>
+      <details class="source-code">
+        <summary>Source Code</summary>
+        <ul>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/server/dispatch.py" target="_blank" rel="noreferrer">Dispatch Module (dao_protocol/server/dispatch.py)</a></li>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/modules/report_partner_checkin.py" target="_blank" rel="noreferrer">Module: report_partner_checkin.py</a></li>
+          <li><a href="https://github.com/TrueSightDAO/tokenomics/blob/main/google_app_scripts/tdg_partners/partner_checkin_handler.gs" target="_blank" rel="noreferrer">GAS Handler: partner_checkin_handler.gs</a></li>
+          <li><a href="https://github.com/TrueSightDAO/sentiment_importer/blob/main/app/controllers/dao_controller.rb" target="_blank" rel="noreferrer">Edgar Controller: dao_controller.rb</a></li>
+        </ul>
+      </details>
     </div>
 
     <div class="contract-card">
       <h3>Onboard Partner Event <span class="event-name">[ONBOARD PARTNER EVENT]</span></h3>
-      <p class="purpose">Complete the full onboarding workflow for a partner. Includes agreement signing, orientation, and system access setup.</p>
+      <p class="purpose">Complete the full onboarding workflow for a partner. Includes agreement signing, orientation, and system access setup. After a partner is added to the registry, this contract finalizes their onboarding. It records that the partner agreement has been signed, orientation completed, and system access granted. Once onboarded, the partner can receive inventory, submit sales events, and access the DApp. This is the final step in the partner lifecycle before active operations begin.</p>
       <div class="meta">
         <span class="tag">Governor / Partner Manager</span>
         <span>Required: Partner Name, Agreement Signed, Onboarding Date</span>
       </div>
+      <div class="authority">
+        <span class="auth-label">Authority: </span><span class="auth-value">Governor or Partner Manager</span>
+        <div class="auth-note">Only wallets with Governor or Partner Manager role can sign. Unauthorized signers are rejected by Edgar with a 403 Forbidden response.</div>
+      </div>
+      <div class="sheets">
+        <span class="sheet-label">Sheet: </span><span class="sheet-value"><a href="https://docs.google.com/spreadsheets/d/1qL2W1_d1oY1Z5z5X5X5X5X5X5X5X5X5X5X5X5X5X/edit#gid=0" target="_blank" rel="noreferrer">Partner Onboarding</a> tab</span>
+      </div>
+      <details class="source-code">
+        <summary>Source Code</summary>
+        <ul>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/server/dispatch.py" target="_blank" rel="noreferrer">Dispatch Module (dao_protocol/server/dispatch.py)</a></li>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/modules/report_onboard_partner.py" target="_blank" rel="noreferrer">Module: report_onboard_partner.py</a></li>
+          <li><a href="https://github.com/TrueSightDAO/tokenomics/blob/main/google_app_scripts/tdg_partners/onboard_partner_handler.gs" target="_blank" rel="noreferrer">GAS Handler: onboard_partner_handler.gs</a></li>
+          <li><a href="https://github.com/TrueSightDAO/sentiment_importer/blob/main/app/controllers/dao_controller.rb" target="_blank" rel="noreferrer">Edgar Controller: dao_controller.rb</a></li>
+        </ul>
+      </details>
     </div>
 
     <div class="contract-card">
       <h3>Register Farm Event <span class="event-name">[REGISTER FARM EVENT]</span></h3>
-      <p class="purpose">Register a farm in the DAO's supply chain. Tracks farm location, farmer details, and certification status.</p>
+      <p class="purpose">Register a farm in the DAO's supply chain. Tracks farm location, farmer details, and certification status. This contract records farms that supply cacao to the DAO. Each farm entry includes the farm name, farmer details, GPS location, and certification status (organic, fair trade, etc.). This creates transparency in the supply chain — consumers can trace their cacao back to the farm of origin. Used by the Agroverse program to connect farmers directly to the market.</p>
       <div class="meta">
         <span class="tag">Supply Chain Manager</span>
         <span>Required: Farm Name, Farmer Name, Location, Certification</span>
       </div>
+      <div class="authority">
+        <span class="auth-label">Authority: </span><span class="auth-value">Supply Chain Manager only</span>
+        <div class="auth-note">Only wallets with the Supply Chain Manager role can sign. Unauthorized signers are rejected by Edgar with a 403 Forbidden response.</div>
+      </div>
+      <div class="sheets">
+        <span class="sheet-label">Sheet: </span><span class="sheet-value"><a href="https://docs.google.com/spreadsheets/d/1qL2W1_d1oY1Z5z5X5X5X5X5X5X5X5X5X5X5X5X5X/edit#gid=0" target="_blank" rel="noreferrer">Farms</a> tab</span>
+      </div>
+      <details class="source-code">
+        <summary>Source Code</summary>
+        <ul>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/server/dispatch.py" target="_blank" rel="noreferrer">Dispatch Module (dao_protocol/server/dispatch.py)</a></li>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/modules/report_register_farm.py" target="_blank" rel="noreferrer">Module: report_register_farm.py</a></li>
+          <li><a href="https://github.com/TrueSightDAO/tokenomics/blob/main/google_app_scripts/tdg_supply_chain/register_farm_handler.gs" target="_blank" rel="noreferrer">GAS Handler: register_farm_handler.gs</a></li>
+          <li><a href="https://github.com/TrueSightDAO/sentiment_importer/blob/main/app/controllers/dao_controller.rb" target="_blank" rel="noreferrer">Edgar Controller: dao_controller.rb</a></li>
+        </ul>
+      </details>
     </div>
   </section>
 
