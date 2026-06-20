@@ -242,6 +242,94 @@
     content: "* ";
   }
 
+  /* Source code links */
+  .contract-card .source-code {
+    margin-top: var(--space-sm);
+    padding-top: var(--space-sm);
+    border-top: 1px solid var(--border);
+  }
+  .contract-card .source-code summary {
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--forest);
+    user-select: none;
+  }
+  .contract-card .source-code summary:hover {
+    color: var(--accent-2);
+  }
+  .contract-card .source-code ul {
+    margin: var(--space-xs) 0 0;
+    padding-left: var(--space-md);
+    font-size: 0.8125rem;
+    color: var(--muted);
+    line-height: 1.8;
+    list-style: none;
+    padding-left: 0;
+  }
+  .contract-card .source-code ul li {
+    padding: 2px 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .contract-card .source-code ul li::before {
+    content: "📄";
+    font-size: 0.75rem;
+  }
+  .contract-card .source-code a {
+    color: var(--accent-2);
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+  }
+  .contract-card .source-code a:hover {
+    text-decoration: underline;
+    color: var(--accent);
+  }
+
+  /* Authority badge */
+  .contract-card .authority {
+    margin-top: var(--space-sm);
+    padding-top: var(--space-sm);
+    border-top: 1px solid var(--border);
+    font-size: 0.8125rem;
+  }
+  .contract-card .authority .auth-label {
+    font-weight: 600;
+    color: var(--forest);
+  }
+  .contract-card .authority .auth-value {
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .contract-card .authority .auth-note {
+    color: var(--muted);
+    font-size: 0.75rem;
+    font-style: italic;
+    margin-top: 2px;
+  }
+
+  /* Sheet references */
+  .contract-card .sheets {
+    margin-top: var(--space-sm);
+    font-size: 0.8125rem;
+  }
+  .contract-card .sheets .sheet-label {
+    font-weight: 600;
+    color: var(--forest);
+  }
+  .contract-card .sheets .sheet-value {
+    color: var(--muted);
+  }
+  .contract-card .sheets a {
+    color: var(--accent-2);
+    text-decoration: none;
+  }
+  .contract-card .sheets a:hover {
+    text-decoration: underline;
+  }
+
   /* Variant sub-cards */
   .variant {
     background: var(--bg-secondary);
