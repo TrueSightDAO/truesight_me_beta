@@ -775,6 +775,35 @@
           <p>Settle a sale from bags previously placed on consignment. Triggers revenue split between DAO and retailer.</p>
         </div>
       </details>
+      <details class="fields">
+        <summary>Sample Payload (Single Sale)</summary>
+        <pre style="background: #1e1e1e; color: #d4d4d4; border-radius: 8px; padding: var(--space-sm); font-size: 0.75rem; line-height: 1.5; overflow-x: auto; margin-top: var(--space-xs); font-family: 'JetBrains Mono', monospace;">{
+  "event": "SALES EVENT",
+  "Item": "Ceremonial Cacao 8oz",
+  "QR Code": "2024OSCAR_20260121_12",
+  "Sales Price": "45.00",
+  "Currency": "USD",
+  "Sold by": "Kirsten",
+  "Owner Email": "customer@example.com",
+  "Cash Proceeds Collected By": "Kirsten",
+  "Timestamp": "2026-06-20T12:00:00Z"
+}</pre>
+      </details>
+      <details class="fields">
+        <summary>Sample Payload (Bulk Sale)</summary>
+        <pre style="background: #1e1e1e; color: #d4d4d4; border-radius: 8px; padding: var(--space-sm); font-size: 0.75rem; line-height: 1.5; overflow-x: auto; margin-top: var(--space-xs); font-family: 'JetBrains Mono', monospace;">{
+  "event": "SALES EVENT",
+  "Item": "Ceremonial Cacao 8oz",
+  "QR Codes": "2024OSCAR_20260121_12 2024OSCAR_20260121_13 2024OSCAR_20260121_14",
+  "Quantity": "3",
+  "Sales Price": "120.00",
+  "Currency": "USD",
+  "Sold by": "Kirsten",
+  "Owner Email": "wholesaler@example.com",
+  "Cash Proceeds Collected By": "Kirsten",
+  "Timestamp": "2026-06-20T12:00:00Z"
+}</pre>
+      </details>
     </div>
 
     <div class="contract-card">
