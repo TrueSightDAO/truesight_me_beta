@@ -641,56 +641,150 @@
 
     <div class="contract-card">
       <h3>Email Registered Event <span class="event-name">[EMAIL REGISTERED EVENT]</span></h3>
-      <p class="purpose">Register a new email address with the DAO. The first step to creating a DAO identity — binds an email to a public key.</p>
+      <p class="purpose">Register a new email address with the DAO. The first step to creating a DAO identity — binds an email to a public key. This is the entry point for all new members: without a registered and verified email, no other contract can be signed. The DApp generates an RSA-2048 keypair locally, then submits this event to associate the public key with the user's email. Edgar sends a verification link to the provided email to confirm ownership.</p>
       <div class="meta">
-        <span class="tag">Anyone</span>
+        <span class="tag">Anyone (self-service)</span>
         <span>Required: Email</span>
       </div>
+      <div class="authority">
+        <span class="auth-label">Authority: </span><span class="auth-value">Anyone (self-service)</span>
+        <div class="auth-note">No authorization required — this is a public registration endpoint. Unauthorized signers are not applicable as this is open to all.</div>
+      </div>
+      <div class="sheets">
+        <span class="sheet-label">Sheet: </span><span class="sheet-value"><a href="https://docs.google.com/spreadsheets/d/1qL2W1_d1oY1Z5z5X5X5X5X5X5X5X5X5X5X5X5X5X/edit#gid=0" target="_blank" rel="noreferrer">Contributors Digital Signatures</a> tab (Main Ledger)</span>
+      </div>
+      <details class="source-code">
+        <summary>Source Code</summary>
+        <ul>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/server/dispatch.py" target="_blank" rel="noreferrer">Dispatch Module (dao_protocol/server/dispatch.py)</a></li>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/modules/" target="_blank" rel="noreferrer">Module: Handled by Edgar directly (no dedicated Python module)</a></li>
+          <li><a href="https://github.com/TrueSightDAO/tokenomics/blob/main/google_app_scripts/tdg_identity_management/register_member_digital_signatures_email.gs" target="_blank" rel="noreferrer">GAS Handler: register_member_digital_signatures_email.gs</a></li>
+          <li><a href="https://github.com/TrueSightDAO/sentiment_importer/blob/main/app/controllers/dao_controller.rb" target="_blank" rel="noreferrer">Edgar Controller: dao_controller.rb</a></li>
+        </ul>
+      </details>
     </div>
 
     <div class="contract-card">
       <h3>Email Verification Event <span class="event-name">[EMAIL VERIFICATION EVENT]</span></h3>
-      <p class="purpose">Verify ownership of an email address by signing a challenge. Completes the identity registration flow.</p>
+      <p class="purpose">Verify ownership of an email address by signing a challenge. Completes the identity registration flow. After registering an email, the user receives a verification link. Clicking it triggers a signed challenge response that proves the user controls both the email inbox and the private key. Until this step completes, the identity is considered unverified and cannot participate in governance or sign sensitive contracts.</p>
       <div class="meta">
         <span class="tag">Anyone (with pending registration)</span>
         <span>Required: Email, Verification Key</span>
       </div>
+      <div class="authority">
+        <span class="auth-label">Authority: </span><span class="auth-value">Anyone with pending registration</span>
+        <div class="auth-note">Only the email recipient who initiated the registration can verify. Unauthorized signers (wrong email or mismatched key) are rejected by Edgar.</div>
+      </div>
+      <div class="sheets">
+        <span class="sheet-label">Sheet: </span><span class="sheet-value"><a href="https://docs.google.com/spreadsheets/d/1qL2W1_d1oY1Z5z5X5X5X5X5X5X5X5X5X5X5X5X5X/edit#gid=0" target="_blank" rel="noreferrer">Contributors Digital Signatures</a> tab (Main Ledger)</span>
+      </div>
+      <details class="source-code">
+        <summary>Source Code</summary>
+        <ul>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/server/dispatch.py" target="_blank" rel="noreferrer">Dispatch Module (dao_protocol/server/dispatch.py)</a></li>
+          <li><a href="https://github.com/TrueSightDAO/tokenomics/blob/main/google_app_scripts/tdg_identity_management/email_verification_from_edgar.gs" target="_blank" rel="noreferrer">GAS Handler: email_verification_from_edgar.gs</a></li>
+          <li><a href="https://github.com/TrueSightDAO/sentiment_importer/blob/main/app/controllers/dao_controller.rb" target="_blank" rel="noreferrer">Edgar Controller: dao_controller.rb</a></li>
+        </ul>
+      </details>
     </div>
 
     <div class="contract-card">
       <h3>Contributor Add Event <span class="event-name">[CONTRIBUTOR ADD EVENT]</span></h3>
-      <p class="purpose">Onboard a new contributor to the DAO. Records their name, email, and role in the contributor registry.</p>
+      <p class="purpose">Onboard a new contributor to the DAO. Records their name, email, and role in the contributor registry. Only governors can add contributors — this is a privileged action that grants DAO membership. When executed, Edgar updates the Contributors tab and triggers an onboarding invitation email via GAS. New contributors gain access to submit contribution events and participate in the ecosystem.</p>
       <div class="meta">
         <span class="tag">Governor</span>
         <span>Required: Contributor Name, Email, Role</span>
       </div>
+      <div class="authority">
+        <span class="auth-label">Authority: </span><span class="auth-value">Governor only</span>
+        <div class="auth-note">Only wallets with the Governor role in the DApp permissions can sign this contract. Unauthorized signers are rejected by Edgar with a 403 Forbidden response.</div>
+      </div>
+      <div class="sheets">
+        <span class="sheet-label">Sheet: </span><span class="sheet-value"><a href="https://docs.google.com/spreadsheets/d/1qL2W1_d1oY1Z5z5X5X5X5X5X5X5X5X5X5X5X5X5X/edit#gid=0" target="_blank" rel="noreferrer">Contributors</a> tab (Main Ledger)</span>
+      </div>
+      <details class="source-code">
+        <summary>Source Code</summary>
+        <ul>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/server/dispatch.py" target="_blank" rel="noreferrer">Dispatch Module (dao_protocol/server/dispatch.py)</a></li>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/modules/add_contributor.py" target="_blank" rel="noreferrer">Module: add_contributor.py</a></li>
+          <li><a href="https://github.com/TrueSightDAO/tokenomics/blob/main/google_app_scripts/tdg_identity_management/edgar_send_onboarding_invitation.gs" target="_blank" rel="noreferrer">GAS Handler: edgar_send_onboarding_invitation.gs</a></li>
+          <li><a href="https://github.com/TrueSightDAO/sentiment_importer/blob/main/app/controllers/dao_controller.rb" target="_blank" rel="noreferrer">Edgar Controller: dao_controller.rb</a></li>
+        </ul>
+      </details>
     </div>
 
     <div class="contract-card">
       <h3>DApp Permission Change Event <span class="event-name">[DAPP PERMISSION CHANGE EVENT]</span></h3>
-      <p class="purpose">Grant or revoke DApp access permissions for a contributor. Controls who can sign contracts via the web interface.</p>
+      <p class="purpose">Grant or revoke DApp access permissions for a contributor. Controls who can sign contracts via the web interface. This is a security-critical contract — it manages the role-based access control (RBAC) system. Permissions include levels like "Governor", "Inventory Manager", "Partner Manager", and "Contributor". Only governors can change permissions, ensuring the access control chain remains secure.</p>
       <div class="meta">
         <span class="tag">Governor</span>
         <span>Required: Contributor Email, Permission Level</span>
       </div>
+      <div class="authority">
+        <span class="auth-label">Authority: </span><span class="auth-value">Governor only</span>
+        <div class="auth-note">Only wallets with the Governor role can sign this contract. Unauthorized signers are rejected by Edgar with a 403 Forbidden response.</div>
+      </div>
+      <div class="sheets">
+        <span class="sheet-label">Sheet: </span><span class="sheet-value"><a href="https://docs.google.com/spreadsheets/d/1qL2W1_d1oY1Z5z5X5X5X5X5X5X5X5X5X5X5X5X5X/edit#gid=0" target="_blank" rel="noreferrer">DApp Permissions</a> tab</span>
+      </div>
+      <details class="source-code">
+        <summary>Source Code</summary>
+        <ul>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/server/dispatch.py" target="_blank" rel="noreferrer">Dispatch Module (dao_protocol/server/dispatch.py)</a></li>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/modules/report_dapp_permission_change.py" target="_blank" rel="noreferrer">Module: report_dapp_permission_change.py</a></li>
+          <li><a href="https://github.com/TrueSightDAO/tokenomics/blob/main/google_app_scripts/tdg_identity_management/dapp_permission_change_handler.gs" target="_blank" rel="noreferrer">GAS Handler: dapp_permission_change_handler.gs</a></li>
+          <li><a href="https://github.com/TrueSightDAO/sentiment_importer/blob/main/app/controllers/dao_controller.rb" target="_blank" rel="noreferrer">Edgar Controller: dao_controller.rb</a></li>
+        </ul>
+      </details>
     </div>
 
     <div class="contract-card">
       <h3>Withdraw Voting Rights Event <span class="event-name">[WITHDRAW VOTING RIGHTS EVENT]</span></h3>
-      <p class="purpose">Remove a contributor's voting rights. A governance action for managing DAO membership.</p>
+      <p class="purpose">Remove a contributor's voting rights. A governance action for managing DAO membership. Used when a contributor leaves the DAO, violates the code of conduct, or when the DAO votes to restructure membership. This is a privileged action that directly affects the DAO's governance surface — removing voting rights means the member can no longer participate in proposals or elections.</p>
       <div class="meta">
         <span class="tag">Governor</span>
         <span>Required: Contributor Email</span>
       </div>
+      <div class="authority">
+        <span class="auth-label">Authority: </span><span class="auth-value">Governor only</span>
+        <div class="auth-note">Only wallets with the Governor role can sign this contract. Unauthorized signers are rejected by Edgar with a 403 Forbidden response.</div>
+      </div>
+      <div class="sheets">
+        <span class="sheet-label">Sheet: </span><span class="sheet-value"><a href="https://docs.google.com/spreadsheets/d/1qL2W1_d1oY1Z5z5X5X5X5X5X5X5X5X5X5X5X5X5X/edit#gid=0" target="_blank" rel="noreferrer">Contributors</a> tab (Main Ledger)</span>
+      </div>
+      <details class="source-code">
+        <summary>Source Code</summary>
+        <ul>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/server/dispatch.py" target="_blank" rel="noreferrer">Dispatch Module (dao_protocol/server/dispatch.py)</a></li>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/modules/withdraw_voting_rights.py" target="_blank" rel="noreferrer">Module: withdraw_voting_rights.py</a></li>
+          <li><a href="https://github.com/TrueSightDAO/sentiment_importer/blob/main/app/controllers/dao_controller.rb" target="_blank" rel="noreferrer">Edgar Controller: dao_controller.rb</a></li>
+        </ul>
+      </details>
     </div>
 
     <div class="contract-card">
       <h3>Program Registration Event <span class="event-name">[PROGRAM REGISTRATION EVENT]</span></h3>
-      <p class="purpose">Register a new program or initiative within the DAO ecosystem (e.g. credentialing cohort, community challenge).</p>
+      <p class="purpose">Register a new program or initiative within the DAO ecosystem (e.g. credentialing cohort, community challenge, reforestation drive). Programs are the primary organizational unit for DAO activities — they group related contributions, track budgets, and measure impact. Only governors can create programs to ensure alignment with the DAO's strategic roadmap.</p>
       <div class="meta">
         <span class="tag">Governor</span>
         <span>Required: Program Name, Program Type, Start Date</span>
       </div>
+      <div class="authority">
+        <span class="auth-label">Authority: </span><span class="auth-value">Governor only</span>
+        <div class="auth-note">Only wallets with the Governor role can sign this contract. Unauthorized signers are rejected by Edgar with a 403 Forbidden response.</div>
+      </div>
+      <div class="sheets">
+        <span class="sheet-label">Sheet: </span><span class="sheet-value"><a href="https://docs.google.com/spreadsheets/d/1qL2W1_d1oY1Z5z5X5X5X5X5X5X5X5X5X5X5X5X5X/edit#gid=0" target="_blank" rel="noreferrer">Programs</a> tab</span>
+      </div>
+      <details class="source-code">
+        <summary>Source Code</summary>
+        <ul>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/server/dispatch.py" target="_blank" rel="noreferrer">Dispatch Module (dao_protocol/server/dispatch.py)</a></li>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/modules/report_program_registration.py" target="_blank" rel="noreferrer">Module: report_program_registration.py</a></li>
+          <li><a href="https://github.com/TrueSightDAO/tokenomics/blob/main/google_app_scripts/" target="_blank" rel="noreferrer">GAS Handler: (see tokenomics/google_app_scripts/)</a></li>
+          <li><a href="https://github.com/TrueSightDAO/sentiment_importer/blob/main/app/controllers/dao_controller.rb" target="_blank" rel="noreferrer">Edgar Controller: dao_controller.rb</a></li>
+        </ul>
+      </details>
     </div>
   </section>
 
