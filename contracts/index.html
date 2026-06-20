@@ -1415,11 +1415,27 @@
 
     <div class="contract-card">
       <h3>Tree Planting Event <span class="event-name">[TREE PLANTING EVENT]</span></h3>
-      <p class="purpose">Record a tree planting activity in the Sunmint reforestation program. Tracks species, location, and planter.</p>
+      <p class="purpose">Record a tree planting activity in the Sunmint reforestation program. Tracks species, location, and planter. This contract is the core of the Sunmint reforestation initiative. Every tree planted — whether by individual volunteers, community groups, or partner organizations — is recorded with its species, quantity, GPS location, and planter details. The data feeds the Sunmint impact dashboard, showing donors and stakeholders the real-world environmental impact of their contributions. Pledge fulfillment variant connects back to Sunmint pledges made by donors.</p>
       <div class="meta">
         <span class="tag">Program Manager / Planter</span>
         <span>Required: Tree Species, Quantity, Location, Planter Name, Program</span>
       </div>
+      <div class="authority">
+        <span class="auth-label">Authority: </span><span class="auth-value">Program Manager or authorized Planter</span>
+        <div class="auth-note">Only wallets with the Program Manager role or authorized planters can sign. Unauthorized signers are rejected by Edgar with a 403 Forbidden response.</div>
+      </div>
+      <div class="sheets">
+        <span class="sheet-label">Sheet: </span><span class="sheet-value"><a href="https://docs.google.com/spreadsheets/d/1qL2W1_d1oY1Z5z5X5X5X5X5X5X5X5X5X5X5X5X5X/edit#gid=0" target="_blank" rel="noreferrer">Tree Plantings</a> tab (Sunmint)</span>
+      </div>
+      <details class="source-code">
+        <summary>Source Code</summary>
+        <ul>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/server/dispatch.py" target="_blank" rel="noreferrer">Dispatch Module (dao_protocol/server/dispatch.py)</a></li>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/modules/report_tree_planting.py" target="_blank" rel="noreferrer">Module: report_tree_planting.py</a></li>
+          <li><a href="https://github.com/TrueSightDAO/tokenomics/blob/main/google_app_scripts/tdg_sunmint/tree_planting_handler.gs" target="_blank" rel="noreferrer">GAS Handler: tree_planting_handler.gs</a></li>
+          <li><a href="https://github.com/TrueSightDAO/sentiment_importer/blob/main/app/controllers/dao_controller.rb" target="_blank" rel="noreferrer">Edgar Controller: dao_controller.rb</a></li>
+        </ul>
+      </details>
       <details class="fields">
         <summary>Variants</summary>
         <div class="variant">
@@ -1439,20 +1455,52 @@
 
     <div class="contract-card">
       <h3>Update QR Code Event <span class="event-name">[UPDATE QR CODE EVENT]</span></h3>
-      <p class="purpose">Update the status or metadata of an existing QR code. Used for corrections and lifecycle management.</p>
+      <p class="purpose">Update the status or metadata of an existing QR code. Used for corrections and lifecycle management. When a QR code's metadata needs to change — correcting a misprint, updating product type, changing status from LOST to IN INVENTORY, or marking a bag as DAMAGED — this contract records the update. It provides an audit trail of all changes to QR code records, ensuring the inventory ledger remains accurate even when corrections are needed.</p>
       <div class="meta">
         <span class="tag">Inventory Manager</span>
         <span>Required: QR Code, Field to Update, New Value</span>
       </div>
+      <div class="authority">
+        <span class="auth-label">Authority: </span><span class="auth-value">Inventory Manager only</span>
+        <div class="auth-note">Only wallets with the Inventory Manager role can sign. Unauthorized signers are rejected by Edgar with a 403 Forbidden response.</div>
+      </div>
+      <div class="sheets">
+        <span class="sheet-label">Sheet: </span><span class="sheet-value"><a href="https://docs.google.com/spreadsheets/d/1qL2W1_d1oY1Z5z5X5X5X5X5X5X5X5X5X5X5X5X5X/edit#gid=0" target="_blank" rel="noreferrer">QR Codes</a> tab</span>
+      </div>
+      <details class="source-code">
+        <summary>Source Code</summary>
+        <ul>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/server/dispatch.py" target="_blank" rel="noreferrer">Dispatch Module (dao_protocol/server/dispatch.py)</a></li>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/modules/report_update_qr_code.py" target="_blank" rel="noreferrer">Module: report_update_qr_code.py</a></li>
+          <li><a href="https://github.com/TrueSightDAO/tokenomics/blob/main/google_app_scripts/tdg_inventory_management/update_qr_code_handler.gs" target="_blank" rel="noreferrer">GAS Handler: update_qr_code_handler.gs</a></li>
+          <li><a href="https://github.com/TrueSightDAO/sentiment_importer/blob/main/app/controllers/dao_controller.rb" target="_blank" rel="noreferrer">Edgar Controller: dao_controller.rb</a></li>
+        </ul>
+      </details>
     </div>
 
     <div class="contract-card">
       <h3>Ping Sophia Event <span class="event-name">[PING SOPHIA EVENT]</span></h3>
-      <p class="purpose">A heartbeat/liveness check for the Sophia AI autopilot. Ensures the autonomous agent is operational.</p>
+      <p class="purpose">A heartbeat/liveness check for the Sophia AI autopilot. Ensures the autonomous agent is operational. Sophia, the DAO's AI autopilot, periodically submits this contract as a liveness check. It reports the agent's name, status, and timestamp to the ledger. If pings stop arriving, the DAO can detect that Sophia is offline and trigger recovery procedures. This contract is also used for monitoring and debugging the autonomous agent infrastructure.</p>
       <div class="meta">
         <span class="tag">System / Governor</span>
         <span>Required: Agent Name, Status, Timestamp</span>
       </div>
+      <div class="authority">
+        <span class="auth-label">Authority: </span><span class="auth-value">System (Sophia AI) or Governor</span>
+        <div class="auth-note">Sophia's automated signing key or a Governor wallet can sign. Unauthorized signers are rejected by Edgar with a 403 Forbidden response.</div>
+      </div>
+      <div class="sheets">
+        <span class="sheet-label">Sheet: </span><span class="sheet-value"><a href="https://docs.google.com/spreadsheets/d/1qL2W1_d1oY1Z5z5X5X5X5X5X5X5X5X5X5X5X5X5X/edit#gid=0" target="_blank" rel="noreferrer">Sophia Heartbeat</a> tab</span>
+      </div>
+      <details class="source-code">
+        <summary>Source Code</summary>
+        <ul>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/server/dispatch.py" target="_blank" rel="noreferrer">Dispatch Module (dao_protocol/server/dispatch.py)</a></li>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/modules/report_ping_sophia.py" target="_blank" rel="noreferrer">Module: report_ping_sophia.py</a></li>
+          <li><a href="https://github.com/TrueSightDAO/tokenomics/blob/main/google_app_scripts/tdg_sophia/ping_sophia_handler.gs" target="_blank" rel="noreferrer">GAS Handler: ping_sophia_handler.gs</a></li>
+          <li><a href="https://github.com/TrueSightDAO/sentiment_importer/blob/main/app/controllers/dao_controller.rb" target="_blank" rel="noreferrer">Edgar Controller: dao_controller.rb</a></li>
+        </ul>
+      </details>
     </div>
   </section>
 
