@@ -471,6 +471,45 @@
     text-decoration: underline;
   }
 
+  /* Try It Section */
+  .try-it-section {
+    max-width: 900px;
+    margin: 0 auto var(--space-xl);
+    padding: 0 var(--space-lg);
+    text-align: center;
+  }
+  .try-it-section h2 {
+    color: var(--forest);
+    font-size: 1.5rem;
+    margin-bottom: var(--space-sm);
+  }
+  .try-it-section p {
+    color: var(--muted);
+    font-size: 1rem;
+    margin-bottom: var(--space-md);
+    line-height: 1.6;
+  }
+  .try-it-section textarea {
+    width: 100%;
+    min-height: 200px;
+    padding: var(--space-md);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    color: var(--text);
+    background: var(--surface);
+    resize: vertical;
+    transition: border-color var(--transition-fast);
+    box-sizing: border-box;
+  }
+  .try-it-section textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(244, 163, 0, 0.15);
+  }
+
   @media (max-width: 640px) {
     .contracts-stats {
       gap: var(--space-sm);
