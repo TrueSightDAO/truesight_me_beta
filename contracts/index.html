@@ -988,7 +988,7 @@ Request Transaction ID: YDVXvKFuBnzy+fF5leSskdf2KDD6T0XnzjzY1SV0VCvBOcHuN6skghPG
     <div class="category-header">
       <span class="icon">📦</span>
       <h2>Inventory &amp; Supply Chain</h2>
-      <span class="count">5 contracts</span>
+      <span class="count">6 contracts</span>
     </div>
 
     <div class="contract-card">
@@ -1237,6 +1237,31 @@ My Digital Signature: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA7Q1EeiwmgW3gDv
 Request Transaction ID: Z4bwigNtBgGY0xAd1qDyXmtHg4MsTCcTALve+76RbTWcuXfSZOe/r1mv+hMUKEq1V3bCf8erIEcJHgfAIiDrrmdqgCy2WfK3M7F3Q05llWcynfK/Et7I7KMcO2aDlE31ZAMPam6opZ+cBFlpP+lZ8IqccgBqc2NXXeAtnZSUGJfkx0srFn5CH8iiqzDdZIvaG9TAFP/1VfV+Z4Jq7mZLLIYHug/NaDy9LQqgZwHtxkFAKEqmPDScFR2YQ5eny80a1yYhwrVyfNlm85XjmqR8Q6YnuEUqiQtXAhIVC4hqTFv15eAHGA7Tcxo7wI44cmc/sFuv+QO+Yp0oHt6Dut8R5Q==</code></pre>
             <button class="verify-btn" onclick="verifyPayload(this)">Verify</button>
             <div class="verify-result"></div>
+      </details>
+    </div>
+
+    <div class="contract-card">
+      <h3>Post-Repackaging Cleanup <span class="event-name">[POST-REPACKAGING CLEANUP EVENT]</span></h3>
+      <p class="purpose">Automates the four cleanup steps after a repackaging batch is processed: depletes consumed inputs from offchain asset location, adds output rows for new products, sets Currencies metadata (isSerializable, SKU ID, farm info), and optionally rebuilds the store inventory snapshot so agroverse.shop reflects current stock.</p>
+      <div class="meta">
+        <span class="tag">Inventory Manager</span>
+        <span>Required: Composition URL, Holder Name</span>
+      </div>
+      <div class="authority">
+        <span class="auth-label">Authority: </span><span class="auth-value">Inventory Manager only</span>
+        <div class="auth-note">Only wallets with the Inventory Manager role can sign. Unauthorized signers are rejected by Edgar with a 403 Forbidden response.</div>
+      </div>
+      <div class="sheets">
+        <span class="sheet-label">Sheets: </span><span class="sheet-value"><a href="https://docs.google.com/spreadsheets/d/1GE7PUq-UT6x2rBN-Q2ksogbWpgyuh2SaxJyG_uEK6PU/edit#gid=1883963235" target="_blank" rel="noreferrer">offchain asset location</a>, <a href="https://docs.google.com/spreadsheets/d/1GE7PUq-UT6x2rBN-Q2ksogbWpgyuh2SaxJyG_uEK6PU/edit#gid=1552160318" target="_blank" rel="noreferrer">Currencies</a></span>
+      </div>
+      <details class="source-code">
+        <summary>Source Code</summary>
+        <ul>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/server/dispatch.py" target="_blank" rel="noreferrer">Dispatch Module (dao_protocol/server/dispatch.py)</a></li>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/modules/post_repackaging_cleanup.py" target="_blank" rel="noreferrer">Module: post_repackaging_cleanup.py</a></li>
+          <li><a href="https://github.com/TrueSightDAO/tokenomics/blob/main/google_app_scripts/.../post_repackaging_cleanup.gs" target="_blank" rel="noreferrer">GAS Handler: post_repackaging_cleanup.gs</a></li>
+          <li><a href="https://github.com/TrueSightDAO/sentiment_importer/blob/main/app/controllers/dao_controller.rb" target="_blank" rel="noreferrer">Edgar Controller: dao_controller.rb</a></li>
+        </ul>
       </details>
     </div>
   </section>
