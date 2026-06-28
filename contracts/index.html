@@ -1241,8 +1241,8 @@ Request Transaction ID: Z4bwigNtBgGY0xAd1qDyXmtHg4MsTCcTALve+76RbTWcuXfSZOe/r1mv
     </div>
 
     <div class="contract-card">
-      <h3>Post-Repackaging Cleanup <span class="event-name">[POST-REPACKAGING CLEANUP EVENT]</span></h3>
-      <p class="purpose">Automates the four cleanup steps after a repackaging batch is processed: depletes consumed inputs from offchain asset location, adds output rows for new products, sets Currencies metadata (isSerializable, SKU ID, farm info), and optionally rebuilds the store inventory snapshot so agroverse.shop reflects current stock.</p>
+      <h3>Repackaging Settlement <span class="event-name">[REPACKAGING SETTLEMENT EVENT]</span></h3>
+      <p class="purpose">Settles a repackaging batch after processing: depletes consumed inputs from offchain asset location, adds output rows for new products, sets Currencies metadata (isSerializable, SKU ID, farm info), and optionally rebuilds the store inventory snapshot so agroverse.shop reflects current stock.</p>
       <div class="meta">
         <span class="tag">Inventory Manager</span>
         <span>Required: Composition URL, Holder Name</span>
@@ -1259,7 +1259,7 @@ Request Transaction ID: Z4bwigNtBgGY0xAd1qDyXmtHg4MsTCcTALve+76RbTWcuXfSZOe/r1mv
         <ul>
           <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/server/dispatch.py" target="_blank" rel="noreferrer">Dispatch Module (dao_protocol/server/dispatch.py)</a></li>
           <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/modules/post_repackaging_cleanup.py" target="_blank" rel="noreferrer">Module: post_repackaging_cleanup.py</a></li>
-          <li><a href="https://github.com/TrueSightDAO/tokenomics/blob/main/google_app_scripts/.../post_repackaging_cleanup.gs" target="_blank" rel="noreferrer">GAS Handler: post_repackaging_cleanup.gs</a></li>
+          <li><a href="https://github.com/TrueSightDAO/tokenomics/blob/main/google_app_scripts/.../repackaging_settlement.gs" target="_blank" rel="noreferrer">GAS Handler: repackaging_settlement.gs</a></li>
           <li><a href="https://github.com/TrueSightDAO/sentiment_importer/blob/main/app/controllers/dao_controller.rb" target="_blank" rel="noreferrer">Edgar Controller: dao_controller.rb</a></li>
         </ul>
       </details>

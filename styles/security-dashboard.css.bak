@@ -1,0 +1,457 @@
+/* Security Dashboard — TrueSight DAO
+   Uses the site's Saffron Monk design tokens from main.css. */
+
+/* ── Score Card ── */
+.sd-score-card {
+  display: flex;
+  gap: var(--space-lg);
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: var(--space-xl);
+}
+
+.sd-score-gauge { flex-shrink: 0; }
+
+.sd-score-ring {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+
+.sd-score-ring svg { width: 100%; height: 100%; }
+
+.sd-score-ring circle { transition: stroke-dashoffset 1s ease; }
+
+.sd-score-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.sd-score-number {
+  display: block;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.sd-score-grade {
+  display: block;
+  font-size: 1rem;
+  color: var(--muted);
+}
+
+.sd-score-deductions { flex: 1; }
+
+.sd-deduction-list {
+  margin: var(--space-xs) 0;
+  padding-left: var(--space-lg);
+}
+
+.sd-deduction-list li {
+  color: var(--clay);
+  font-size: 0.85rem;
+  margin-bottom: 0.3rem;
+}
+
+.sd-clean { color: var(--forest); }
+
+/* ── Cards Grid ── */
+.sd-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-md);
+}
+
+.sd-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: var(--space-lg);
+  transition: all var(--transition-base);
+}
+
+.sd-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(43, 29, 20, 0.08);
+  border-color: rgba(95, 111, 82, 0.2);
+}
+
+.sd-card-wide { grid-column: 1 / -1; }
+
+.sd-card h3 {
+  font-size: 1rem;
+  color: var(--accent-2);
+  margin: 0 0 var(--space-sm) 0;
+}
+
+.sd-acct-id {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin: -0.5rem 0 var(--space-sm) 0;
+}
+
+.sd-stat-row {
+  display: flex;
+  gap: var(--space-md);
+  margin-bottom: var(--space-sm);
+}
+
+.sd-stat {
+  flex: 1;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.sd-stat-num {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.sd-stat-green { color: var(--forest); }
+.sd-stat-red { color: #c0392b; }
+.sd-stat-orange { color: var(--clay); }
+
+.sd-warn-text {
+  color: var(--clay);
+  font-size: 0.8rem;
+  margin: var(--space-xs) 0 0 0;
+}
+
+.sd-error-text {
+  color: #c0392b;
+  font-size: 0.8rem;
+  margin: var(--space-xs) 0 0 0;
+}
+
+/* ── Tables ── */
+.sd-table-wrap { overflow-x: auto; }
+
+.sd-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.sd-table thead { background: rgba(244, 163, 0, 0.1); }
+
+.sd-table th {
+  padding: var(--space-md);
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text);
+  border-bottom: 2px solid rgba(244, 163, 0, 0.2);
+}
+
+.sd-table td {
+  padding: var(--space-md);
+  border-bottom: 1px solid rgba(95, 111, 82, 0.08);
+  color: var(--muted);
+  vertical-align: middle;
+}
+
+.sd-table tbody tr { transition: all var(--transition-fast); }
+.sd-table tbody tr:hover { background: rgba(244, 163, 0, 0.05); }
+.sd-table tbody tr:last-child td { border-bottom: none; }
+
+.sd-table td a {
+  color: var(--accent-2);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color var(--transition-fast);
+}
+
+.sd-table td a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.sd-table-compact td,
+.sd-table-compact th {
+  padding: 0.5rem 0.7rem;
+  font-size: 0.85rem;
+}
+
+/* ── GitHub Repo Table — full width, no fixed columns ── */
+.sd-table-github {
+  width: 100%;
+}
+
+.sd-table-github th,
+.sd-table-github td {
+  white-space: nowrap;
+}
+
+/* Repo name column gets all remaining space */
+.sd-table-github th:nth-child(1),
+.sd-table-github td:nth-child(1) {
+  width: 100%;
+}
+
+/* Visibility, Branch Protection, Secret Scanning — auto-width */
+.sd-table-github th:nth-child(2),
+.sd-table-github td:nth-child(2) { text-align: center; }
+.sd-table-github th:nth-child(3),
+.sd-table-github td:nth-child(3) { text-align: center; }
+.sd-table-github th:nth-child(4),
+.sd-table-github td:nth-child(4) { text-align: center; }
+
+.sd-repo-name {
+  font-weight: 500;
+  color: var(--text);
+}
+
+/* Visibility badges */
+.sd-vis-badge {
+  display: inline-block;
+  padding: 0.1rem 0.35rem;
+  border-radius: 3px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.sd-vis-public { background: rgba(95, 111, 82, 0.12); color: var(--forest); }
+.sd-vis-private { background: rgba(192, 132, 87, 0.12); color: var(--clay); }
+
+.sd-badge-archived {
+  background: rgba(128, 128, 128, 0.12);
+  color: var(--muted);
+  font-size: 0.6rem;
+  padding: 0.1rem 0.3rem;
+}
+
+/* ── Web Security — expandable rows ── */
+.sd-web-row { cursor: pointer; }
+.sd-web-row:hover { background: rgba(244, 163, 0, 0.08) !important; }
+.sd-web-row-expanded { background: rgba(244, 163, 0, 0.06) !important; }
+
+.sd-web-detail { background: var(--surface-deep); }
+.sd-web-detail td { padding: 0 !important; }
+
+.sd-web-detail-inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+}
+
+.sd-web-detail-section {
+  flex: 1;
+  min-width: 200px;
+}
+
+.sd-web-detail-section strong {
+  display: block;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin-bottom: var(--space-xs);
+}
+
+.sd-web-detail-section p {
+  margin: 0.2rem 0;
+  font-size: 0.85rem;
+  color: var(--text);
+}
+
+/* ── Phishing — detail section ── */
+.sd-phish-details { margin-top: 0 !important; }
+
+.sd-phish-section { margin-bottom: var(--space-md); }
+.sd-phish-section:last-child { margin-bottom: 0; }
+
+.sd-phish-section h4 {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent-2);
+  margin: 0 0 var(--space-xs) 0;
+}
+
+.sd-phish-section ul {
+  margin: 0;
+  padding-left: var(--space-lg);
+}
+
+.sd-phish-section li {
+  font-size: 0.85rem;
+  color: var(--text);
+  margin-bottom: 0.25rem;
+  line-height: 1.5;
+}
+
+/* ── Badges ── */
+.sd-badge {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.sd-badge-ok {
+  background: rgba(95, 111, 82, 0.15);
+  color: var(--forest);
+}
+
+.sd-badge-warn {
+  background: rgba(192, 132, 87, 0.15);
+  color: var(--clay);
+}
+
+/* ── Big numbers ── */
+.sd-big-num {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.sd-small {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin: 0.3rem 0 0 0;
+}
+
+/* ── States ── */
+.sd-loading,
+.sd-empty {
+  color: var(--muted);
+  font-style: italic;
+  padding: var(--space-md);
+  text-align: center;
+}
+
+.sd-last-scanned {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-top: var(--space-xs);
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .sd-score-card { flex-direction: column; text-align: center; }
+  .sd-stat-row { flex-wrap: wrap; }
+  .sd-cards { grid-template-columns: 1fr; }
+}
+<<<<<<< HEAD
+=======
+
+/* ── GitHub Repo Table — compact, no horizontal scroll ── */
+/* Full-width, comfortable layout matching the Web Security table — columns size to
+   content and stretch to fill 100% (no fixed layout / tiny font / pinned widths). */
+.sd-table-github { width: 100%; }
+
+/* Visibility, Branch Protection, Secret Scanning — centered status columns. */
+.sd-table-github th:nth-child(2),
+.sd-table-github td:nth-child(2),
+.sd-table-github th:nth-child(3),
+.sd-table-github td:nth-child(3),
+.sd-table-github th:nth-child(4),
+.sd-table-github td:nth-child(4) { text-align: center; white-space: nowrap; }
+
+.sd-repo-name {
+  font-weight: 500;
+  color: var(--text);
+}
+
+/* Visibility badges */
+.sd-vis-badge {
+  display: inline-block;
+  padding: 0.1rem 0.35rem;
+  border-radius: 3px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.sd-vis-public { background: rgba(95, 111, 82, 0.12); color: var(--forest); }
+.sd-vis-private { background: rgba(192, 132, 87, 0.12); color: var(--clay); }
+
+.sd-badge-archived {
+  background: rgba(128, 128, 128, 0.12);
+  color: var(--muted);
+  font-size: 0.6rem;
+  padding: 0.1rem 0.3rem;
+}
+
+/* ── Web Security — expandable rows ── */
+.sd-table-web { width: 100%; }
+
+.sd-web-row { cursor: pointer; }
+.sd-web-row:hover { background: rgba(244, 163, 0, 0.08) !important; }
+.sd-web-row-expanded { background: rgba(244, 163, 0, 0.06) !important; }
+
+.sd-web-detail { background: var(--surface-deep); }
+.sd-web-detail td { padding: 0 !important; }
+
+.sd-web-detail-inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+}
+
+.sd-web-detail-section {
+  flex: 1;
+  min-width: 200px;
+}
+
+.sd-web-detail-section strong {
+  display: block;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin-bottom: var(--space-xs);
+}
+
+.sd-web-detail-section p {
+  margin: 0.2rem 0;
+  font-size: 0.85rem;
+  color: var(--text);
+}
+
+/* ── Phishing — detail section ── */
+.sd-phish-details {
+  margin-top: 0 !important;
+}
+
+.sd-phish-section {
+  margin-bottom: var(--space-md);
+}
+
+.sd-phish-section:last-child { margin-bottom: 0; }
+
+.sd-phish-section h4 {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent-2);
+  margin: 0 0 var(--space-xs) 0;
+}
+
+.sd-phish-section ul {
+  margin: 0;
+  padding-left: var(--space-lg);
+}
+
+.sd-phish-section li {
+  font-size: 0.85rem;
+  color: var(--text);
+  margin-bottom: 0.25rem;
+  line-height: 1.5;
+}
+>>>>>>> 85fd9c8 (Fix security-dashboard: add GA, full footer, correct nav paths, overlay handler)
