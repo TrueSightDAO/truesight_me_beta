@@ -248,11 +248,6 @@
       (function () {
         'use strict';
         const INDEX_URL = 'https://raw.githubusercontent.com/TrueSightDAO/lineage-credentials/main/_cache/index.json';
-        // dao_members.json is the DAO-wide contributor cache (a different, larger
-        // population than the credentialed-practitioner index above). It's the
-        // source of the "sentinel" role, so sentinel personas (Sophia, the
-        // autopilot) that aren't credentialed practitioners still surface here.
-        const DAO_MEMBERS_URL = 'https://raw.githubusercontent.com/TrueSightDAO/treasury-cache/main/dao_members.json';
 
         function escapeHtml(s) {
           return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
@@ -310,41 +305,20 @@
           return { governors, regulars };
         }
 
-        // Sentinel cards come from dao_members.json, not the credential index,
-        // so they're non-clickable divs (these personas have no CV profile).
+        // Sentinel cards: is_sentinel members from the index. They have slug=null
+        // so they render as non-clickable divs (these personas have no CV profile).
         function sentinelCardHtml(m) {
-          const name = m.name || m.display_name || '';
+          const name = m.display_name || '';
           let html = '<div class="member-card sentinel-card">';
           html += '<div class="name">' + escapeHtml(name) + '</div>';
           const subParts = [];
-          if (m.voting_rights) {
-            const vp = Number(m.voting_rights);
-            if (Number.isFinite(vp) && vp > 0) subParts.push(vp.toLocaleString(undefined, { maximumFractionDigits: 0 }) + ' TDG');
+          if (m.total_tdg_controlled != null && m.total_tdg_controlled > 0) {
+            subParts.push(Number(m.total_tdg_controlled).toLocaleString(undefined, { maximumFractionDigits: 0 }) + ' TDG');
           }
           if (subParts.length) html += '<div class="meta">' + subParts.join(' · ') + '</div>';
           html += '<div class="badges"><span class="badge sentinel">Sentinel</span></div>';
           html += '</div>';
           return html;
-        }
-
-        async function loadSentinels() {
-          try {
-            const res = await fetch(DAO_MEMBERS_URL + '?_=' + Date.now(), { cache: 'no-store' });
-            if (!res.ok) return 0;
-            const data = await res.json();
-            const all = data.contributors || data.members || [];
-            const sentinels = all.filter(function (m) {
-              return (m.roles || []).indexOf('sentinel') >= 0;
-            }).sort(function (a, b) {
-              return String(a.name || '').localeCompare(String(b.name || ''));
-            });
-            if (!sentinels.length) return 0;
-            document.getElementById('sentinels-grid').innerHTML = sentinels.map(sentinelCardHtml).join('');
-            document.getElementById('sentinels-section').style.display = 'block';
-            return sentinels.length;
-          } catch (_) {
-            return 0; // non-fatal — sentinel section just stays hidden
-          }
         }
 
         async function loadMembers() {
@@ -354,10 +328,21 @@
             const res = await fetch(url, { cache: 'no-store' });
             if (!res.ok) throw new Error('HTTP ' + res.status);
             const data = await res.json();
-            const members = data.members || [];
-            const sentinelCount = await loadSentinels();
+            const all = data.members || [];
 
-            const { governors, regulars } = sortMembers(members);
+            // Partition: sentinels separate, governors + regulars from single source
+            const sentinels = all.filter(function (m) { return m.is_sentinel; });
+            const nonSentinels = all.filter(function (m) { return !m.is_sentinel; });
+            const { governors, regulars } = sortMembers(nonSentinels);
+
+            const sentinelCount = sentinels.length;
+            if (sentinelCount) {
+              document.getElementById('sentinels-grid').innerHTML = sentinels
+                .sort(function (a, b) { return String(a.display_name || '').localeCompare(String(b.display_name || '')); })
+                .map(sentinelCardHtml).join('');
+              document.getElementById('sentinels-section').style.display = 'block';
+            }
+
             const govEl = document.getElementById('governors-grid');
             const regEl = document.getElementById('members-grid');
 
