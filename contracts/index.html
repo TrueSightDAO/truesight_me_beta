@@ -854,37 +854,97 @@ Request Transaction ID: sF6gx9D+U3mk6SKBJ0a5r7DZB/PAcESxCu4wPzb4c+nJHEzWJnVMXUyd
     </div>
 
     <div class="contract-card">
-      <h3>Withdraw Voting Rights Event <span class="event-name">[WITHDRAW VOTING RIGHTS EVENT]</span></h3>
-      <p class="purpose">Remove a contributor's voting rights. A governance action for managing DAO membership. Used when a contributor leaves the DAO, violates the code of conduct, or when the DAO votes to restructure membership. This is a privileged action that directly affects the DAO's governance surface — removing voting rights means the member can no longer participate in proposals or elections.</p>
+      <h3>Voting Rights Withdrawal Request <span class="event-name">[VOTING RIGHTS WITHDRAWAL REQUEST]</span></h3>
+      <p class="purpose">Request to cash out voting rights for USD. Contributors sign this event specifying how many TDG voting rights they wish to redeem and their preferred payment method (PayLah, PayPal, Venmo, PIX, Zelle, Wise, Western Union). The request is RSA-signed and dispatched via Edgar to a GAS handler that writes a cash-out request JSON to the treasury-cache GitHub repository as a digital paper trail. The governor then processes the settlement via a separate settlement event.</p>
       <div class="meta">
-        <span class="tag">Governor</span>
-        <span>Required: Contributor Email</span>
+        <span class="tag">Contributor (self-service)</span>
+        <span>Required: Amount, Withdrawal Method</span>
       </div>
       <div class="authority">
-        <span class="auth-label">Authority: </span><span class="auth-value">Governor only</span>
-        <div class="auth-note">Only wallets with the Governor role can sign this contract. Unauthorized signers are rejected by Edgar with a 403 Forbidden response.</div>
+        <span class="auth-label">Authority: </span><span class="auth-value">Any contributor with voting rights</span>
+        <div class="auth-note">Self-service — any registered contributor with a digital signature can request a cash-out. The request is cryptographically verified by Edgar and automatically written to GitHub as a pending request JSON. Settlement requires governor action.</div>
       </div>
       <div class="sheets">
-        <span class="sheet-label">Sheet: </span><span class="sheet-value"><a href="https://docs.google.com/spreadsheets/d/1qL2W1_d1oY1Z5z5X5X5X5X5X5X5X5X5X5X5X5X5X/edit#gid=0" target="_blank" rel="noreferrer">Contributors</a> tab (Main Ledger)</span>
+        <span class="sheet-label">Sheets: </span><span class="sheet-value">
+          <a href="https://docs.google.com/spreadsheets/d/1GE7PUq-UT6x2rBN-Q2ksogbWpgyuh2SaxJyG_uEK6PU/edit#gid=0" target="_blank" rel="noreferrer">Ledger history</a>,
+          <a href="https://docs.google.com/spreadsheets/d/1qbZZhf-_7xzmDTriaJVWj6OZshyQsFkdsAV8-pyzASQ/edit#gid=172058200" target="_blank" rel="noreferrer">Voting Rights Cash-Outs</a> tab
+        </span>
       </div>
       <details class="source-code">
         <summary>Source Code</summary>
         <ul>
+          <li><a href="https://github.com/TrueSightDAO/dapp/blob/main/withdraw_voting_rights.html" target="_blank" rel="noreferrer">DApp Page: withdraw_voting_rights.html</a></li>
           <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/server/dispatch.py" target="_blank" rel="noreferrer">Dispatch Module (dao_protocol/server/dispatch.py)</a></li>
-          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/modules/withdraw_voting_rights.py" target="_blank" rel="noreferrer">Module: withdraw_voting_rights.py</a></li>
-          <li><a href="https://github.com/TrueSightDAO/sentiment_importer/blob/main/app/controllers/dao_controller.rb" target="_blank" rel="noreferrer">Edgar Controller: dao_controller.rb</a></li>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/modules/withdraw_voting_rights.py" target="_blank" rel="noreferrer">CLI Module: withdraw_voting_rights.py</a></li>
+          <li><a href="https://github.com/TrueSightDAO/tokenomics/blob/main/google_app_scripts/1rLl94jQ9tDYdRvudnP0prPY5SEjvM07R4gPs6-vRyZEpSJhUqbiE3CZY/Code.js" target="_blank" rel="noreferrer">GAS Handler: processVotingRightsWithdrawalRequests_()</a></li>
         </ul>
       </details>
       <details class="payload">
-        <summary>📋 Sample Payload (copy-paste into verify page)</summary>
+        <summary>📋 Sample Payload</summary>
         <pre><code>[VOTING RIGHTS WITHDRAWAL REQUEST]
-- amount to withdraw: 70
-- asking price: 90
+- Contributor: Linda
+- Amount to withdraw: 208
+- Value per voting right: 0.00673
+- Expected total amount (USD): 1.40
+- Withdrawal method: PayLah
+- PayLah Mobile: +6581234567
+- Submission Source: https://dapp.truesight.me/withdraw_voting_rights.html
 --------
 
 My Digital Signature: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA7Q1EeiwmgW3gDvGY3izv485fBH/Yty/oYuGlgl7fMyJ4SVwwijV3xL2+XFMnuEJnC3etBbeRQwFvXW0zSbZ4xmGDlswnrUpEywdADRkAQez+1LYC83K16e5n95DxbjajfhIpAO/z73m+h5V2RdgLqYlmlykKBngAAkP2slkdQQoJD4yxyLPOMVgk2abgBwA5sf1GtuUOGUrLuAYpI7QOEBecLmJM8yXoh377lWZq1rvv4xqK64n5/oe4A0ig9/QtL3BVu+BsQC4x2PJNRvoZXmmVJljG4JzeSUOarLv9nx4xnyk5Szgd3PxAN7ChYEQ7ttxI3SDnoeLBhlKrYGXvVQIDAQAB
 
 Request Transaction ID: I3lA37M42gmQTwf8VeqdDJyCj09gj2US1UgzaXlxYlR0Eu0njndMhMX+sclmO20K3PiArktkmu3WApF2g8K2W2D+/Vfc2L86ArlzcfX7ZB7ZroMa0NfxsxU3VIwlQf7ycckY9gGYs6nL1uChA+84utfXFr2nwbutnEVqygvjT5ro4tl3tZGiWY+5H2dzU+w4KFnwIkl4iMf0oyKID0NDpPvYyDI4+8tfAsSpFD2ADvD1gaf10pw7yOt2A+nzlxGqQ+h/dQKjH7LQfQjR+P5iGFWWtASiL0J2ZNWG5Kos3/BqBD3+KsrZThxjiPRFkb8L696rercmHunako2uOEAS9Q==</code></pre>
+            <button class="verify-btn" onclick="verifyPayload(this)">Verify</button>
+            <div class="verify-result"></div>
+      </details>
+    </div>
+
+    <div class="contract-card">
+      <h3>Voting Rights Withdrawal Settlement <span class="event-name">[VOTING RIGHTS WITHDRAWAL SETTLEMENT EVENT]</span></h3>
+      <p class="purpose">Governor-signed settlement of a voting rights cash-out. Confirms that payment has been made and records the transaction on the ledger. Writes a negative TDG row to Ledger history (Col D: -1 : Transactions - For every 1 TDG Voting Rights Cashed Out), a USD debit to offchain transactions, and decreases the USD provisions for cash-out. Also writes a settlement JSON to the treasury-cache GitHub repository. If referencing a pending request, marks it as settled to prevent double-processing.</p>
+      <div class="meta">
+        <span class="tag">Governor</span>
+        <span>Required: Contributor, TDG Amount, USD Amount, Settlement Date</span>
+      </div>
+      <div class="authority">
+        <span class="auth-label">Authority: </span><span class="auth-value">Governor only</span>
+        <div class="auth-note">Only wallets with the Governor role can submit settlements. Unauthorized signers are rejected by the DApp client-side gate (dao_members.json check) and by Edgar.</div>
+      </div>
+      <div class="sheets">
+        <span class="sheet-label">Sheets: </span><span class="sheet-value">
+          <a href="https://docs.google.com/spreadsheets/d/1GE7PUq-UT6x2rBN-Q2ksogbWpgyuh2SaxJyG_uEK6PU/edit#gid=0" target="_blank" rel="noreferrer">Ledger history</a>,
+          <a href="https://docs.google.com/spreadsheets/d/1GE7PUq-UT6x2rBN-Q2ksogbWpgyuh2SaxJyG_uEK6PU/edit#gid=995916231" target="_blank" rel="noreferrer">offchain transactions</a>,
+          <a href="https://docs.google.com/spreadsheets/d/1GE7PUq-UT6x2rBN-Q2ksogbWpgyuh2SaxJyG_uEK6PU/edit#gid=2083442561" target="_blank" rel="noreferrer">off chain asset balance</a>,
+          <a href="https://docs.google.com/spreadsheets/d/1qbZZhf-_7xzmDTriaJVWj6OZshyQsFkdsAV8-pyzASQ/edit#gid=172058200" target="_blank" rel="noreferrer">Voting Rights Cash-Outs</a> tab
+        </span>
+      </div>
+      <details class="source-code">
+        <summary>Source Code</summary>
+        <ul>
+          <li><a href="https://github.com/TrueSightDAO/dapp/blob/main/withdraw_voting_rights_settlement.html" target="_blank" rel="noreferrer">DApp Page: withdraw_voting_rights_settlement.html</a></li>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/server/dispatch.py" target="_blank" rel="noreferrer">Dispatch Module (dao_protocol/server/dispatch.py)</a></li>
+          <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/modules/voting_rights_settlement.py" target="_blank" rel="noreferrer">CLI Module: voting_rights_settlement.py</a></li>
+          <li><a href="https://github.com/TrueSightDAO/tokenomics/blob/main/google_app_scripts/1rLl94jQ9tDYdRvudnP0prPY5SEjvM07R4gPs6-vRyZEpSJhUqbiE3CZY/Code.js" target="_blank" rel="noreferrer">GAS Handler: processVotingRightsWithdrawalSettlement_()</a></li>
+        </ul>
+      </details>
+      <details class="payload">
+        <summary>📋 Sample Payload</summary>
+        <pre><code>[VOTING RIGHTS WITHDRAWAL SETTLEMENT EVENT]
+- Cash-Out Request ID: I3lA37M42gmQTwf8VeqdDJyCj09gj2US1UgzaXlxYlR0Eu0njndMhMX+sclmO20K3PiArktkmu3WApF2g8K2W2D+/Vfc2L86ArlzcfX7ZB7ZroMa0NfxsxU3VIwlQf7ycckY9gGYs6nL1uChA+84utfXFr2nwbutnEVqygvjT5ro4tl3tZGiWY+5H2dzU+w4KFnwIkl4iMf0oyKID0NDpPvYyDI4+8tfAsSpFD2ADvD1gaf10pw7yOt2A+nzlxGqQ+h/dQKjH7LQfQjR+P5iGFWWtASiL0J2ZNWG5Kos3/BqBD3+KsrZThxjiPRFkb8L696rercmHunako2uOEAS9Q==
+- Contributor: Linda
+- Voting Rights Withdrawn (TDG): 208
+- Amount Paid (USD): 1.40
+- Payment Reference: PayLah txn 12345
+- Payment Method Used: PayLah
+- Settlement Date: 20260702
+- Governor: Gary Teh
+- Notes: Paid via PayLah
+- Submission Source: https://dapp.truesight.me/withdraw_voting_rights_settlement.html
+--------
+
+My Digital Signature: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA7Q1EeiwmgW3gDvGY3izv485fBH/Yty/oYuGlgl7fMyJ4SVwwijV3xL2+XFMnuEJnC3etBbeRQwFvXW0zSbZ4xmGDlswnrUpEywdADRkAQez+1LYC83K16e5n95DxbjajfhIpAO/z73m+h5V2RdgLqYlmlykKBngAAkP2slkdQQoJD4yxyLPOMVgk2abgBwA5sf1GtuUOGUrLuAYpI7QOEBecLmJM8yXoh377lWZq1rvv4xqK64n5/oe4A0ig9/QtL3BVu+BsQC4x2PJNRvoZXmmVJljG4JzeSUOarLv9nx4xnyk5Szgd3PxAN7ChYEQ7ttxI3SDnoeLBhlKrYGXvVQIDAQAB
+
+Request Transaction ID: sF6gx9D+U3mk6SKBJ0a5r7DZB/PAcESxCu4wPzb4c+nJHEzWJnVMXUydBJ0rhDr2uM1vMbo3WmtFy601ANtD8eHGeV5VzR6xXakE5NDpKZTz4jR2GeaUIra3n6GIQX/Ov5DRN/7W2PxzyCGt4ywliCdoPUxJRSQ4TQ3tHONpw8VT4YziklPLGp9P3AhS+1Mj7B6Ve9QBJH9Wf4qLzIanBm3o8LjzQL6wjHmnFksH5mRrEagKhCkiB2auCPlQW9T10szqMRybda5R8QwgKXuHbL6m0V4jj/gSUlTF8DHiUS9krXYi50cTs+fM2EWCEucJWJ/9vHm3XoSztxLx/9mxRg==</code></pre>
             <button class="verify-btn" onclick="verifyPayload(this)">Verify</button>
             <div class="verify-result"></div>
       </details>
