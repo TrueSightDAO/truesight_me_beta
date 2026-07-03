@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-07-03T04:28:05Z",
+  "generated_at_utc": "2026-07-03T09:43:45Z",
   "regenerated_by": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/.github/workflows/stats-refresh.yml",
   "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
   "llms_orientation": "https://truesight.me/llms.txt",
@@ -8,15 +8,15 @@
     "mission": "Restore 10,000 hectares of Amazon rainforest."
   },
   "members": {
-    "generated_at": "2026-07-03T04:10:33Z",
-    "total_contributors": 476,
-    "total_tdg_controlled_sum": 2415810.29,
+    "generated_at": "2026-07-03T08:59:49Z",
+    "total_contributors": 477,
+    "total_tdg_controlled_sum": 2415752.29,
     "governors_count": 10,
     "governors": [
       {
         "display_name": "Gary Teh",
         "slug": "gary-teh",
-        "voting_power_pct": 42.17,
+        "voting_power_pct": 42.18,
         "tdg_controlled": 1021935.0,
         "contribution_count": 3625,
         "profile_url": "https://truesight.me/credentials/#gary-teh"
@@ -86,18 +86,18 @@
         "profile_url": "https://truesight.me/credentials/#andrea-catalina-falcon-rios-de-pabst"
       },
       {
-        "display_name": "Linda Gorski",
-        "slug": "linda-gorski",
+        "display_name": "Kaon Krasniqi",
+        "slug": null,
         "voting_power_pct": 0.01,
-        "tdg_controlled": 208.0,
-        "contribution_count": 1,
-        "profile_url": "https://truesight.me/credentials/#linda-gorski"
+        "tdg_controlled": 150.0,
+        "contribution_count": 0,
+        "profile_url": "https://truesight.me/credentials/#None"
       }
     ],
     "directory_url": "https://truesight.me/members.html"
   },
   "treasury": {
-    "generated_at": "2026-07-03T03:48:30.971Z",
+    "generated_at": "2026-07-03T08:48:33.264Z",
     "schema_version": 4,
     "trigger": "cron",
     "currency_totals": {
@@ -736,12 +736,12 @@
         }
       },
       "USD": {
-        "total_quantity": 11790.01,
-        "total_value_usd": 11790.01,
+        "total_quantity": 11788.61,
+        "total_value_usd": 11788.61,
         "item_count": 1,
         "ledger_breakdown": {
           "AGL15": 5101.34,
-          "Main Ledger": 4341.19,
+          "Main Ledger": 4339.79,
           "AGL6": 1337.59,
           "AGL8": 569.95,
           "AGL10": 330.83,
@@ -777,84 +777,17 @@
   },
   "inventory": {
     "stores": {
-      "generated_at": "2026-07-03T00:28:41.255Z",
+      "generated_at": "2026-07-03T09:37:21.000Z",
       "store_count": 0,
       "line_items": 12
     },
     "partners": {
-      "generated_at": "2026-07-02T09:34:45.000Z",
+      "generated_at": "2026-07-03T09:37:21.000Z",
       "partner_count": 24
     }
   },
   "recent_beerhall_digests": {
-    "total_entries": 76,
-    "recent": [
-      {
-        "date": "2026-07-03",
-        "slug": "etsy-integration-shared-nav-large-spike-go-ready",
-        "filename": "beer-hall_2026-07-03T032828Z_etsy-integration-shared-nav-large-spike-go-ready.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-03T032828Z_etsy-integration-shared-nav-large-spike-go-ready.md"
-      },
-      {
-        "date": "2026-07-02",
-        "slug": "members-page-single-source-governor-permission-sync",
-        "filename": "beer-hall_2026-07-02T034708Z_members-page-single-source-governor-permission-sync.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-02T034708Z_members-page-single-source-governor-permission-sync.md"
-      },
-      {
-        "date": "2026-07-01",
-        "slug": "expense-parsing-fix-aora-program-scope",
-        "filename": "beer-hall_2026-07-01T040709Z_expense-parsing-fix-aora-program-scope.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-01T040709Z_expense-parsing-fix-aora-program-scope.md"
-      },
-      {
-        "date": "2026-06-30",
-        "slug": "sophia-expense-reporting-plan-live",
-        "filename": "beer-hall_2026-06-30T035358Z_sophia-expense-reporting-plan-live.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-06-30T035358Z_sophia-expense-reporting-plan-live.md"
-      },
-      {
-        "date": "2026-06-29",
-        "slug": "repackaging-settlement-governor-sync",
-        "filename": "beer-hall_2026-06-29T040807Z_repackaging-settlement-governor-sync.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-06-29T040807Z_repackaging-settlement-governor-sync.md"
-      },
-      {
-        "date": "2026-06-28",
-        "slug": "edgar-registration-oscar-sales-qr-flag",
-        "filename": "beer-hall_2026-06-28T040310Z_edgar-registration-oscar-sales-qr-flag.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-06-28T040310Z_edgar-registration-oscar-sales-qr-flag.md"
-      },
-      {
-        "date": "2026-06-27",
-        "slug": "zach-brief-brazil-vote-sales",
-        "filename": "beer-hall_2026-06-27T033904Z_zach-brief-brazil-vote-sales.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-06-27T033904Z_zach-brief-brazil-vote-sales.md"
-      },
-      {
-        "date": "2026-06-26",
-        "slug": "cnpj-status-summit-execution-qr-fixes",
-        "filename": "beer-hall_2026-06-26T035741Z_cnpj-status-summit-execution-qr-fixes.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-06-26T035741Z_cnpj-status-summit-execution-qr-fixes.md"
-      },
-      {
-        "date": "2026-06-25",
-        "slug": "contracts-catalog-live-event-logistics",
-        "filename": "beer-hall_2026-06-25T034654Z_contracts-catalog-live-event-logistics.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-06-25T034654Z_contracts-catalog-live-event-logistics.md"
-      },
-      {
-        "date": "2026-06-24",
-        "slug": "proposal-cli-live-qr-self-serve-prospera-plan",
-        "filename": "beer-hall_2026-06-24T034837Z_proposal-cli-live-qr-self-serve-prospera-plan.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-06-24T034837Z_proposal-cli-live-qr-self-serve-prospera-plan.md"
-      }
-    ],
-    "full_archive_url": "https://truesight.me/stats/beerhall_archive.json",
-    "directory_url": "https://github.com/TrueSightDAO/ecosystem_change_logs/tree/main/beer_hall/entries",
-    "raw_url_pattern": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/<filename>",
-    "human_index_url": "https://truesight.me/beerhall/updates.html",
-    "interpretation_hint": "Each entry is a community digest summarizing recent shipped work. The slug encodes the headline themes; the date is when the digest was published. Fetch raw_url for the full markdown body. For digests older than the 10 most-recent shown here, fetch full_archive_url for the complete historical index."
+    "error": "beerhall listing unavailable"
   },
   "canonical_sources": {
     "treasury_cache": "https://raw.githubusercontent.com/TrueSightDAO/treasury-cache/main/dao_offchain_treasury.json",
