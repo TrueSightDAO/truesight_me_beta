@@ -1,6 +1,10 @@
-# Asserts every HTML page on truesight_me shares the canonical top nav.
-# Runs scripts/sync_top_nav.py --check; fails the build when any page's nav
-# diverges so the operator runs the script locally to fix.
+# Asserts every HTML page on truesight_me uses the shared JS nav pattern.
+# Checks that all pages include the id="site-nav" placeholder instead of
+# inline nav HTML. The old sync_top_nav.py check is replaced by this.
+#
+# Before 2026-07, the nav was duplicated inline and sync_top_nav.py enforced
+# consistency. Now the shared js/nav.js injects the nav — all pages just need
+# the placeholder.
 
 name: Nav consistency
 
@@ -17,8 +21,20 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      - name: Verify top nav matches canonical across all pages
-        run: python3 scripts/sync_top_nav.py --check
+      - name: Verify all pages use shared JS nav placeholder
+        run: |
+          set -e
+          missing=0
+          for f in $(find . -name '*.html' -not -path './node_modules/*' -not -path './.git/*' -not -path './static/*' -not -path './assets/raw/*'); do
+            if ! grep -q 'id="site-nav"' "$f"; then
+              echo "MISSING site-nav placeholder: $f"
+              missing=1
+            fi
+          done
+          if [ $missing -eq 1 ]; then
+            echo ""
+            echo "One or more pages are missing the shared nav placeholder."
+            echo "Every page must include: <div id=\"site-nav\"></div>"
+            exit 1
+          fi
+          echo "All pages have the shared nav placeholder."
