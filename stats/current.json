@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-07-05T04:43:02Z",
+  "generated_at_utc": "2026-07-05T09:28:52Z",
   "regenerated_by": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/.github/workflows/stats-refresh.yml",
   "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
   "llms_orientation": "https://truesight.me/llms.txt",
@@ -8,7 +8,7 @@
     "mission": "Restore 10,000 hectares of Amazon rainforest."
   },
   "members": {
-    "generated_at": "2026-07-05T03:28:43Z",
+    "generated_at": "2026-07-05T07:03:32Z",
     "total_contributors": 477,
     "total_tdg_controlled_sum": 2415752.29,
     "governors_count": 10,
@@ -97,9 +97,9 @@
     "directory_url": "https://truesight.me/members.html"
   },
   "treasury": {
-    "generated_at": "2026-07-05T04:14:56.011Z",
+    "generated_at": "2026-07-05T08:48:30.344Z",
     "schema_version": 4,
-    "trigger": "sales_update_main",
+    "trigger": "cron",
     "currency_totals": {
       "1 Gallon Zip Loc Bags": {
         "total_quantity": 34.0,
@@ -423,11 +423,11 @@
         }
       },
       "Cacao Tree To Be Planted": {
-        "total_quantity": 322.0,
-        "total_value_usd": -483.0,
+        "total_quantity": 323.0,
+        "total_value_usd": -484.5,
         "item_count": 1,
         "ledger_breakdown": {
-          "Main Ledger": 322.0
+          "Main Ledger": 323.0
         }
       },
       "Cacao tree seedling (per seedling, Amazon reforest Altamira, R$40/10, Paulo Hernandez, 20260409)": {
@@ -464,11 +464,11 @@
         }
       },
       "Caramelized Cacao Kraft Pouch - Alibaba:269035810001023771 + Caramelized Cacao Beans CP340993299BR San Francisco AGL10": {
-        "total_quantity": 6.0,
-        "total_value_usd": 48.51,
+        "total_quantity": 5.0,
+        "total_value_usd": 40.43,
         "item_count": 1,
         "ledger_breakdown": {
-          "AGL10": 6.0
+          "AGL10": 5.0
         }
       },
       "Ceremonial Cacao Kraft Pouch - 20250219006": {
@@ -552,11 +552,11 @@
         }
       },
       "Ceremonial Cacao Kraft Pouch - Alibaba:269035810001023771 | Cacao Mass | 200 grams | Oscar 2024 | CP340993988BR San Francisco | Kirsten 20251211 | San Francisco - AGL4": {
-        "total_quantity": 26.0,
-        "total_value_usd": 217.76,
+        "total_quantity": 25.0,
+        "total_value_usd": 209.38,
         "item_count": 1,
         "ledger_breakdown": {
-          "Main Ledger": 26.0
+          "Main Ledger": 25.0
         }
       },
       "Ceremonial Cacao Kraft Pouch - Alibaba:269035810001023771 | Cacao Mass | 200 grams | Santa Ana 2023 | Kirsten 20251227 | San Francisco - AGL2": {
@@ -736,15 +736,15 @@
         }
       },
       "USD": {
-        "total_quantity": 11822.61,
-        "total_value_usd": 11822.61,
+        "total_quantity": 11856.61,
+        "total_value_usd": 11856.61,
         "item_count": 1,
         "ledger_breakdown": {
           "AGL15": 5101.34,
-          "Main Ledger": 4373.79,
+          "Main Ledger": 4390.79,
           "AGL6": 1337.59,
           "AGL8": 569.95,
-          "AGL10": 330.83,
+          "AGL10": 347.83,
           "BEC": 93.12,
           "SEF1": 16.0
         }
@@ -777,13 +777,13 @@
   },
   "inventory": {
     "stores": {
-      "generated_at": "2026-07-04T09:02:43.000Z",
+      "generated_at": "2026-07-05T09:24:31.000Z",
       "store_count": 0,
       "line_items": 12
     },
     "partners": {
-      "generated_at": "2026-07-04T09:02:43.000Z",
-      "partner_count": 24
+      "generated_at": "2026-07-05T09:24:31.000Z",
+      "partner_count": 23
     }
   },
   "recent_beerhall_digests": {
