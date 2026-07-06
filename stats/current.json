@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-07-06T16:02:15Z",
+  "generated_at_utc": "2026-07-06T20:28:36Z",
   "regenerated_by": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/.github/workflows/stats-refresh.yml",
   "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
   "llms_orientation": "https://truesight.me/llms.txt",
@@ -8,7 +8,7 @@
     "mission": "Restore 10,000 hectares of Amazon rainforest."
   },
   "members": {
-    "generated_at": "2026-07-06T13:42:08Z",
+    "generated_at": "2026-07-06T19:47:09Z",
     "total_contributors": 477,
     "total_tdg_controlled_sum": 2415752.29,
     "governors_count": 10,
@@ -97,7 +97,7 @@
     "directory_url": "https://truesight.me/members.html"
   },
   "treasury": {
-    "generated_at": "2026-07-06T15:48:38.550Z",
+    "generated_at": "2026-07-06T19:48:43.015Z",
     "schema_version": 4,
     "trigger": "cron",
     "currency_totals": {
@@ -423,11 +423,11 @@
         }
       },
       "Cacao Tree To Be Planted": {
-        "total_quantity": 323.0,
-        "total_value_usd": -484.5,
+        "total_quantity": 324.0,
+        "total_value_usd": -486.0,
         "item_count": 1,
         "ledger_breakdown": {
-          "Main Ledger": 323.0
+          "Main Ledger": 324.0
         }
       },
       "Cacao tree seedling (per seedling, Amazon reforest Altamira, R$40/10, Paulo Hernandez, 20260409)": {
@@ -560,11 +560,11 @@
         }
       },
       "Ceremonial Cacao Kraft Pouch - Alibaba:269035810001023771 | Cacao Mass | 200 grams | Santa Ana 2023 | Kirsten 20251227 | San Francisco - AGL2": {
-        "total_quantity": 16.0,
-        "total_value_usd": 38.47,
+        "total_quantity": 15.0,
+        "total_value_usd": 36.07,
         "item_count": 1,
         "ledger_breakdown": {
-          "Main Ledger": 16.0
+          "Main Ledger": 15.0
         }
       },
       "Chocolate Mold - 4 X 6 slots": {
@@ -736,12 +736,12 @@
         }
       },
       "USD": {
-        "total_quantity": 11856.61,
-        "total_value_usd": 11856.61,
+        "total_quantity": 11867.78,
+        "total_value_usd": 11867.78,
         "item_count": 1,
         "ledger_breakdown": {
           "AGL15": 5101.34,
-          "Main Ledger": 4390.79,
+          "Main Ledger": 4401.96,
           "AGL6": 1337.59,
           "AGL8": 569.95,
           "AGL10": 347.83,
