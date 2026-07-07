@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-07-06T20:28:36Z",
+  "generated_at_utc": "2026-07-07T04:34:44Z",
   "regenerated_by": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/.github/workflows/stats-refresh.yml",
   "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
   "llms_orientation": "https://truesight.me/llms.txt",
@@ -8,7 +8,7 @@
     "mission": "Restore 10,000 hectares of Amazon rainforest."
   },
   "members": {
-    "generated_at": "2026-07-06T19:47:09Z",
+    "generated_at": "2026-07-07T03:28:43Z",
     "total_contributors": 477,
     "total_tdg_controlled_sum": 2415752.29,
     "governors_count": 10,
@@ -97,7 +97,7 @@
     "directory_url": "https://truesight.me/members.html"
   },
   "treasury": {
-    "generated_at": "2026-07-06T19:48:43.015Z",
+    "generated_at": "2026-07-07T03:48:37.491Z",
     "schema_version": 4,
     "trigger": "cron",
     "currency_totals": {
@@ -230,11 +230,11 @@
         }
       },
       "Brazilian Reis": {
-        "total_quantity": 2748.87,
-        "total_value_usd": 638.56,
+        "total_quantity": 1965.99,
+        "total_value_usd": 456.7,
         "item_count": 1,
         "ledger_breakdown": {
-          "Main Ledger": 2511.97,
+          "Main Ledger": 1729.09,
           "AGL8": 236.9
         }
       },
@@ -787,8 +787,14 @@
     }
   },
   "recent_beerhall_digests": {
-    "total_entries": 79,
+    "total_entries": 80,
     "recent": [
+      {
+        "date": "2026-07-07",
+        "slug": "oracle-canonical-fixes-and-sales",
+        "filename": "beer-hall_2026-07-07T033627Z_oracle-canonical-fixes-and-sales.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-07T033627Z_oracle-canonical-fixes-and-sales.md"
+      },
       {
         "date": "2026-07-06",
         "slug": "etsy-integration-and-sales-processing",
@@ -842,12 +848,6 @@
         "slug": "edgar-registration-oscar-sales-qr-flag",
         "filename": "beer-hall_2026-06-28T040310Z_edgar-registration-oscar-sales-qr-flag.md",
         "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-06-28T040310Z_edgar-registration-oscar-sales-qr-flag.md"
-      },
-      {
-        "date": "2026-06-27",
-        "slug": "zach-brief-brazil-vote-sales",
-        "filename": "beer-hall_2026-06-27T033904Z_zach-brief-brazil-vote-sales.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-06-27T033904Z_zach-brief-brazil-vote-sales.md"
       }
     ],
     "full_archive_url": "https://truesight.me/stats/beerhall_archive.json",
