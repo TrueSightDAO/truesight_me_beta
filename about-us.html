@@ -213,7 +213,7 @@
         }
 
         // Sort by order (most recent first)
-        const sortedEvents = [...timelineEvents].sort((a, b) => (a.order || 999) - (b.order || 999));
+        const sortedEvents = [...timelineEvents].sort((a, b) => ((a.order != null ? a.order : 999) - (b.order != null ? b.order : 999)));
 
         // Format date from YYYY-MM-DD to readable format.
         // Parse as local date to avoid UTC offset shifts that would
