@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-07-07T20:28:06Z",
+  "generated_at_utc": "2026-07-08T03:56:27Z",
   "regenerated_by": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/.github/workflows/stats-refresh.yml",
   "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
   "llms_orientation": "https://truesight.me/llms.txt",
@@ -8,7 +8,7 @@
     "mission": "Restore 10,000 hectares of Amazon rainforest."
   },
   "members": {
-    "generated_at": "2026-07-07T19:45:32Z",
+    "generated_at": "2026-07-08T03:28:57Z",
     "total_contributors": 477,
     "total_tdg_controlled_sum": 2415752.29,
     "governors_count": 10,
@@ -97,7 +97,7 @@
     "directory_url": "https://truesight.me/members.html"
   },
   "treasury": {
-    "generated_at": "2026-07-07T19:48:33.425Z",
+    "generated_at": "2026-07-08T03:48:32.113Z",
     "schema_version": 4,
     "trigger": "cron",
     "currency_totals": {
@@ -787,8 +787,14 @@
     }
   },
   "recent_beerhall_digests": {
-    "total_entries": 80,
+    "total_entries": 81,
     "recent": [
+      {
+        "date": "2026-07-08",
+        "slug": "web-timeline-fixes-and-china-guild-alignment",
+        "filename": "beer-hall_2026-07-08T025225Z_web-timeline-fixes-and-china-guild-alignment.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-08T025225Z_web-timeline-fixes-and-china-guild-alignment.md"
+      },
       {
         "date": "2026-07-07",
         "slug": "oracle-canonical-fixes-and-sales",
@@ -842,12 +848,6 @@
         "slug": "repackaging-settlement-governor-sync",
         "filename": "beer-hall_2026-06-29T040807Z_repackaging-settlement-governor-sync.md",
         "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-06-29T040807Z_repackaging-settlement-governor-sync.md"
-      },
-      {
-        "date": "2026-06-28",
-        "slug": "edgar-registration-oscar-sales-qr-flag",
-        "filename": "beer-hall_2026-06-28T040310Z_edgar-registration-oscar-sales-qr-flag.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-06-28T040310Z_edgar-registration-oscar-sales-qr-flag.md"
       }
     ],
     "full_archive_url": "https://truesight.me/stats/beerhall_archive.json",
