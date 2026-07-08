@@ -230,6 +230,9 @@
           const dateYear = event.date ? new Date(event.date).getFullYear() : '';
           const image = event.image ? String(event.image).replace(/</g, '&lt;').replace(/>/g, '&gt;') : '';
           const imageHtml = image ? `<div class="timeline-image"><img src="${image}" alt="${title}" loading="lazy" /></div>` : '';
+          const linkText = String(event.link_text || '');
+          const linkUrl = String(event.link_url || '');
+          const linkHtml = (linkText && linkUrl) ? `<p><a href="${linkUrl}" target="_blank" rel="noopener noreferrer" class="timeline-link">${linkText} &#8599;</a></p>` : '';
           
           return `
             <article class="timeline-event">
@@ -241,6 +244,7 @@
                 ${imageHtml}
                 <h3>${title}</h3>
                 <p>${description}</p>
+                ${linkHtml}
               </div>
             </article>
           `;

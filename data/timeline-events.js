@@ -3,6 +3,14 @@
 
 const timelineEvents = [
   {
+    "date": "2026-07-07",
+    "title": "TrueSight DAO Legal Entity Approved in Prospera",
+    "description": "Official recognition as a legal entity in Prospera, Honduras — a landmark for DAO governance legitimacy.",
+    "link_text": "View notarized approval",
+    "link_url": "https://github.com/TrueSightDAO/notarizations/blob/main/20260708023012_gary_teh_prospera_entity_application_approved.pdf",
+    "order": 0
+  },
+  {
     "date": "2024-07-08",
     "title": "Governance Token Goes Live",
     "description": "Now trading on LATOKEN!",
