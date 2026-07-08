@@ -215,13 +215,16 @@
         // Sort by order (most recent first)
         const sortedEvents = [...timelineEvents].sort((a, b) => (a.order || 999) - (b.order || 999));
 
-        // Format date from YYYY-MM-DD to readable format
+        // Format date from YYYY-MM-DD to readable format.
+        // Parse as local date to avoid UTC offset shifts that would
+        // display the wrong day in timezones west of UTC.
         function formatDate(dateStr) {
-          const date = new Date(dateStr);
-          const year = date.getFullYear();
-          const month = date.toLocaleDateString('en-US', { month: 'short' });
-          const day = date.getDate();
-          return `${month} ${day}, ${year}`;
+          var parts = dateStr.split('-');
+          var d = new Date(+parts[0], parts[1] - 1, +parts[2]);
+          var year = d.getFullYear();
+          var month = d.toLocaleDateString('en-US', { month: 'short' });
+          var day = d.getDate();
+          return month + ' ' + day + ', ' + year;
         }
 
         timelineContainer.innerHTML = sortedEvents.map(event => {
