@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-07-12T08:40:12Z",
+  "generated_at_utc": "2026-07-12T14:12:31Z",
   "regenerated_by": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/.github/workflows/stats-refresh.yml",
   "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
   "llms_orientation": "https://truesight.me/llms.txt",
@@ -8,7 +8,7 @@
     "mission": "Restore 10,000 hectares of Amazon rainforest."
   },
   "members": {
-    "generated_at": "2026-07-12T08:04:22Z",
+    "generated_at": "2026-07-12T13:01:03Z",
     "total_contributors": 477,
     "total_tdg_controlled_sum": 2415886.29,
     "governors_count": 10,
@@ -97,7 +97,7 @@
     "directory_url": "https://truesight.me/members.html"
   },
   "treasury": {
-    "generated_at": "2026-07-12T07:48:32.349Z",
+    "generated_at": "2026-07-12T13:48:43.963Z",
     "schema_version": 5,
     "trigger": "cron",
     "currency_totals": {
@@ -803,7 +803,74 @@
     }
   },
   "recent_beerhall_digests": {
-    "error": "beerhall listing unavailable"
+    "total_entries": 84,
+    "recent": [
+      {
+        "date": "2026-07-12",
+        "slug": "desert-diamond-narrative-published",
+        "filename": "beer-hall_2026-07-12T025639Z_desert-diamond-narrative-published.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-12T025639Z_desert-diamond-narrative-published.md"
+      },
+      {
+        "date": "2026-07-11",
+        "slug": "sao-jorge-launch-and-prospera-bylaws",
+        "filename": "beer-hall_2026-07-11T024853Z_sao-jorge-launch-and-prospera-bylaws.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-11T024853Z_sao-jorge-launch-and-prospera-bylaws.md"
+      },
+      {
+        "date": "2026-07-10",
+        "slug": "usa-santos-spec-and-buyback-fix",
+        "filename": "beer-hall_2026-07-10T033216Z_usa-santos-spec-and-buyback-fix.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-10T033216Z_usa-santos-spec-and-buyback-fix.md"
+      },
+      {
+        "date": "2026-07-08",
+        "slug": "web-timeline-fixes-and-china-guild-alignment",
+        "filename": "beer-hall_2026-07-08T025225Z_web-timeline-fixes-and-china-guild-alignment.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-08T025225Z_web-timeline-fixes-and-china-guild-alignment.md"
+      },
+      {
+        "date": "2026-07-07",
+        "slug": "oracle-canonical-fixes-and-sales",
+        "filename": "beer-hall_2026-07-07T033627Z_oracle-canonical-fixes-and-sales.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-07T033627Z_oracle-canonical-fixes-and-sales.md"
+      },
+      {
+        "date": "2026-07-06",
+        "slug": "etsy-integration-and-sales-processing",
+        "filename": "beer-hall_2026-07-06T034432Z_etsy-integration-and-sales-processing.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-06T034432Z_etsy-integration-and-sales-processing.md"
+      },
+      {
+        "date": "2026-07-05",
+        "slug": "vote-dedup-fix-proposal-18-partnership-outreach",
+        "filename": "beer-hall_2026-07-05T033850Z_vote-dedup-fix-proposal-18-partnership-outreach.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-05T033850Z_vote-dedup-fix-proposal-18-partnership-outreach.md"
+      },
+      {
+        "date": "2026-07-04",
+        "slug": "settlement-pipeline-tdg-hardening-members-fix",
+        "filename": "beer-hall_2026-07-04T032211Z_settlement-pipeline-tdg-hardening-members-fix.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-04T032211Z_settlement-pipeline-tdg-hardening-members-fix.md"
+      },
+      {
+        "date": "2026-07-03",
+        "slug": "etsy-integration-shared-nav-large-spike-go-ready",
+        "filename": "beer-hall_2026-07-03T032828Z_etsy-integration-shared-nav-large-spike-go-ready.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-03T032828Z_etsy-integration-shared-nav-large-spike-go-ready.md"
+      },
+      {
+        "date": "2026-07-02",
+        "slug": "members-page-single-source-governor-permission-sync",
+        "filename": "beer-hall_2026-07-02T034708Z_members-page-single-source-governor-permission-sync.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-02T034708Z_members-page-single-source-governor-permission-sync.md"
+      }
+    ],
+    "full_archive_url": "https://truesight.me/stats/beerhall_archive.json",
+    "directory_url": "https://github.com/TrueSightDAO/ecosystem_change_logs/tree/main/beer_hall/entries",
+    "raw_url_pattern": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/<filename>",
+    "human_index_url": "https://truesight.me/beerhall/updates.html",
+    "interpretation_hint": "Each entry is a community digest summarizing recent shipped work. The slug encodes the headline themes; the date is when the digest was published. Fetch raw_url for the full markdown body. For digests older than the 10 most-recent shown here, fetch full_archive_url for the complete historical index."
   },
   "canonical_sources": {
     "treasury_cache": "https://raw.githubusercontent.com/TrueSightDAO/treasury-cache/main/dao_offchain_treasury.json",
