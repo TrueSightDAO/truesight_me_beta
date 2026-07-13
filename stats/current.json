@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-07-12T19:42:37Z",
+  "generated_at_utc": "2026-07-13T04:10:24Z",
   "regenerated_by": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/.github/workflows/stats-refresh.yml",
   "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
   "llms_orientation": "https://truesight.me/llms.txt",
@@ -8,7 +8,7 @@
     "mission": "Restore 10,000 hectares of Amazon rainforest."
   },
   "members": {
-    "generated_at": "2026-07-12T18:55:24Z",
+    "generated_at": "2026-07-13T03:29:43Z",
     "total_contributors": 477,
     "total_tdg_controlled_sum": 2415886.29,
     "governors_count": 10,
@@ -97,7 +97,7 @@
     "directory_url": "https://truesight.me/members.html"
   },
   "treasury": {
-    "generated_at": "2026-07-12T18:48:32.889Z",
+    "generated_at": "2026-07-13T03:48:30.565Z",
     "schema_version": 5,
     "trigger": "cron",
     "currency_totals": {
@@ -752,12 +752,12 @@
         }
       },
       "USD": {
-        "total_quantity": 11733.56,
-        "total_value_usd": 11733.56,
+        "total_quantity": 11733.27,
+        "total_value_usd": 11733.27,
         "item_count": 1,
         "ledger_breakdown": {
           "AGL15": 4973.6,
-          "Main Ledger": 4395.48,
+          "Main Ledger": 4395.19,
           "AGL6": 1337.59,
           "AGL8": 569.95,
           "AGL10": 347.83,
@@ -766,11 +766,11 @@
         }
       },
       "USD - provisions for voting rights cash out": {
-        "total_quantity": 47.74,
-        "total_value_usd": 47.74,
+        "total_quantity": 48.03,
+        "total_value_usd": 48.03,
         "item_count": 1,
         "ledger_breakdown": {
-          "Main Ledger": 47.74
+          "Main Ledger": 48.03
         }
       },
       "USDT": {
@@ -803,8 +803,14 @@
     }
   },
   "recent_beerhall_digests": {
-    "total_entries": 84,
+    "total_entries": 85,
     "recent": [
+      {
+        "date": "2026-07-13",
+        "slug": "narrative-reality-check-docs-reorg",
+        "filename": "beer-hall_2026-07-13T025806Z_narrative-reality-check-docs-reorg.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-13T025806Z_narrative-reality-check-docs-reorg.md"
+      },
       {
         "date": "2026-07-12",
         "slug": "desert-diamond-narrative-published",
@@ -858,12 +864,6 @@
         "slug": "etsy-integration-shared-nav-large-spike-go-ready",
         "filename": "beer-hall_2026-07-03T032828Z_etsy-integration-shared-nav-large-spike-go-ready.md",
         "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-03T032828Z_etsy-integration-shared-nav-large-spike-go-ready.md"
-      },
-      {
-        "date": "2026-07-02",
-        "slug": "members-page-single-source-governor-permission-sync",
-        "filename": "beer-hall_2026-07-02T034708Z_members-page-single-source-governor-permission-sync.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-02T034708Z_members-page-single-source-governor-permission-sync.md"
       }
     ],
     "full_archive_url": "https://truesight.me/stats/beerhall_archive.json",
