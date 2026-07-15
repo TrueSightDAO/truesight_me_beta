@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-07-14T19:52:20Z",
+  "generated_at_utc": "2026-07-15T03:45:58Z",
   "regenerated_by": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/.github/workflows/stats-refresh.yml",
   "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
   "llms_orientation": "https://truesight.me/llms.txt",
@@ -8,7 +8,7 @@
     "mission": "Restore 10,000 hectares of Amazon rainforest."
   },
   "members": {
-    "generated_at": "2026-07-14T19:09:32Z",
+    "generated_at": "2026-07-15T03:29:45Z",
     "total_contributors": 477,
     "total_tdg_controlled_sum": 2415886.29,
     "governors_count": 10,
@@ -97,7 +97,7 @@
     "directory_url": "https://truesight.me/members.html"
   },
   "treasury": {
-    "generated_at": "2026-07-14T19:48:32.747Z",
+    "generated_at": "2026-07-15T02:48:37.102Z",
     "schema_version": 5,
     "trigger": "cron",
     "currency_totals": {
@@ -190,11 +190,11 @@
         }
       },
       "81% Dark Chocolate Bar 50g | Cacao Almonds KG - Organic (Fazenda São Jorge) | Gary Teh 20260710 | San Francisco": {
-        "total_quantity": 25.0,
-        "total_value_usd": 140.6,
+        "total_quantity": 28.0,
+        "total_value_usd": 157.47,
         "item_count": 1,
         "ledger_breakdown": {
-          "Main Ledger": 25.0
+          "Main Ledger": 28.0
         }
       },
       "ATOLOMOTOR Coffee Bean Roaster": {
@@ -203,14 +203,6 @@
         "item_count": 1,
         "ledger_breakdown": {
           "Main Ledger": 1.0
-        }
-      },
-      "Agroverse 81% Cacao Chocolate Bar 50g | 8 Ounce Nibs CP340992735BR | Kirsten 20260620 | San Francisco - AGL4": {
-        "total_quantity": 8.0,
-        "total_value_usd": 23.23,
-        "item_count": 1,
-        "ledger_breakdown": {
-          "Main Ledger": 8.0
         }
       },
       "Agroverse Retractable Banner": {
@@ -439,11 +431,11 @@
         }
       },
       "Cacao Tree To Be Planted": {
-        "total_quantity": 324.0,
-        "total_value_usd": -486.0,
+        "total_quantity": 334.0,
+        "total_value_usd": -501.0,
         "item_count": 1,
         "ledger_breakdown": {
-          "Main Ledger": 324.0
+          "Main Ledger": 334.0
         }
       },
       "Cacao tree seedling (per seedling, Amazon reforest Altamira, R$40/10, Paulo Hernandez, 20260409)": {
@@ -672,11 +664,11 @@
         }
       },
       "Joyberg kraft cash envelope 6.5x3.2in (per piece, Amazon 111-2611520-6121033)": {
-        "total_quantity": 197.0,
-        "total_value_usd": 13.89,
+        "total_quantity": 169.0,
+        "total_value_usd": 11.91,
         "item_count": 1,
         "ledger_breakdown": {
-          "Main Ledger": 197.0
+          "Main Ledger": 169.0
         }
       },
       "Label Maker": {
@@ -736,11 +728,11 @@
         }
       },
       "Sticker Mule 4x2in custom rectangle label (per piece, order R384751187)": {
-        "total_quantity": 142.0,
-        "total_value_usd": 78.67,
+        "total_quantity": 114.0,
+        "total_value_usd": 63.16,
         "item_count": 1,
         "ledger_breakdown": {
-          "Main Ledger": 142.0
+          "Main Ledger": 114.0
         }
       },
       "SunMint Tree Planting Pledge - QR Code": {
@@ -752,12 +744,12 @@
         }
       },
       "USD": {
-        "total_quantity": 11628.4,
-        "total_value_usd": 11628.4,
+        "total_quantity": 11496.63,
+        "total_value_usd": 11496.63,
         "item_count": 1,
         "ledger_breakdown": {
-          "AGL15": 4869.02,
-          "Main Ledger": 4394.9,
+          "AGL15": 4636.15,
+          "Main Ledger": 4496.0,
           "AGL6": 1337.59,
           "AGL8": 569.95,
           "AGL10": 347.83,
@@ -793,18 +785,24 @@
   },
   "inventory": {
     "stores": {
-      "generated_at": "2026-07-14T08:29:50.000Z",
+      "generated_at": "2026-07-14T21:30:45.000Z",
       "store_count": 0,
       "line_items": 13
     },
     "partners": {
-      "generated_at": "2026-07-14T08:29:50.000Z",
+      "generated_at": "2026-07-14T21:30:45.000Z",
       "partner_count": 23
     }
   },
   "recent_beerhall_digests": {
-    "total_entries": 86,
+    "total_entries": 87,
     "recent": [
+      {
+        "date": "2026-07-15",
+        "slug": "white-label-fixes-subscription-sync",
+        "filename": "beer-hall_2026-07-15T023656Z_white-label-fixes-subscription-sync.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-15T023656Z_white-label-fixes-subscription-sync.md"
+      },
       {
         "date": "2026-07-14",
         "slug": "operating-agreement-signed-shop-updates",
@@ -858,12 +856,6 @@
         "slug": "vote-dedup-fix-proposal-18-partnership-outreach",
         "filename": "beer-hall_2026-07-05T033850Z_vote-dedup-fix-proposal-18-partnership-outreach.md",
         "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-05T033850Z_vote-dedup-fix-proposal-18-partnership-outreach.md"
-      },
-      {
-        "date": "2026-07-04",
-        "slug": "settlement-pipeline-tdg-hardening-members-fix",
-        "filename": "beer-hall_2026-07-04T032211Z_settlement-pipeline-tdg-hardening-members-fix.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-04T032211Z_settlement-pipeline-tdg-hardening-members-fix.md"
       }
     ],
     "full_archive_url": "https://truesight.me/stats/beerhall_archive.json",
