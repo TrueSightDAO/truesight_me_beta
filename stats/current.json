@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-07-15T19:46:49Z",
+  "generated_at_utc": "2026-07-16T03:48:51Z",
   "regenerated_by": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/.github/workflows/stats-refresh.yml",
   "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
   "llms_orientation": "https://truesight.me/llms.txt",
@@ -8,7 +8,7 @@
     "mission": "Restore 10,000 hectares of Amazon rainforest."
   },
   "members": {
-    "generated_at": "2026-07-15T18:59:51Z",
+    "generated_at": "2026-07-16T03:29:52Z",
     "total_contributors": 477,
     "total_tdg_controlled_sum": 2415886.29,
     "governors_count": 10,
@@ -97,7 +97,7 @@
     "directory_url": "https://truesight.me/members.html"
   },
   "treasury": {
-    "generated_at": "2026-07-15T18:48:34.902Z",
+    "generated_at": "2026-07-16T03:48:47.880Z",
     "schema_version": 5,
     "trigger": "cron",
     "currency_totals": {
@@ -744,11 +744,11 @@
         }
       },
       "USD": {
-        "total_quantity": 11187.44,
-        "total_value_usd": 11187.44,
+        "total_quantity": 11187.16,
+        "total_value_usd": 11187.16,
         "item_count": 1,
         "ledger_breakdown": {
-          "Main Ledger": 4495.81,
+          "Main Ledger": 4495.53,
           "AGL15": 4327.15,
           "AGL6": 1337.59,
           "AGL8": 569.95,
@@ -758,11 +758,11 @@
         }
       },
       "USD - provisions for voting rights cash out": {
-        "total_quantity": 48.52,
-        "total_value_usd": 48.52,
+        "total_quantity": 48.79,
+        "total_value_usd": 48.79,
         "item_count": 1,
         "ledger_breakdown": {
-          "Main Ledger": 48.52
+          "Main Ledger": 48.79
         }
       },
       "USDT": {
