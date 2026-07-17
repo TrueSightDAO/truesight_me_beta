@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-07-16T19:43:05Z",
+  "generated_at_utc": "2026-07-17T03:48:43Z",
   "regenerated_by": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/.github/workflows/stats-refresh.yml",
   "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
   "llms_orientation": "https://truesight.me/llms.txt",
@@ -8,7 +8,7 @@
     "mission": "Restore 10,000 hectares of Amazon rainforest."
   },
   "members": {
-    "generated_at": "2026-07-16T19:32:13Z",
+    "generated_at": "2026-07-17T03:30:00Z",
     "total_contributors": 477,
     "total_tdg_controlled_sum": 2415886.29,
     "governors_count": 10,
@@ -97,7 +97,7 @@
     "directory_url": "https://truesight.me/members.html"
   },
   "treasury": {
-    "generated_at": "2026-07-16T18:48:47.740Z",
+    "generated_at": "2026-07-17T03:48:36.465Z",
     "schema_version": 5,
     "trigger": "cron",
     "currency_totals": {
@@ -744,11 +744,11 @@
         }
       },
       "USD": {
-        "total_quantity": 11187.16,
-        "total_value_usd": 11187.16,
+        "total_quantity": 11186.89,
+        "total_value_usd": 11186.89,
         "item_count": 1,
         "ledger_breakdown": {
-          "Main Ledger": 4495.53,
+          "Main Ledger": 4495.26,
           "AGL15": 4327.15,
           "AGL6": 1337.59,
           "AGL8": 569.95,
@@ -758,11 +758,11 @@
         }
       },
       "USD - provisions for voting rights cash out": {
-        "total_quantity": 48.79,
-        "total_value_usd": 48.79,
+        "total_quantity": 49.07,
+        "total_value_usd": 49.07,
         "item_count": 1,
         "ledger_breakdown": {
-          "Main Ledger": 48.79
+          "Main Ledger": 49.07
         }
       },
       "USDT": {
@@ -795,8 +795,14 @@
     }
   },
   "recent_beerhall_digests": {
-    "total_entries": 87,
+    "total_entries": 88,
     "recent": [
+      {
+        "date": "2026-07-17",
+        "slug": "white-label-fixes-hts-schema-pdf",
+        "filename": "beer-hall_2026-07-17T024754Z_white-label-fixes-hts-schema-pdf.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-17T024754Z_white-label-fixes-hts-schema-pdf.md"
+      },
       {
         "date": "2026-07-15",
         "slug": "white-label-fixes-subscription-sync",
@@ -850,12 +856,6 @@
         "slug": "etsy-integration-and-sales-processing",
         "filename": "beer-hall_2026-07-06T034432Z_etsy-integration-and-sales-processing.md",
         "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-06T034432Z_etsy-integration-and-sales-processing.md"
-      },
-      {
-        "date": "2026-07-05",
-        "slug": "vote-dedup-fix-proposal-18-partnership-outreach",
-        "filename": "beer-hall_2026-07-05T033850Z_vote-dedup-fix-proposal-18-partnership-outreach.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-05T033850Z_vote-dedup-fix-proposal-18-partnership-outreach.md"
       }
     ],
     "full_archive_url": "https://truesight.me/stats/beerhall_archive.json",
