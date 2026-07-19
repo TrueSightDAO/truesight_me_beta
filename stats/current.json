@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-07-19T04:04:37Z",
+  "generated_at_utc": "2026-07-19T08:55:33Z",
   "regenerated_by": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/.github/workflows/stats-refresh.yml",
   "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
   "llms_orientation": "https://truesight.me/llms.txt",
@@ -8,7 +8,7 @@
     "mission": "Restore 10,000 hectares of Amazon rainforest."
   },
   "members": {
-    "generated_at": "2026-07-19T03:30:03Z",
+    "generated_at": "2026-07-19T08:03:50Z",
     "total_contributors": 477,
     "total_tdg_controlled_sum": 2415886.29,
     "governors_count": 10,
@@ -97,7 +97,7 @@
     "directory_url": "https://truesight.me/members.html"
   },
   "treasury": {
-    "generated_at": "2026-07-19T03:48:32.875Z",
+    "generated_at": "2026-07-19T08:48:48.403Z",
     "schema_version": 5,
     "trigger": "cron",
     "currency_totals": {
@@ -785,84 +785,17 @@
   },
   "inventory": {
     "stores": {
-      "generated_at": "2026-07-18T08:11:20.000Z",
+      "generated_at": "2026-07-19T08:35:05.000Z",
       "store_count": 0,
       "line_items": 13
     },
     "partners": {
-      "generated_at": "2026-07-18T08:11:20.000Z",
+      "generated_at": "2026-07-19T08:35:05.000Z",
       "partner_count": 23
     }
   },
   "recent_beerhall_digests": {
-    "total_entries": 89,
-    "recent": [
-      {
-        "date": "2026-07-18",
-        "slug": "tariff-analysis-sugar-rfq-checkout-fixes",
-        "filename": "beer-hall_2026-07-18T023839Z_tariff-analysis-sugar-rfq-checkout-fixes.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-18T023839Z_tariff-analysis-sugar-rfq-checkout-fixes.md"
-      },
-      {
-        "date": "2026-07-17",
-        "slug": "white-label-fixes-hts-schema-pdf",
-        "filename": "beer-hall_2026-07-17T024754Z_white-label-fixes-hts-schema-pdf.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-17T024754Z_white-label-fixes-hts-schema-pdf.md"
-      },
-      {
-        "date": "2026-07-15",
-        "slug": "white-label-fixes-subscription-sync",
-        "filename": "beer-hall_2026-07-15T023656Z_white-label-fixes-subscription-sync.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-15T023656Z_white-label-fixes-subscription-sync.md"
-      },
-      {
-        "date": "2026-07-14",
-        "slug": "operating-agreement-signed-shop-updates",
-        "filename": "beer-hall_2026-07-14T023918Z_operating-agreement-signed-shop-updates.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-14T023918Z_operating-agreement-signed-shop-updates.md"
-      },
-      {
-        "date": "2026-07-13",
-        "slug": "narrative-reality-check-docs-reorg",
-        "filename": "beer-hall_2026-07-13T025806Z_narrative-reality-check-docs-reorg.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-13T025806Z_narrative-reality-check-docs-reorg.md"
-      },
-      {
-        "date": "2026-07-12",
-        "slug": "desert-diamond-narrative-published",
-        "filename": "beer-hall_2026-07-12T025639Z_desert-diamond-narrative-published.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-12T025639Z_desert-diamond-narrative-published.md"
-      },
-      {
-        "date": "2026-07-11",
-        "slug": "sao-jorge-launch-and-prospera-bylaws",
-        "filename": "beer-hall_2026-07-11T024853Z_sao-jorge-launch-and-prospera-bylaws.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-11T024853Z_sao-jorge-launch-and-prospera-bylaws.md"
-      },
-      {
-        "date": "2026-07-10",
-        "slug": "usa-santos-spec-and-buyback-fix",
-        "filename": "beer-hall_2026-07-10T033216Z_usa-santos-spec-and-buyback-fix.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-10T033216Z_usa-santos-spec-and-buyback-fix.md"
-      },
-      {
-        "date": "2026-07-08",
-        "slug": "web-timeline-fixes-and-china-guild-alignment",
-        "filename": "beer-hall_2026-07-08T025225Z_web-timeline-fixes-and-china-guild-alignment.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-08T025225Z_web-timeline-fixes-and-china-guild-alignment.md"
-      },
-      {
-        "date": "2026-07-07",
-        "slug": "oracle-canonical-fixes-and-sales",
-        "filename": "beer-hall_2026-07-07T033627Z_oracle-canonical-fixes-and-sales.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-07T033627Z_oracle-canonical-fixes-and-sales.md"
-      }
-    ],
-    "full_archive_url": "https://truesight.me/stats/beerhall_archive.json",
-    "directory_url": "https://github.com/TrueSightDAO/ecosystem_change_logs/tree/main/beer_hall/entries",
-    "raw_url_pattern": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/<filename>",
-    "human_index_url": "https://truesight.me/beerhall/updates.html",
-    "interpretation_hint": "Each entry is a community digest summarizing recent shipped work. The slug encodes the headline themes; the date is when the digest was published. Fetch raw_url for the full markdown body. For digests older than the 10 most-recent shown here, fetch full_archive_url for the complete historical index."
+    "error": "beerhall listing unavailable"
   },
   "canonical_sources": {
     "treasury_cache": "https://raw.githubusercontent.com/TrueSightDAO/treasury-cache/main/dao_offchain_treasury.json",
