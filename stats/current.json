@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-07-20T20:08:30Z",
+  "generated_at_utc": "2026-07-21T03:57:44Z",
   "regenerated_by": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/.github/workflows/stats-refresh.yml",
   "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
   "llms_orientation": "https://truesight.me/llms.txt",
@@ -8,7 +8,7 @@
     "mission": "Restore 10,000 hectares of Amazon rainforest."
   },
   "members": {
-    "generated_at": "2026-07-20T19:30:34Z",
+    "generated_at": "2026-07-21T03:30:15Z",
     "total_contributors": 477,
     "total_tdg_controlled_sum": 2415886.29,
     "governors_count": 10,
@@ -97,7 +97,7 @@
     "directory_url": "https://truesight.me/members.html"
   },
   "treasury": {
-    "generated_at": "2026-07-20T19:48:41.815Z",
+    "generated_at": "2026-07-21T03:48:44.248Z",
     "schema_version": 5,
     "trigger": "cron",
     "currency_totals": {
@@ -744,11 +744,11 @@
         }
       },
       "USD": {
-        "total_quantity": 11186.07,
-        "total_value_usd": 11186.07,
+        "total_quantity": 11185.81,
+        "total_value_usd": 11185.81,
         "item_count": 1,
         "ledger_breakdown": {
-          "Main Ledger": 4494.44,
+          "Main Ledger": 4494.18,
           "AGL15": 4327.15,
           "AGL6": 1337.59,
           "AGL8": 569.95,
@@ -758,11 +758,11 @@
         }
       },
       "USD - provisions for voting rights cash out": {
-        "total_quantity": 49.88,
-        "total_value_usd": 49.88,
+        "total_quantity": 50.14,
+        "total_value_usd": 50.14,
         "item_count": 1,
         "ledger_breakdown": {
-          "Main Ledger": 49.88
+          "Main Ledger": 50.14
         }
       },
       "USDT": {
@@ -795,8 +795,14 @@
     }
   },
   "recent_beerhall_digests": {
-    "total_entries": 90,
+    "total_entries": 91,
     "recent": [
+      {
+        "date": "2026-07-21",
+        "slug": "dao-infrastructure-inventory-report",
+        "filename": "beer-hall_2026-07-21T025013Z_dao-infrastructure-inventory-report.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-21T025013Z_dao-infrastructure-inventory-report.md"
+      },
       {
         "date": "2026-07-20",
         "slug": "warmup-conversion-ssl-recovery-plan",
@@ -850,12 +856,6 @@
         "slug": "usa-santos-spec-and-buyback-fix",
         "filename": "beer-hall_2026-07-10T033216Z_usa-santos-spec-and-buyback-fix.md",
         "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-10T033216Z_usa-santos-spec-and-buyback-fix.md"
-      },
-      {
-        "date": "2026-07-08",
-        "slug": "web-timeline-fixes-and-china-guild-alignment",
-        "filename": "beer-hall_2026-07-08T025225Z_web-timeline-fixes-and-china-guild-alignment.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-08T025225Z_web-timeline-fixes-and-china-guild-alignment.md"
       }
     ],
     "full_archive_url": "https://truesight.me/stats/beerhall_archive.json",
