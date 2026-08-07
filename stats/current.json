@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-08-07T07:53:01Z",
+  "generated_at_utc": "2026-08-07T13:52:24Z",
   "regenerated_by": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/.github/workflows/stats-refresh.yml",
   "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
   "llms_orientation": "https://truesight.me/llms.txt",
@@ -8,8 +8,8 @@
     "mission": "Restore 10,000 hectares of Amazon rainforest."
   },
   "members": {
-    "generated_at": "2026-08-07T07:06:35Z",
-    "total_contributors": 479,
+    "generated_at": "2026-08-07T13:19:20Z",
+    "total_contributors": 480,
     "total_tdg_controlled_sum": 2416872.29,
     "governors_count": 10,
     "governors": [
@@ -97,7 +97,7 @@
     "directory_url": "https://truesight.me/members.html"
   },
   "treasury": {
-    "generated_at": "2026-08-07T07:48:37.644Z",
+    "generated_at": "2026-08-07T13:48:34.874Z",
     "schema_version": 5,
     "trigger": "cron",
     "currency_totals": {
@@ -795,7 +795,74 @@
     }
   },
   "recent_beerhall_digests": {
-    "error": "beerhall listing unavailable"
+    "total_entries": 96,
+    "recent": [
+      {
+        "date": "2026-08-07",
+        "slug": "robotics-barter-strategy-maintenance-peg",
+        "filename": "beer-hall_2026-08-07T024448Z_robotics-barter-strategy-maintenance-peg.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-08-07T024448Z_robotics-barter-strategy-maintenance-peg.md"
+      },
+      {
+        "date": "2026-08-04",
+        "slug": "prospera-operating-agreement-signed-china-market-strategy",
+        "filename": "beer-hall_2026-08-04T024220Z_prospera-operating-agreement-signed-china-market-strategy.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-08-04T024220Z_prospera-operating-agreement-signed-china-market-strategy.md"
+      },
+      {
+        "date": "2026-08-01",
+        "slug": "cacao-pack-visuals-sop",
+        "filename": "beer-hall_2026-08-01T025616Z_cacao-pack-visuals-sop.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-08-01T025616Z_cacao-pack-visuals-sop.md"
+      },
+      {
+        "date": "2026-07-31",
+        "slug": "cacao-logistics-narrative-live",
+        "filename": "beer-hall_2026-07-31T025739Z_cacao-logistics-narrative-live.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-31T025739Z_cacao-logistics-narrative-live.md"
+      },
+      {
+        "date": "2026-07-30",
+        "slug": "cacao-club-and-oracle-updates",
+        "filename": "beer-hall_2026-07-30T023225Z_cacao-club-and-oracle-updates.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-30T023225Z_cacao-club-and-oracle-updates.md"
+      },
+      {
+        "date": "2026-07-21",
+        "slug": "dao-infrastructure-inventory-report",
+        "filename": "beer-hall_2026-07-21T025013Z_dao-infrastructure-inventory-report.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-21T025013Z_dao-infrastructure-inventory-report.md"
+      },
+      {
+        "date": "2026-07-20",
+        "slug": "warmup-conversion-ssl-recovery-plan",
+        "filename": "beer-hall_2026-07-20T032156Z_warmup-conversion-ssl-recovery-plan.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-20T032156Z_warmup-conversion-ssl-recovery-plan.md"
+      },
+      {
+        "date": "2026-07-18",
+        "slug": "tariff-analysis-sugar-rfq-checkout-fixes",
+        "filename": "beer-hall_2026-07-18T023839Z_tariff-analysis-sugar-rfq-checkout-fixes.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-18T023839Z_tariff-analysis-sugar-rfq-checkout-fixes.md"
+      },
+      {
+        "date": "2026-07-17",
+        "slug": "white-label-fixes-hts-schema-pdf",
+        "filename": "beer-hall_2026-07-17T024754Z_white-label-fixes-hts-schema-pdf.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-17T024754Z_white-label-fixes-hts-schema-pdf.md"
+      },
+      {
+        "date": "2026-07-15",
+        "slug": "white-label-fixes-subscription-sync",
+        "filename": "beer-hall_2026-07-15T023656Z_white-label-fixes-subscription-sync.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-15T023656Z_white-label-fixes-subscription-sync.md"
+      }
+    ],
+    "full_archive_url": "https://truesight.me/stats/beerhall_archive.json",
+    "directory_url": "https://github.com/TrueSightDAO/ecosystem_change_logs/tree/main/beer_hall/entries",
+    "raw_url_pattern": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/<filename>",
+    "human_index_url": "https://truesight.me/beerhall/updates.html",
+    "interpretation_hint": "Each entry is a community digest summarizing recent shipped work. The slug encodes the headline themes; the date is when the digest was published. Fetch raw_url for the full markdown body. For digests older than the 10 most-recent shown here, fetch full_archive_url for the complete historical index."
   },
   "canonical_sources": {
     "treasury_cache": "https://raw.githubusercontent.com/TrueSightDAO/treasury-cache/main/dao_offchain_treasury.json",
