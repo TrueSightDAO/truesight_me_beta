@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-08-11T19:38:34Z",
+  "generated_at_utc": "2026-08-12T03:06:20Z",
   "regenerated_by": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/.github/workflows/stats-refresh.yml",
   "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
   "llms_orientation": "https://truesight.me/llms.txt",
@@ -8,7 +8,7 @@
     "mission": "Restore 10,000 hectares of Amazon rainforest."
   },
   "members": {
-    "generated_at": "2026-08-11T18:52:03Z",
+    "generated_at": "2026-08-12T01:10:23Z",
     "total_contributors": 481,
     "total_tdg_controlled_sum": 2416872.29,
     "governors_count": 10,
@@ -97,7 +97,7 @@
     "directory_url": "https://truesight.me/members.html"
   },
   "treasury": {
-    "generated_at": "2026-08-11T18:48:42.055Z",
+    "generated_at": "2026-08-12T02:48:33.305Z",
     "schema_version": 5,
     "trigger": "cron",
     "currency_totals": {
@@ -795,8 +795,14 @@
     }
   },
   "recent_beerhall_digests": {
-    "total_entries": 98,
+    "total_entries": 99,
     "recent": [
+      {
+        "date": "2026-08-12",
+        "slug": "sunmint-ux-refine-freight-redirect",
+        "filename": "beer-hall_2026-08-12T020437Z_sunmint-ux-refine-freight-redirect.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-08-12T020437Z_sunmint-ux-refine-freight-redirect.md"
+      },
       {
         "date": "2026-08-11",
         "slug": "oracle-fix-startup-summit-coordination",
@@ -850,12 +856,6 @@
         "slug": "warmup-conversion-ssl-recovery-plan",
         "filename": "beer-hall_2026-07-20T032156Z_warmup-conversion-ssl-recovery-plan.md",
         "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-20T032156Z_warmup-conversion-ssl-recovery-plan.md"
-      },
-      {
-        "date": "2026-07-18",
-        "slug": "tariff-analysis-sugar-rfq-checkout-fixes",
-        "filename": "beer-hall_2026-07-18T023839Z_tariff-analysis-sugar-rfq-checkout-fixes.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-18T023839Z_tariff-analysis-sugar-rfq-checkout-fixes.md"
       }
     ],
     "full_archive_url": "https://truesight.me/stats/beerhall_archive.json",
