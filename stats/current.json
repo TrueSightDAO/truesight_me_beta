@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-08-15T01:59:49Z",
+  "generated_at_utc": "2026-08-15T07:07:50Z",
   "regenerated_by": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/.github/workflows/stats-refresh.yml",
   "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
   "llms_orientation": "https://truesight.me/llms.txt",
@@ -8,7 +8,7 @@
     "mission": "Restore 10,000 hectares of Amazon rainforest."
   },
   "members": {
-    "generated_at": "2026-08-15T01:14:48Z",
+    "generated_at": "2026-08-15T06:26:26Z",
     "total_contributors": 482,
     "total_tdg_controlled_sum": 2416872.29,
     "governors_count": 10,
@@ -97,7 +97,7 @@
     "directory_url": "https://truesight.me/members.html"
   },
   "treasury": {
-    "generated_at": "2026-08-15T01:48:35.093Z",
+    "generated_at": "2026-08-15T06:48:36.677Z",
     "schema_version": 5,
     "trigger": "cron",
     "currency_totals": {
@@ -744,11 +744,11 @@
         }
       },
       "USD": {
-        "total_quantity": 11416.7,
-        "total_value_usd": 11416.7,
+        "total_quantity": 11532.84,
+        "total_value_usd": 11532.84,
         "item_count": 1,
         "ledger_breakdown": {
-          "Main Ledger": 4725.07,
+          "Main Ledger": 4841.21,
           "AGL15": 4327.15,
           "AGL6": 1337.59,
           "AGL8": 569.95,
@@ -758,11 +758,11 @@
         }
       },
       "USD - provisions for voting rights cash out": {
-        "total_quantity": 51.69,
-        "total_value_usd": 51.69,
+        "total_quantity": 51.78,
+        "total_value_usd": 51.78,
         "item_count": 1,
         "ledger_breakdown": {
-          "Main Ledger": 51.69
+          "Main Ledger": 51.78
         }
       },
       "USDT": {
@@ -785,12 +785,12 @@
   },
   "inventory": {
     "stores": {
-      "generated_at": "2026-08-14T07:53:29.000Z",
+      "generated_at": "2026-08-15T06:59:27.000Z",
       "store_count": 0,
       "line_items": 13
     },
     "partners": {
-      "generated_at": "2026-08-14T07:53:29.000Z",
+      "generated_at": "2026-08-15T06:59:27.000Z",
       "partner_count": 23
     }
   },
