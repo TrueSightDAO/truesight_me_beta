@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-08-16T18:57:59Z",
+  "generated_at_utc": "2026-08-17T02:05:47Z",
   "regenerated_by": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/.github/workflows/stats-refresh.yml",
   "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
   "llms_orientation": "https://truesight.me/llms.txt",
@@ -8,7 +8,7 @@
     "mission": "Restore 10,000 hectares of Amazon rainforest."
   },
   "members": {
-    "generated_at": "2026-08-16T18:20:32Z",
+    "generated_at": "2026-08-17T00:45:44Z",
     "total_contributors": 482,
     "total_tdg_controlled_sum": 2416897.29,
     "governors_count": 10,
@@ -97,7 +97,7 @@
     "directory_url": "https://truesight.me/members.html"
   },
   "treasury": {
-    "generated_at": "2026-08-16T18:48:41.500Z",
+    "generated_at": "2026-08-17T01:48:40.431Z",
     "schema_version": 5,
     "trigger": "cron",
     "currency_totals": {
@@ -190,11 +190,11 @@
         }
       },
       "81% Dark Chocolate Bar 50g | Cacao Almonds KG - Organic (Fazenda São Jorge) | Gary Teh 20260710 | San Francisco": {
-        "total_quantity": 28.0,
-        "total_value_usd": 157.47,
+        "total_quantity": 22.0,
+        "total_value_usd": 123.73,
         "item_count": 1,
         "ledger_breakdown": {
-          "Main Ledger": 28.0
+          "Main Ledger": 22.0
         }
       },
       "ATOLOMOTOR Coffee Bean Roaster": {
@@ -431,11 +431,11 @@
         }
       },
       "Cacao Tree To Be Planted": {
-        "total_quantity": 334.0,
-        "total_value_usd": -501.0,
+        "total_quantity": 340.0,
+        "total_value_usd": -510.0,
         "item_count": 1,
         "ledger_breakdown": {
-          "Main Ledger": 334.0
+          "Main Ledger": 340.0
         }
       },
       "Cacao tree seedling (per seedling, Amazon reforest Altamira, R$40/10, Paulo Hernandez, 20260409)": {
@@ -744,11 +744,11 @@
         }
       },
       "USD": {
-        "total_quantity": 11532.75,
-        "total_value_usd": 11532.75,
+        "total_quantity": 11601.21,
+        "total_value_usd": 11601.21,
         "item_count": 1,
         "ledger_breakdown": {
-          "Main Ledger": 4841.12,
+          "Main Ledger": 4909.58,
           "AGL15": 4327.15,
           "AGL6": 1337.59,
           "AGL8": 569.95,
@@ -785,7 +785,7 @@
   },
   "inventory": {
     "stores": {
-      "generated_at": "2026-08-16T07:01:45.000Z",
+      "generated_at": "2026-08-16T19:28:40.261Z",
       "store_count": 0,
       "line_items": 13
     },
