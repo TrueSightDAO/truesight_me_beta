@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "program_slug": "ivy-yoga",
+  "display_name": "IVY",
+  "partner_organization": "ERA Professionals",
+  "partner_url": "https://era-professionals.com/",
+  "partner_contact_label": "Bilal Musharraf (Founding Board Member, Indus Valley Yoga)",
+  "tagline": "Indus Valley Yoga teacher training, lineage-credentialed certification.",
+  "description_md": "IVY (Indus Valley Yoga) is ERA Professionals' yoga-teacher-training certification, based on the Original Hot Yoga Teacher Training created by Olivia Anselmo of Liv for Yoga, LLC, covering the 26 postures and 2 breathing exercises of Bikram Chaudhry's original regimen. Instructors complete 200+ hours of study and practice and are certified as IVY Certified Hot Yoga Teachers, co-signed by Bilal Musharraf (Indus Valley Yoga) and Olivia Anselmo (Liv for Yoga, LLC). Certificates are issued with a QR code that scans back to the instructor's TrueSight DAO–anchored profile. Co-issued via TrueSight DAO so credentials are publicly verifiable and portable.",
+  "co_brand": {
+    "partner_logo_url": "https://raw.githubusercontent.com/TrueSightDAO/ivy-yoga-club/main/cert_template/logo.png",
+    "primary_color": "#A84504",
+    "secondary_color": "#F5E9D4"
+  },
+  "source_pages": [],
+  "membership_filter": {
+    "primary_program": "ivy-yoga"
+  },
+  "credential_visibility_default": "public",
+  "issuer_lineage_root": "IVY",
+  "status": "active",
+  "certificate": {
+    "strategy": "pdf_overlay",
+    "available": true,
+    "label": "Download certificate"
+  },
+  "program_mode": "cohort_credentialing",
+  "roster_sheet_url": "https://docs.google.com/spreadsheets/d/1IrzM8z9X0bt-1Zp21s6DNxlL_1XaT-8Fq6e3YaQRcnU/edit",
+  "roster_tab": "Cohort Roster",
+  "audit_trail_tab": "Audit Trail",
+  "admin_panel_url": "https://ivy-yoga.truesight.me/",
+  "program_repo": "https://github.com/TrueSightDAO/ivy-yoga-club",
+  "tokenomics_admin_endpoint": "https://script.google.com/macros/s/AKfycbytzZtEhKEHCmxoSbhQXrg5Clc7imS24BFT134nu9yN4QvMCuQfhzEHgbuT8PRYcxgtGQ/exec",
+  "last_reviewed": "2026-08-18"
+}
