@@ -4,12 +4,12 @@
   "display_name": "IVY",
   "partner_organization": "ERA Professionals",
   "partner_url": "https://era-professionals.com/",
-  "partner_contact_label": "Bilal (program lead)",
-  "tagline": "Yoga-teacher training and lineage-credentialed certification.",
-  "description_md": "IVY is ERA Professionals' yoga-teacher-training certification, based on Olivia's \"Liv for Yoga\" curriculum and rooted in Bikram Chaudhry's 26-posture regimen. Instructors are certified on completion; certificates are issued with a QR code that scans back to their TrueSight DAO–anchored profile. Co-issued via TrueSight DAO so credentials are publicly verifiable and portable.",
+  "partner_contact_label": "Bilal Musharraf (Founding Board Member, Indus Valley Yoga)",
+  "tagline": "Indus Valley Yoga teacher training, lineage-credentialed certification.",
+  "description_md": "IVY (Indus Valley Yoga) is ERA Professionals' yoga-teacher-training certification, based on the Original Hot Yoga Teacher Training created by Olivia Anselmo of Liv for Yoga, LLC, covering the 26 postures and 2 breathing exercises of Bikram Chaudhry's original regimen. Instructors complete 200+ hours of study and practice and are certified as IVY Certified Hot Yoga Teachers, co-signed by Bilal Musharraf (Indus Valley Yoga) and Olivia Anselmo (Liv for Yoga, LLC). Certificates are issued with a QR code that scans back to the instructor's TrueSight DAO–anchored profile. Co-issued via TrueSight DAO so credentials are publicly verifiable and portable.",
   "co_brand": {
-    "partner_logo_url": "",
-    "primary_color": "#A66B2E",
+    "partner_logo_url": "https://raw.githubusercontent.com/TrueSightDAO/ivy-yoga-club/main/cert_template/logo.png",
+    "primary_color": "#A84504",
     "secondary_color": "#F5E9D4"
   },
   "source_pages": [],
