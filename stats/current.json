@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-08-22T19:00:09Z",
+  "generated_at_utc": "2026-08-23T02:10:45Z",
   "regenerated_by": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/.github/workflows/stats-refresh.yml",
   "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
   "llms_orientation": "https://truesight.me/llms.txt",
@@ -8,7 +8,7 @@
     "mission": "Restore 10,000 hectares of Amazon rainforest."
   },
   "members": {
-    "generated_at": "2026-08-22T18:17:11Z",
+    "generated_at": "2026-08-23T00:45:06Z",
     "total_contributors": 489,
     "total_tdg_controlled_sum": 2416897.29,
     "governors_count": 10,
@@ -97,7 +97,7 @@
     "directory_url": "https://truesight.me/members.html"
   },
   "treasury": {
-    "generated_at": "2026-08-22T18:48:33.705Z",
+    "generated_at": "2026-08-23T01:48:31.943Z",
     "schema_version": 5,
     "trigger": "cron",
     "currency_totals": {
@@ -439,19 +439,19 @@
         }
       },
       "Cacao Tree Planted": {
-        "total_quantity": 1.0,
-        "total_value_usd": 1.5,
+        "total_quantity": 3.0,
+        "total_value_usd": 4.5,
         "item_count": 1,
         "ledger_breakdown": {
-          "Main Ledger": 1.0
+          "Main Ledger": 3.0
         }
       },
       "Cacao Tree To Be Planted": {
-        "total_quantity": 340.0,
-        "total_value_usd": -510.0,
+        "total_quantity": 338.0,
+        "total_value_usd": -507.0,
         "item_count": 1,
         "ledger_breakdown": {
-          "Main Ledger": 340.0
+          "Main Ledger": 338.0
         }
       },
       "Cacao tree seedling (per seedling, Amazon reforest Altamira, R$40/10, Paulo Hernandez, 20260409)": {
@@ -819,8 +819,14 @@
     }
   },
   "recent_beerhall_digests": {
-    "total_entries": 102,
+    "total_entries": 103,
     "recent": [
+      {
+        "date": "2026-08-23",
+        "slug": "qr-map-updates-email-oauth-fix",
+        "filename": "beer-hall_2026-08-23T012558Z_qr-map-updates-email-oauth-fix.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-08-23T012558Z_qr-map-updates-email-oauth-fix.md"
+      },
       {
         "date": "2026-08-22",
         "slug": "cacao-tea-launch-media-refactor",
@@ -874,12 +880,6 @@
         "slug": "cacao-pack-visuals-sop",
         "filename": "beer-hall_2026-08-01T025616Z_cacao-pack-visuals-sop.md",
         "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-08-01T025616Z_cacao-pack-visuals-sop.md"
-      },
-      {
-        "date": "2026-07-31",
-        "slug": "cacao-logistics-narrative-live",
-        "filename": "beer-hall_2026-07-31T025739Z_cacao-logistics-narrative-live.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-07-31T025739Z_cacao-logistics-narrative-live.md"
       }
     ],
     "full_archive_url": "https://truesight.me/stats/beerhall_archive.json",
