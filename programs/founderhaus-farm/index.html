@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>FounderHaus Farm | TrueSight DAO</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="FounderHaus Farm — 100 bags of cacao tea, 100 trees. A regenerative-farm partnership between FounderHaus and TrueSight DAO." />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.truesight.me/programs/founderhaus-farm/" />
+    <meta property="og:title" content="FounderHaus Farm | TrueSight DAO" />
+    <meta property="og:description" content="One bag, one tree — the first 100 trees of the FounderHaus farm." />
+    <meta property="og:image" content="https://raw.githubusercontent.com/TrueSightDAO/.github/main/assets/founder-haus-logo.png" />
+
+    <link rel="icon" href="https://static.wixstatic.com/ficons/0e2cde_dd65db118f8f499eb06c159d7262167d%7Emv2.ico" type="image/x-icon" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../../styles/main.css" />
+    <style>
+      .program-page { max-width: 920px; margin: 0 auto; padding: var(--space-xl) 0; }
+      .program-backlink { margin: 0 0 var(--space-md); font-size: 0.85rem; }
+      .program-backlink a { color: var(--muted, #666); text-decoration: none; }
+      .program-backlink a:hover { color: var(--text, #222); text-decoration: underline; }
+      .program-hero { text-align: center; margin-bottom: var(--space-xl); }
+      .program-hero-logo {
+        display: block; max-width: 180px; max-height: 180px;
+        margin: 0 auto var(--space-md); object-fit: contain;
+      }
+      .program-hero .pill {
+        display: inline-block; padding: 0.25rem 0.7rem; background: var(--surface, #f5f5f5);
+        border-radius: 999px; font-size: 0.78rem; text-transform: uppercase;
+        letter-spacing: 0.08em; font-weight: 600; color: var(--muted, #555);
+      }
+      .program-hero h1 { font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 2.6rem; margin: var(--space-sm) 0 var(--space-xs); }
+      .program-hero .partner-line { color: var(--muted, #666); font-size: 0.95rem; margin-top: 0.35rem; }
+      .program-tagline { color: var(--muted, #555); max-width: 640px; margin: var(--space-md) auto 0; font-size: 1.05rem; }
+      .program-description { margin: var(--space-xl) 0; line-height: 1.65; }
+      .program-cta-row { display: flex; gap: var(--space-md); justify-content: center; flex-wrap: wrap; margin-top: var(--space-xl); }
+      .program-cta {
+        display: inline-block; padding: 0.7rem 1.4rem; border-radius: 999px;
+        font-weight: 600; text-decoration: none;
+      }
+      .program-cta.primary { background: #6a4a1a; color: #fff; }
+      .program-cta.secondary { background: var(--surface, #f5f5f5); color: var(--text, #222); border: 1px solid var(--border, #ddd); }
+      .program-cta:hover { transform: translateY(-1px); }
+
+      .cobrand-strip {
+        display: flex; align-items: center; gap: 1rem;
+        padding: var(--space-md); margin-bottom: var(--space-md);
+        background: #fff8ea; border: 1px solid #eed9a8; border-radius: 10px;
+      }
+      .cobrand-logo { width: 56px; height: 56px; object-fit: contain; flex-shrink: 0; }
+      .cobrand-text { flex: 1; }
+      .cobrand-line { font-family: 'Space Grotesk', system-ui, sans-serif; font-weight: 600; }
+      .cobrand-program { font-size: 1rem; }
+      .cobrand-divider { margin: 0 0.4rem; color: var(--muted); }
+      .cobrand-issuer { font-weight: 400; color: var(--muted, #555); font-size: 0.92rem; }
+      .cobrand-issuer a { color: inherit; text-decoration: underline; }
+      .cobrand-tagline { color: var(--muted, #666); font-size: 0.88rem; margin-top: 0.25rem; }
+      .cobrand-partner-link { display: inline-block; margin-top: 0.5rem; font-size: 0.88rem; color: #6a4a1a; }
+    </style>
+  </head>
+  <body>
+    <div id="site-nav"></div>
+<script src="/js/nav.js"></script>
+
+    <div class="page">
+      <div class="program-page">
+        <div id="cobrand-strip"></div>
+
+        <p class="program-backlink"><a href="../../programs.html">← All programs</a></p>
+
+        <div class="program-hero">
+          <img id="program-hero-logo" class="program-hero-logo" alt="" style="display:none" />
+          <span class="pill">Experiential learning credentialing</span>
+          <h1 id="program-name">FounderHaus Farm</h1>
+          <div class="partner-line">By <span id="program-partner">FounderHaus</span></div>
+          <p class="program-tagline" id="program-tagline">Loading…</p>
+        </div>
+
+        <div id="program-status"></div>
+        <div class="program-description" id="program-description"></div>
+
+        <div class="program-cta-row">
+          <a class="program-cta primary" href="members.html">View cohort →</a>
+          <a class="program-cta secondary" id="program-source-link" style="display:none" target="_blank" rel="noopener noreferrer">Visit partner site →</a>
+        </div>
+      </div>
+    </div>
+
+    <script src="../../js/program-shell.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        TrueSightProgramShell.init({ manifestPath: './manifest.json', type: 'landing' });
+      });
+      (function() {
+        const t = document.querySelector('.menu-toggle');
+        const m = document.querySelector('.nav-menu');
+        const h = document.querySelector('.site-header');
+        if (!t || !m) return;
+        t.addEventListener('click', function() {
+          const exp = t.getAttribute('aria-expanded') === 'true';
+          t.setAttribute('aria-expanded', !exp);
+          m.setAttribute('aria-hidden', exp);
+          h.classList.toggle('menu-open', !exp);
+        });
+      })();
+    </script>
+  <div id="site-footer"></div>
+<script src="/js/footer.js"></script>
+</body>
+</html>
