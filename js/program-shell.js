@@ -75,6 +75,11 @@
     // Process inline constructs (links, code) within a line of text.
     function renderLine(line) {
       var r = line;
+      // Bold first: **text** -> <strong>text</strong>. Escaping already
+      // happened (renderInlineMarkdown), so the only angle brackets here
+      // are the ones we add. Run before links/code so **bold [link](url)**
+      // and **`code`** both work.
+      r = r.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
       r = r.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, function (_, text, url) {
         return '<a href="' + url + '" target="_blank" rel="noreferrer noopener">' + text + '</a>';
       });
