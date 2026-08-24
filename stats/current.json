@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-08-24T13:32:09Z",
+  "generated_at_utc": "2026-08-24T19:11:25Z",
   "regenerated_by": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/.github/workflows/stats-refresh.yml",
   "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
   "llms_orientation": "https://truesight.me/llms.txt",
@@ -8,7 +8,7 @@
     "mission": "Restore 10,000 hectares of Amazon rainforest."
   },
   "members": {
-    "generated_at": "2026-08-24T12:29:55Z",
+    "generated_at": "2026-08-24T18:27:30Z",
     "total_contributors": 490,
     "total_tdg_controlled_sum": 2416897.29,
     "governors_count": 10,
@@ -97,7 +97,7 @@
     "directory_url": "https://truesight.me/members.html"
   },
   "treasury": {
-    "generated_at": "2026-08-24T12:48:37.029Z",
+    "generated_at": "2026-08-24T18:48:34.696Z",
     "schema_version": 5,
     "trigger": "cron",
     "currency_totals": {
@@ -438,6 +438,14 @@
           "Main Ledger": 229.0
         }
       },
+      "Cacao Tea 50g QR code labels (batch 2024OSCAR_CT_20260820)": {
+        "total_quantity": 100.0,
+        "total_value_usd": 81.31,
+        "item_count": 1,
+        "ledger_breakdown": {
+          "Main Ledger": 100.0
+        }
+      },
       "Cacao Tree Planted": {
         "total_quantity": 3.0,
         "total_value_usd": 4.5,
@@ -597,6 +605,14 @@
         "item_count": 1,
         "ledger_breakdown": {
           "Main Ledger": 26.0
+        }
+      },
+      "Chocolate Mold MHC-CL082 (58 x 125 mm) - Dongguan MHC Industrial Co Ltd": {
+        "total_quantity": 20.0,
+        "total_value_usd": 25.4,
+        "item_count": 1,
+        "ledger_breakdown": {
+          "Main Ledger": 20.0
         }
       },
       "Chocolate Mold from Rusty": {
