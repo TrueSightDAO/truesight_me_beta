@@ -163,7 +163,7 @@
 </div>
 <div class="whitepaper-bullet" style="--bullet-level:0">Quantify sequestration via biomass surveys and soil sampling
 </div>
-<div class="whitepaper-bullet" style="--bullet-level:0">Submit for third-party validation and registry certification (pilot route: Plan Vivo PVCs — the standard used by ACORN and CommuniTree for cacao/coffee agroforestry, with participatory farmer monitoring, lower validation costs, and ≥60% of credit revenue flowing to communities; scale route: Verra VM0047 + CCB for corporate offtake)
+<div class="whitepaper-bullet" style="--bullet-level:0">Certification decision — Plan Vivo first: Plan Vivo’s PV Climate framework is now CCP-Eligible under the ICVCM, the same benchmark Verra’s top methodologies hold; high-rated nature-based PVCs traded at a median above €30/t in 2025, above the broad VCU market, because buyers pay a premium for community co-benefits — which is SunMint’s model. The strongest cacao/coffee agroforestry precedents (ACORN, CommuniTree) certify under Plan Vivo, not Verra. Verra VM0047 + CCB is retained only for the scale phase or when a corporate offtake buyer demands VCS liquidity. Two-registry portfolio: Plan Vivo for smallholder plots (faster, cheaper, community-aligned, ≥60% revenue to communities), Verra on demand.
 </div>
 <p class="whitepaper-p"><strong>Cacao Production and Export
 </strong></p>
@@ -175,7 +175,7 @@
 </div>
 <p class="whitepaper-p"><strong>Monitoring &amp; Evaluation
 </strong></p>
-<div class="whitepaper-bullet" style="--bullet-level:0">Establish plots with satellite-based tracking and drone-based growth scanning (field calibration per VM0047 remote-sensing requirements); farmer smartphone monitoring of tree growth (DBH/height/species via mobile app + calibration card, per the ACORN / CommuniTree / TREEO operating model) cross-checked by satellite
+<div class="whitepaper-bullet" style="--bullet-level:0">Establish plots with satellite-based tracking via free APIs — Copernicus Data Space Ecosystem (ESA Sentinel-2, 10 m, 5-day revisit, free for commercial use), Microsoft Planetary Computer (Sentinel-2 + Landsat + HLS), USGS EarthExplorer (Landsat, 30 m, archive to 1972, public domain) — for the VM0047 non-forest ≥10-year baseline and annual leakage context; farmer smartphone monitoring of tree growth (DBH/height/species via mobile app + calibration card, per the ACORN / CommuniTree / TREEO operating model) is the primary measurement layer, cross-checked by the free satellite tier; drones deferred to post-pilot calibration sampling on a minority of plots
 </div>
 <div class="whitepaper-bullet" style="--bullet-level:0">Regular soil, biomass, and biodiversity sampling
 </div>
@@ -226,7 +226,7 @@
 </strong></h4>
 <h4 class="whitepaper-heading" id="8-ghg-emissions-reduction-estimation"><strong>8. GHG Emissions Reduction Estimation
 </strong></h4>
-<p class="whitepaper-p"><em>Estimates to be finalized with baseline data and methodology selection. Methodology: Verra VM0047 (ARR). Precedent: Andean Cacao (Colombia) — the first large-scale cacao agroforestry project validated and verified under Verra (VM0047 + CCB co-certification, 56,000+ VCUs on first issuance), demonstrating that cacao-based ARR is bankable under VCS. Phone-MRV precedent: ACORN (Rabobank/Solidaridad/Microsoft) and Taking Root's CommuniTree certify under Plan Vivo using farmer mobile-app tree measurement cross-checked by satellite; TREEO (1M+ trees, 94–95% DBH accuracy) and Greenstand Treetracker (500k+ trees) run photo-based growth monitoring; peer-reviewed smartphone DBH accuracy is R² ≥ 0.95. Verra has not yet approved formal dMRV requirements for forest carbon — phone data feeds monitoring reports while credits flow through standard VVB validation.
+<p class="whitepaper-p"><em>Estimates to be finalized with baseline data and methodology selection. Methodology (pilot): Plan Vivo PM002 (ACORN’s certified smallholder agroforestry methodology, active 29/09/2025) with Verra VM0047 (ARR) at scale. Accounting chain (PM002 v1.0): DBH + species → allometric equation → AGB; Eq. 1 ΔBGB_p = ΔAGB_p × R (root:shoot, IPCC default R = 0.32); Eqs. 6.1/6.2 PVCs = ((ΔAGB_p + ΔBGB_p) × 0.47) × 44/12 × (1 − A_pre)(1 − A_unc)(1 − LD)(1 − AR)(1 − RB) − (E_proj − E_base), with AR = 10% achievement reserve and RB = 20% risk buffer — fully implementable in the farmer mobile app. Precedent: Andean Cacao (Colombia) — the first large-scale cacao agroforestry project validated and verified under Verra (VM0047 + CCB co-certification, 56,000+ VCUs on first issuance), demonstrating that cacao-based ARR is bankable under VCS. Phone-MRV precedent: ACORN (Rabobank/Solidaridad/Microsoft) and Taking Root's CommuniTree certify under Plan Vivo using farmer mobile-app tree measurement cross-checked by satellite; TREEO (1M+ trees, 94–95% DBH accuracy) and Greenstand Treetracker (500k+ trees) run photo-based growth monitoring; peer-reviewed smartphone DBH accuracy is R² ≥ 0.95. Verra has not yet approved formal dMRV requirements for forest carbon — phone data feeds monitoring reports while credits flow through standard VVB validation.
 </em></p>
 <div class="whitepaper-bullet" style="--bullet-level:0">Expected sequestration: <em>X</em> tCO₂e per hectare per year
 </div>
@@ -282,6 +282,12 @@
 </div>
 <div class="whitepaper-bullet" style="--bullet-level:0">Offer on-chain carbon credit issuance and transparent benefit sharing via DAO governance
 </div>
+<p class="whitepaper-p"><strong>Funding — existing grants (no external investors needed):</strong> cocoa-industry funds (Cocoa Horizons/Barry Callebaut, Cocoa Life/Mondelēz $1B, Cargill Cocoa Promise, Fundo Vale — Belterra/Caapora cacao agroforestry incubators), GCF + IICA cacao program (12,500 ha, 5.18 Mt CO₂e, 3,000 producers — SunMint’s model at scale), iNovaland South Bahia restoration call (R$8.8M), Gitcoin climate rounds (US$200k+ pools), CFC grants (cocoa focus), Forest Conservation Fund (quarterly cycles), regen.fund, Regenerative Agriculture Foundation. Blockers are paperwork + sequencing, not money.
+</p>
+<p class="whitepaper-p"><strong>Milestones — executed:</strong> M0 ✓ native Android/iOS SunMint app shipped (2026-08-23, Capacitor 8, offline-first, RSA-signed); M1 ✓ first tree linked to a sold QR code (2026-08-22); M2 ✓ PDD methodology corrected to VM0047/PM002. <strong>Planned:</strong> M3 Stage 0 capital + grant applications (Q3 2026) · M4 PDD draft + free-satellite baseline (Q4 2026) · M5 monitor_tree_growth module (Q4 2026) · M6 VVB engagement + Plan Vivo validation (Q1 2027) · M7 pilot planting 20–50 ha (2027) · M8 Terra RFP / offtake + scale (2027+).
+</p>
+<p class="whitepaper-p"><strong>Execution has started — the first funded tree:</strong> QR code <code>FOUNDERHAUS_BOUGAINVILLEA_20260821_1</code> — SunMint Tree Planting Pledge, status ASSIGNED_TO_TREE, owner paloma@founderhaus.club, manager Gary Teh, ledger <a href="https://truesight.me/sunmint/main" rel="noopener noreferrer">truesight.me/sunmint/main</a>, linked 2026-08-22 (first real non-test tree–QR link). Scan: https://edgar.truesight.me/agroverse/qr-code-check?qr_code=FOUNDERHAUS_BOUGAINVILLEA_20260821_1
+</p>
 <p class="whitepaper-spacer">&nbsp;</p>
 <p class="whitepaper-spacer">&nbsp;</p>
 <p class="whitepaper-spacer">&nbsp;</p>
