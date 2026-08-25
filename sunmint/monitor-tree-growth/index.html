@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Google tag (gtag.js) - only on truesight.me production -->
+    <script>
+    (function() {
+      var h = window.location.hostname;
+      if (h !== 'truesight.me' && h !== 'www.truesight.me') return;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-9QN16RFM0T';
+      document.head.appendChild(s);
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-9QN16RFM0T');
+    })();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Monitor Tree Growth — SunMint — TrueSight DAO</title>
+    <meta name="description" content="Monitor tree growth — record a video measurement with the calibration card" />
+    <meta property="og:title" content="Monitor Tree Growth — SunMint" />
+    <meta property="og:description" content="Monitor tree growth — record a video measurement with the calibration card" />
+    <meta property="og:image" content="https://github.com/TrueSightDAO/.github/blob/main/assets/20240612_truesight_dao_logo_square.png?raw=true" />
+    <meta property="og:url" content="https://sunmint.truesight.me/monitor-tree-growth/" />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="https://static.wixstatic.com/media/0e2cde_dd65db118f8f499eb06c159d7262167d%7Emv2.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../styles/main.css" />
+    <style>
+      .monitor-wrap { max-width: 640px; margin: 0 auto; padding: 1.5rem; }
+      .monitor-card {
+        background: #fff; border: 1px solid #e5e5e5; border-radius: 10px;
+        padding: 1.25rem; margin-bottom: 1rem; box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+      }
+      .monitor-card h2 { font-size: 1.1rem; margin: 0 0 0.8rem; color: #1a3c1e; }
+      .monitor-card label { display: block; font-size: 0.9rem; margin: 0.6rem 0 0.2rem; color: #333; }
+      .monitor-card select, .monitor-card input[type="text"], .monitor-card input[type="number"] {
+        width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 5px; font-size: 0.95rem; box-sizing: border-box;
+      }
+      .status { color: #28a745; }
+      .error { color: #dc3545; }
+      .loading { color: #6c757d; font-style: italic; }
+      #cameraPreview { width: 100%; border-radius: 8px; margin: 0.75rem 0; display: none; }
+      #status { margin: 0.6rem 0; font-weight: 600; }
+      button {
+        padding: 0.75rem 1.25rem; font-size: 1rem; border: none; border-radius: 8px;
+        background: #2e7d32; color: #fff; cursor: pointer; margin: 0.35rem 0.35rem 0 0;
+      }
+      button:hover { background: #256b29; }
+      button:disabled { background: #ccc; cursor: not-allowed; }
+      #submissionResult pre {
+        background: #f7f7f7; border: 1px solid #ddd; border-radius: 4px; padding: 0.8rem 1rem;
+        font-family: ui-monospace, SFMono-Regular, monospace; font-size: 0.8rem; line-height: 1.4;
+        white-space: pre-wrap; word-break: break-word; max-height: 360px; overflow: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="site-nav"></div>
+    <script src="/js/nav.js"></script>
+    <div class="page">
+      <div class="monitor-wrap">
+        <h1>Monitor Tree Growth</h1>
+        <p style="font-style:italic; color:#555;">Measure your tree with the calibration card — the video is analyzed to estimate growth and carbon (PM002).</p>
+        <p id="status" class="loading">Setting up your signature…</p>
+        <div id="welcome" style="font-weight:600; margin:0.6rem 0; display:none;"></div>
+
+        <div id="info" style="display:none;">
+          <div class="monitor-card">
+            <h2>1. Select your tree (nearest first)</h2>
+            <div style="font-size:0.9rem; color:#555;">Your Location: <span id="location">waiting for geolocation…</span></div>
+            <label for="treeSelect">Tree</label>
+            <select id="treeSelect"><option value="">Loading nearby trees…</option></select>
+            <label for="treeIdManual">Or enter Tree ID manually</label>
+            <input type="text" id="treeIdManual" placeholder="e.g. FOUNDERHAUS_BOUGAINVILLEA_20260821_1" />
+            <div id="speciesLabel" style="font-size:0.85rem; color:#555; margin-top:0.3rem;"></div>
+          </div>
+
+          <div class="monitor-card">
+            <h2>2. Measure</h2>
+            <label for="dbhInput">DBH (cm) — diameter at breast height (1.3 m). Hold the calibration card against the trunk, in frame.</label>
+            <input type="number" id="dbhInput" step="0.1" min="0.5" placeholder="e.g. 12.5" />
+            <video id="cameraPreview" autoplay playsinline muted></video>
+            <canvas id="captureCanvas" style="display:none;"></canvas>
+            <div>
+              <button id="recordButton" style="display:none;">Start Recording</button>
+              <button id="submitButton" style="display:none;">Submit Report</button>
+            </div>
+            <div id="action-status" aria-live="polite" style="margin:0.6rem 0; font-size:0.95rem;"></div>
+          </div>
+
+          <div id="submissionResult" style="display:none;" aria-live="polite">
+            <h3>Transaction request (signed payload sent to Edgar)</h3>
+            <pre id="requestPre"></pre>
+            <h3>Edgar response</h3>
+            <pre id="responsePre"></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="site-footer"></div>
+    <script src="/js/footer.js"></script>
+    <script>
+    (function () {
+      'use strict';
+      const API_ENDPOINT = 'https://script.google.com/macros/s/AKfycbygmwRbyqse-dpCYMco0rb93NSgg-Jc1QIw7kUiBM7CZK6jnWnMB5DEjdoX_eCsvVs7/exec';
+      const EDGAR_PING = 'https://edgar.truesight.me/ping';
+      const EDGAR_SUBMIT = 'https://edgar.truesight.me/dao/submit_contribution';
+      const TREE_INDEX_URLS = [
+        'https://sunmint.truesight.me/trees/index.geojson',
+        'https://truesight.me/sunmint/trees/index.geojson'
+      ];
+
+      let latitude = null, longitude = null, stream = null, mediaRecorder = null;
+      let recordedChunks = [], videoFile = null, photoFile = null, treeIndex = null;
+      let newKeysGenerated = false, isSignatureRegistered = false;
+
+      const $ = id => document.getElementById(id);
+
+      function arrayBufferToBase64(buffer) {
+        return btoa(String.fromCharCode(...new Uint8Array(buffer)));
+      }
+      function base64ToArrayBuffer(base64) {
+        const binary = atob(base64);
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+        return bytes.buffer;
+      }
+      function isMobileDevice() {
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      }
+      async function isOnline() {
+        if (!navigator.onLine) return false;
+        try { const r = await fetch(EDGAR_PING, { method: 'HEAD' }); return r.ok; } catch { return false; }
+      }
+      async function copyToClipboard(text) {
+        try { await navigator.clipboard.writeText(text); return true; }
+        catch (e) { return false; }
+      }
+      function encodeSignature(signature) {
+        return encodeURIComponent(signature).replace(/%20/g, '+').replace(/'/g, '%27').replace(/"/g, '%22');
+      }
+      function isValidSignature(signature) {
+        if (!signature) return false;
+        if (!/^[A-Za-z0-9+/=]+$/.test(signature)) return false;
+        return signature.length >= 100 && signature.length <= 5000;
+      }
+
+      async function checkSignatureRegistration(publicKey) {
+        const statusElement = $('status');
+        if (!isValidSignature(publicKey)) { statusElement.textContent = 'Invalid digital signature format'; statusElement.className = 'error'; return null; }
+        try {
+          const response = await fetch(API_ENDPOINT + '?signature=' + encodeSignature(publicKey));
+          if (!response.ok) throw new Error('HTTP ' + response.status);
+          return await response.json();
+        } catch (error) {
+          statusElement.textContent = 'Error verifying signature: ' + error.message;
+          statusElement.className = 'error';
+          return { error: error.message };
+        }
+      }
+
+      async function generateKeyPair() {
+        const statusElement = $('status');
+        statusElement.textContent = 'Generating new digital signature…';
+        statusElement.className = 'loading';
+        try {
+          const keyPair = await window.crypto.subtle.generateKey(
+            { name: 'RSASSA-PKCS1-v1_5', modulusLength: 2048, publicExponent: new Uint8Array([1, 0, 1]), hash: 'SHA-256' },
+            true, ['sign', 'verify']
+          );
+          const publicKey = await window.crypto.subtle.exportKey('spki', keyPair.publicKey);
+          const privateKey = await window.crypto.subtle.exportKey('pkcs8', keyPair.privateKey);
+          localStorage.setItem('publicKey', arrayBufferToBase64(publicKey));
+          localStorage.setItem('privateKey', arrayBufferToBase64(privateKey));
+          newKeysGenerated = true;
+          statusElement.textContent = 'Signature created successfully';
+          statusElement.className = 'status';
+        } catch (error) {
+          statusElement.textContent = 'Error creating signature: ' + error.message;
+          statusElement.className = 'error';
+          throw error;
+        }
+      }
+
+      function haversine(lat1, lon1, lat2, lon2) {
+        const R = 6371000, toRad = d => d * Math.PI / 180;
+        const dLat = toRad(lat2 - lat1), dLon = toRad(lon2 - lon1);
+        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                  Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      }
+
+      async function loadTreeIndex() {
+        for (const url of TREE_INDEX_URLS) {
+          try {
+            const resp = await fetch(url, { cache: 'no-store' });
+            if (!resp.ok) continue;
+            const geojson = await resp.json();
+            return (geojson.features || []).map(f => {
+              const p = f.properties || {};
+              return {
+                id: p.tree_id || f.id || 'unknown',
+                lat: f.geometry && f.geometry.coordinates ? f.geometry.coordinates[1] : null,
+                lng: f.geometry && f.geometry.coordinates ? f.geometry.coordinates[0] : null,
+                species: p.species || '',
+                last_measured: p.last_measured || ''
+              };
+            });
+          } catch (_) { /* next */ }
+        }
+        return null;
+      }
+
+      function populateTreeDropdown(trees) {
+        const select = $('treeSelect');
+        select.innerHTML = '';
+        if (!trees || trees.length === 0) {
+          select.innerHTML = '<option value="">No nearby trees found — enter Tree ID manually</option>';
+          return;
+        }
+        const sorted = trees.slice().sort((a, b) => (a._dist || 0) - (b._dist || 0));
+        sorted.forEach(t => {
+          const opt = document.createElement('option');
+          opt.value = t.id;
+          const distText = (t._dist !== undefined && t._dist !== null) ? ' — ' + Math.round(t._dist) + ' m' : '';
+          opt.textContent = t.id + distText + (t.species ? ' (' + t.species + ')' : '');
+          select.appendChild(opt);
+        });
+        select.insertAdjacentHTML('afterbegin', '<option value="">Select a tree…</option>');
+      }
+
+      function startCamera() {
+        const actionStatus = $('action-status');
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          actionStatus.textContent = 'Camera not supported on this device.';
+          actionStatus.className = 'error';
+          return false;
+        }
+        const constraints = {
+          video: isMobileDevice()
+            ? { facingMode: { ideal: 'environment' }, width: { ideal: 1280 }, height: { ideal: 720 } }
+            : true
+        };
+        return navigator.mediaDevices.getUserMedia(constraints)
+          .then(function (s) {
+            stream = s;
+            $('cameraPreview').srcObject = stream;
+            $('cameraPreview').style.display = 'block';
+            $('recordButton').style.display = 'inline-block';
+            actionStatus.textContent = 'Camera started. Hold the calibration card against the trunk, then record a short walk-around.';
+            actionStatus.className = 'status';
+            return true;
+          })
+          .catch(function (error) {
+            actionStatus.textContent = 'Error accessing camera: ' + error.message;
+            actionStatus.className = 'error';
+            return false;
+          });
+      }
+
+      function stopCamera() {
+        if (stream && stream.getTracks) {
+          stream.getTracks().forEach(t => t.stop());
+          stream = null;
+          const v = $('cameraPreview');
+          v.srcObject = null;
+          v.style.display = 'none';
+        }
+      }
+
+      function getLocation() {
+        return new Promise((resolve, reject) => {
+          if (!navigator.geolocation) reject(new Error('Geolocation not supported'));
+          navigator.geolocation.getCurrentPosition(
+            pos => {
+              latitude = pos.coords.latitude.toFixed(6);
+              longitude = pos.coords.longitude.toFixed(6);
+              resolve({ latitude, longitude });
+            },
+            err => reject(new Error('Error getting location: ' + err.message)),
+            { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+          );
+        });
+      }
+
+      function startRecording() {
+        const actionStatus = $('action-status');
+        if (!stream || !window.MediaRecorder) {
+          actionStatus.textContent = 'Recording not supported — submit with a photo instead.';
+          actionStatus.className = 'error';
+          return;
+        }
+        recordedChunks = [];
+        videoFile = null; photoFile = null;
+        try { mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' }); }
+        catch (e) { mediaRecorder = new MediaRecorder(stream); }
+        mediaRecorder.ondataavailable = e => { if (e.data && e.data.size > 0) recordedChunks.push(e.data); };
+        mediaRecorder.onstop = () => {
+          const videoBlob = new Blob(recordedChunks, { type: 'video/webm' });
+          videoFile = new File([videoBlob], 'tree_monitor_video.webm', { type: 'video/webm' });
+          capturePhoto();
+          actionStatus.textContent = 'Video captured (' + Math.round(videoFile.size / 1024) + ' KB). Enter DBH and submit.';
+          actionStatus.className = 'status';
+          $('recordButton').textContent = 'Re-record';
+        };
+        mediaRecorder.start();
+        $('recordButton').textContent = 'Stop Recording';
+        $('recordButton').style.background = '#dc3545';
+        actionStatus.textContent = 'Recording… walk around the tree with the calibration card in frame (max 20 s).';
+        actionStatus.className = 'status';
+        setTimeout(() => { if (mediaRecorder && mediaRecorder.state === 'recording') stopRecording(); }, 20000);
+      }
+
+      function stopRecording() {
+        if (mediaRecorder && mediaRecorder.state === 'recording') mediaRecorder.stop();
+        const b = $('recordButton');
+        b.textContent = 'Start Recording';
+        b.style.background = '';
+      }
+
+      function capturePhoto() {
+        const video = $('cameraPreview');
+        const canvas = $('captureCanvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+        return new Promise(resolve => {
+          canvas.toBlob(blob => {
+            photoFile = new File([blob], 'tree_monitor_photo.jpg', { type: 'image/jpeg' });
+            resolve();
+          }, 'image/jpeg', 0.9);
+        });
+      }
+
+      function getSelectedTree() {
+        const fromSelect = $('treeSelect').value || '';
+        const manual = $('treeIdManual').value.trim();
+        const treeId = fromSelect || manual;
+        let species = '';
+        if (treeIndex && fromSelect) {
+          const t = treeIndex.find(x => x.id === fromSelect);
+          if (t && t.species) species = t.species;
+        }
+        return { treeId, species };
+      }
+
+      async function submitMonitorReport() {
+        const actionStatus = $('action-status');
+        const publicKey = localStorage.getItem('publicKey');
+        const privateKey = localStorage.getItem('privateKey');
+        const { treeId, species } = getSelectedTree();
+        const dbh = parseFloat($('dbhInput').value);
+
+        if (!treeId) { actionStatus.textContent = 'Please select or enter a tree.'; actionStatus.className = 'error'; return; }
+        if (!dbh || isNaN(dbh) || dbh <= 0) { actionStatus.textContent = 'Please enter a valid DBH (cm).'; actionStatus.className = 'error'; return; }
+        if (!latitude || !longitude) { actionStatus.textContent = 'Location not available. Please allow location access.'; actionStatus.className = 'error'; return; }
+
+        try {
+          if (!videoFile) await capturePhoto();
+          const measuredAt = new Date().toISOString();
+          const now = new Date();
+          const pad = n => n.toString().padStart(2, '0');
+          const stamp = now.getFullYear() + pad(now.getMonth() + 1) + pad(now.getDate()) + pad(now.getHours()) + pad(now.getMinutes()) + pad(now.getSeconds());
+          const safePublicKey = publicKey.replace(/[^a-zA-Z0-9]/g, '').slice(0, 20);
+          const videoDestinationURL = 'https://github.com/TrueSightDAO/sunmint/tree/main/images/' + stamp + '_' + safePublicKey + '_monitor.webm';
+          const photoDestinationURL = 'https://github.com/TrueSightDAO/sunmint/tree/main/images/' + stamp + '_' + safePublicKey + '_monitor.jpg';
+
+          const nearbySummary = treeIndex
+            ? treeIndex.filter(t => t.id !== treeId)
+                .map(t => t._dist !== undefined ? t.id + ':' + Math.round(t._dist) + 'm' : t.id)
+                .slice(0, 5).join(', ')
+            : '';
+
+          const requestText = '[TREE GROWTH MONITORING EVENT]\n- Tree ID: ' + treeId + '\n- Species: ' + (species || 'unknown') + '\n- DBH (cm): ' + dbh + '\n- Latitude: ' + latitude + '\n- Longitude: ' + longitude + '\n- Measurement Time: ' + measuredAt + '\n- Video URL: ' + videoDestinationURL + '\n- Photo URL: ' + photoDestinationURL + '\n- Nearby Trees: ' + (nearbySummary || 'n/a') + '\n- Submission Source: ' + window.location.href + '\n--------';
+
+          const privateKeyObj = await window.crypto.subtle.importKey(
+            'pkcs8', base64ToArrayBuffer(privateKey),
+            { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' }, false, ['sign']
+          );
+          const encoder = new TextEncoder();
+          const signature = await window.crypto.subtle.sign('RSASSA-PKCS1-v1_5', privateKeyObj, encoder.encode(requestText));
+          const requestHash = arrayBufferToBase64(signature);
+          const shareText = requestText + '\n\nMy Digital Signature: ' + publicKey + '\n\nRequest Transaction ID: ' + requestHash + '\n\nThis submission was generated using ' + window.location.href + '\n\nVerify submission here: https://dapp.truesight.me/verify_request.html' + (isSignatureRegistered ? '' : '\n\nRegister your account: https://truesightdao.github.io/dapp/create_signature.html');
+
+          if (await isOnline()) {
+            const formData = new FormData();
+            formData.append('text', shareText);
+            if (videoFile) formData.append('attachment', videoFile, 'tree_monitor_video.webm');
+            if (photoFile) formData.append('attachment', photoFile, 'tree_monitor_photo.jpg');
+            const resp = await fetch(EDGAR_SUBMIT, { method: 'POST', body: formData });
+            if (!resp.ok) throw new Error(await resp.text());
+            const respText = await resp.text();
+            let respPretty = respText;
+            try { respPretty = JSON.stringify(JSON.parse(respText), null, 2); } catch (_) { /* raw */ }
+            actionStatus.innerHTML = 'Report sent successfully via API. <a href="https://truesight.me/submissions/raw-telegram-chatlogs" target="_blank">View submissions</a>' + (newKeysGenerated && !isSignatureRegistered ? ' — <a href="https://truesightdao.github.io/dapp/create_signature.html">Register your account</a> to complete your digital signature registration.' : '');
+            actionStatus.className = 'status';
+            $('requestPre').textContent = shareText;
+            $('responsePre').textContent = respPretty;
+            $('submissionResult').style.display = 'block';
+          } else {
+            if (isMobileDevice() && navigator.share) {
+              await navigator.share({ text: shareText, files: videoFile ? [videoFile, photoFile] : [photoFile] });
+              actionStatus.innerHTML = 'Internet or server not available. Share the report to our <a href="https://t.me/TrueSightDAO" target="_blank">Telegram</a> or <a href="https://wa.me/14423405782" target="_blank">WhatsApp</a> channels.';
+              actionStatus.className = 'error';
+            } else if (await copyToClipboard(shareText)) {
+              actionStatus.innerHTML = 'Internet or server not available. Report copied to clipboard — paste it into our <a href="https://t.me/TrueSightDAO" target="_blank">Telegram</a> or <a href="https://wa.me/14423405782" target="_blank">WhatsApp</a> channels with the video/photo.';
+              actionStatus.className = 'error';
+            } else {
+              actionStatus.innerHTML = 'Internet or server not available. Manually share the report below to our <a href="https://t.me/TrueSightDAO" target="_blank">Telegram</a> or <a href="https://wa.me/14423405782" target="_blank">WhatsApp</a> channels with the video/photo:<br><br><pre>' + shareText + '</pre>';
+              actionStatus.className = 'error';
+            }
+          }
+          try { stopCamera(); } catch (e) { /* noop */ }
+        } catch (error) {
+          actionStatus.textContent = 'Error generating report: ' + error.message + '. Please try again or contact support.';
+          actionStatus.className = 'error';
+        }
+      }
+
+      window.addEventListener('load', async function () {
+        let publicKey = localStorage.getItem('publicKey');
+        let privateKey = localStorage.getItem('privateKey');
+        if (!publicKey || !privateKey || !isValidSignature(publicKey)) {
+          try {
+            await generateKeyPair();
+            publicKey = localStorage.getItem('publicKey');
+            privateKey = localStorage.getItem('privateKey');
+          } catch (e) { return; }
+        }
+        const registration = await checkSignatureRegistration(publicKey);
+        if (registration && registration.contributor_name) {
+          isSignatureRegistered = true;
+          $('welcome').textContent = 'Welcome, ' + registration.contributor_name + '!';
+          $('welcome').style.display = 'block';
+        }
+        try {
+          await getLocation();
+          $('location').textContent = 'Lat ' + latitude + ', Lng ' + longitude;
+        } catch (e) {
+          $('location').textContent = 'Location unavailable — you can still record; GPS required for submission.';
+        }
+        treeIndex = await loadTreeIndex();
+        if (treeIndex && latitude && longitude) {
+          treeIndex.forEach(t => { if (t.lat && t.lng) t._dist = haversine(parseFloat(latitude), parseFloat(longitude), t.lat, t.lng); });
+          populateTreeDropdown(treeIndex);
+        } else {
+          $('treeSelect').innerHTML = '<option value="">Nearby trees unavailable — enter Tree ID manually</option>';
+        }
+        $('info').style.display = 'block';
+        $('status').textContent = 'Ready.';
+        $('status').className = 'status';
+        $('recordButton').addEventListener('click', function () {
+          if (mediaRecorder && mediaRecorder.state === 'recording') stopRecording();
+          else startRecording();
+        });
+        $('submitButton').addEventListener('click', submitMonitorReport);
+        const started = await startCamera();
+        if (!started) $('submitButton').style.display = 'inline-block';
+      });
+    })();
+    </script>
+  </body>
+</html>
