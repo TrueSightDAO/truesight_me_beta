@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-08-25T19:09:51Z",
+  "generated_at_utc": "2026-08-26T02:10:39Z",
   "regenerated_by": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/.github/workflows/stats-refresh.yml",
   "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
   "llms_orientation": "https://truesight.me/llms.txt",
@@ -8,7 +8,7 @@
     "mission": "Restore 10,000 hectares of Amazon rainforest."
   },
   "members": {
-    "generated_at": "2026-08-25T18:26:42Z",
+    "generated_at": "2026-08-26T00:43:57Z",
     "total_contributors": 490,
     "total_tdg_controlled_sum": 2416897.29,
     "governors_count": 10,
@@ -97,7 +97,7 @@
     "directory_url": "https://truesight.me/members.html"
   },
   "treasury": {
-    "generated_at": "2026-08-25T18:48:39.198Z",
+    "generated_at": "2026-08-26T01:48:40.490Z",
     "schema_version": 5,
     "trigger": "cron",
     "currency_totals": {
@@ -835,8 +835,14 @@
     }
   },
   "recent_beerhall_digests": {
-    "total_entries": 104,
+    "total_entries": 105,
     "recent": [
+      {
+        "date": "2026-08-26",
+        "slug": "sunmint-monitoring-page-deploy-sop",
+        "filename": "beer-hall_2026-08-26T012318Z_sunmint-monitoring-page-deploy-sop.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-08-26T012318Z_sunmint-monitoring-page-deploy-sop.md"
+      },
       {
         "date": "2026-08-24",
         "slug": "founderhaus-launch-fund-transfer-state",
@@ -890,12 +896,6 @@
         "slug": "robotics-barter-strategy-maintenance-peg",
         "filename": "beer-hall_2026-08-07T024448Z_robotics-barter-strategy-maintenance-peg.md",
         "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-08-07T024448Z_robotics-barter-strategy-maintenance-peg.md"
-      },
-      {
-        "date": "2026-08-04",
-        "slug": "prospera-operating-agreement-signed-china-market-strategy",
-        "filename": "beer-hall_2026-08-04T024220Z_prospera-operating-agreement-signed-china-market-strategy.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-08-04T024220Z_prospera-operating-agreement-signed-china-market-strategy.md"
       }
     ],
     "full_archive_url": "https://truesight.me/stats/beerhall_archive.json",
