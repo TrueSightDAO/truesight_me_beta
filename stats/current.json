@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-08-26T21:02:07Z",
+  "generated_at_utc": "2026-08-27T10:25:58Z",
   "regenerated_by": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/.github/workflows/stats-refresh.yml",
   "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
   "llms_orientation": "https://truesight.me/llms.txt",
@@ -8,7 +8,7 @@
     "mission": "Restore 10,000 hectares of Amazon rainforest."
   },
   "members": {
-    "generated_at": "2026-08-26T19:36:52Z",
+    "generated_at": "2026-08-27T05:49:38Z",
     "total_contributors": 490,
     "total_tdg_controlled_sum": 2416897.29,
     "governors_count": 10,
@@ -97,7 +97,7 @@
     "directory_url": "https://truesight.me/members.html"
   },
   "treasury": {
-    "generated_at": "2026-08-26T20:48:35.396Z",
+    "generated_at": "2026-08-27T09:48:38.754Z",
     "schema_version": 5,
     "trigger": "cron",
     "currency_totals": {
@@ -208,6 +208,14 @@
       "Agroverse Retractable Banner": {
         "total_quantity": 1.0,
         "total_value_usd": 72.57,
+        "item_count": 1,
+        "ledger_breakdown": {
+          "Main Ledger": 1.0
+        }
+      },
+      "Agroverse Sticker 4x3cm (Founder Haus) - Brazil": {
+        "total_quantity": 1.0,
+        "total_value_usd": 0.06,
         "item_count": 1,
         "ledger_breakdown": {
           "Main Ledger": 1.0
@@ -743,6 +751,14 @@
           "SEF1": 297.0
         }
       },
+      "QR Code Sticker 4x3cm (Kraft Pouch) - Brazil": {
+        "total_quantity": 1.0,
+        "total_value_usd": 0.06,
+        "item_count": 1,
+        "ledger_breakdown": {
+          "Main Ledger": 1.0
+        }
+      },
       "RLAVBL 7x5x4 corrugated ship box (50ct, Amazon 111-6184462-4075467)": {
         "total_quantity": 35.0,
         "total_value_usd": 19.39,
@@ -784,11 +800,11 @@
         }
       },
       "USD": {
-        "total_quantity": 11600.17,
-        "total_value_usd": 11600.17,
+        "total_quantity": 11600.06,
+        "total_value_usd": 11600.06,
         "item_count": 1,
         "ledger_breakdown": {
-          "Main Ledger": 4908.54,
+          "Main Ledger": 4908.43,
           "AGL15": 4327.15,
           "AGL6": 1337.59,
           "AGL8": 569.95,
@@ -798,11 +814,11 @@
         }
       },
       "USD - provisions for voting rights cash out": {
-        "total_quantity": 52.91,
-        "total_value_usd": 52.91,
+        "total_quantity": 53.01,
+        "total_value_usd": 53.01,
         "item_count": 1,
         "ledger_breakdown": {
-          "Main Ledger": 52.91
+          "Main Ledger": 53.01
         }
       },
       "USDT": {
@@ -835,8 +851,14 @@
     }
   },
   "recent_beerhall_digests": {
-    "total_entries": 105,
+    "total_entries": 106,
     "recent": [
+      {
+        "date": "2026-08-27",
+        "slug": "sunmint-monitor-plan-backend-sync",
+        "filename": "beer-hall_2026-08-27T080454Z_sunmint-monitor-plan-backend-sync.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-08-27T080454Z_sunmint-monitor-plan-backend-sync.md"
+      },
       {
         "date": "2026-08-26",
         "slug": "sunmint-monitoring-page-deploy-sop",
@@ -890,12 +912,6 @@
         "slug": "tls-fix-chocolate-tasting-sunmint-cta",
         "filename": "beer-hall_2026-08-10T015547Z_tls-fix-chocolate-tasting-sunmint-cta.md",
         "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-08-10T015547Z_tls-fix-chocolate-tasting-sunmint-cta.md"
-      },
-      {
-        "date": "2026-08-07",
-        "slug": "robotics-barter-strategy-maintenance-peg",
-        "filename": "beer-hall_2026-08-07T024448Z_robotics-barter-strategy-maintenance-peg.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-08-07T024448Z_robotics-barter-strategy-maintenance-peg.md"
       }
     ],
     "full_archive_url": "https://truesight.me/stats/beerhall_archive.json",
