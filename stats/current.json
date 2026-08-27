@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-08-27T10:25:58Z",
+  "generated_at_utc": "2026-08-27T22:31:33Z",
   "regenerated_by": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/.github/workflows/stats-refresh.yml",
   "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
   "llms_orientation": "https://truesight.me/llms.txt",
@@ -8,7 +8,7 @@
     "mission": "Restore 10,000 hectares of Amazon rainforest."
   },
   "members": {
-    "generated_at": "2026-08-27T05:49:38Z",
+    "generated_at": "2026-08-27T18:47:53Z",
     "total_contributors": 490,
     "total_tdg_controlled_sum": 2416897.29,
     "governors_count": 10,
@@ -97,7 +97,7 @@
     "directory_url": "https://truesight.me/members.html"
   },
   "treasury": {
-    "generated_at": "2026-08-27T09:48:38.754Z",
+    "generated_at": "2026-08-27T21:48:36.547Z",
     "schema_version": 5,
     "trigger": "cron",
     "currency_totals": {
@@ -214,11 +214,11 @@
         }
       },
       "Agroverse Sticker 4x3cm (Founder Haus) - Brazil": {
-        "total_quantity": 1.0,
-        "total_value_usd": 0.06,
+        "total_quantity": 100.0,
+        "total_value_usd": 5.81,
         "item_count": 1,
         "ledger_breakdown": {
-          "Main Ledger": 1.0
+          "Main Ledger": 100.0
         }
       },
       "Amazon LFSEMINI camping stove windscreen 16 plates + drawstring bag (per unit, order 111-8445495-0894600)": {
@@ -463,11 +463,11 @@
         }
       },
       "Cacao Tree To Be Planted": {
-        "total_quantity": 338.0,
-        "total_value_usd": -507.0,
+        "total_quantity": 345.0,
+        "total_value_usd": -517.5,
         "item_count": 1,
         "ledger_breakdown": {
-          "Main Ledger": 338.0
+          "Main Ledger": 345.0
         }
       },
       "Cacao tree seedling (per seedling, Amazon reforest Altamira, R$40/10, Paulo Hernandez, 20260409)": {
@@ -751,12 +751,28 @@
           "SEF1": 297.0
         }
       },
-      "QR Code Sticker 4x3cm (Kraft Pouch) - Brazil": {
-        "total_quantity": 1.0,
-        "total_value_usd": 0.06,
+      "QA Verification Sticker 4x3cm (Test 20260827)": {
+        "total_quantity": 100.0,
+        "total_value_usd": 10000.0,
         "item_count": 1,
         "ledger_breakdown": {
-          "Main Ledger": 1.0
+          "Main Ledger": 100.0
+        }
+      },
+      "QA Verification Sticker 4x3cm Round2 (Test 20260827b)": {
+        "total_quantity": 100.0,
+        "total_value_usd": 5.81,
+        "item_count": 1,
+        "ledger_breakdown": {
+          "Main Ledger": 100.0
+        }
+      },
+      "QR Code Sticker 4x3cm (Kraft Pouch) - Brazil": {
+        "total_quantity": 100.0,
+        "total_value_usd": 5.81,
+        "item_count": 1,
+        "ledger_breakdown": {
+          "Main Ledger": 100.0
         }
       },
       "RLAVBL 7x5x4 corrugated ship box (50ct, Amazon 111-6184462-4075467)": {
@@ -800,11 +816,11 @@
         }
       },
       "USD": {
-        "total_quantity": 11600.06,
-        "total_value_usd": 11600.06,
+        "total_quantity": 11631.42,
+        "total_value_usd": 11631.42,
         "item_count": 1,
         "ledger_breakdown": {
-          "Main Ledger": 4908.43,
+          "Main Ledger": 4939.79,
           "AGL15": 4327.15,
           "AGL6": 1337.59,
           "AGL8": 569.95,
@@ -841,12 +857,12 @@
   },
   "inventory": {
     "stores": {
-      "generated_at": "2026-08-26T07:11:14.000Z",
+      "generated_at": "2026-08-27T17:40:51.000Z",
       "store_count": 0,
       "line_items": 14
     },
     "partners": {
-      "generated_at": "2026-08-26T07:11:14.000Z",
+      "generated_at": "2026-08-27T17:40:51.000Z",
       "partner_count": 23
     }
   },
