@@ -228,6 +228,7 @@
         <p class="pill">Live Impact Map</p>
         <h2>See Our Trees from Space</h2>
         <p class="impact-map-intro">Every planted tree is registered on-chain and shown here against recent satellite imagery of the pilot area. Ground measurements (photo + calibration card) feed the carbon numbers; satellite imagery provides the wide-area verification layer.</p>
+        <div id="plotSelector" style="display:none; margin-bottom:10px; align-items:center; flex-wrap:wrap; gap:6px;"></div>
         <div id="impactMap" class="impact-map-canvas" style="height: 480px; width: 100%; border-radius: 12px; z-index: 1;"></div>
         <div class="impact-map-controls" style="margin-top: 10px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
           <button id="mapLayerTrueColor" class="map-layer-btn" style="padding: 6px 14px; border-radius: 6px; border: 1px solid #ccc; background: #f5f5f5; cursor: pointer;">Satellite</button>
@@ -481,6 +482,7 @@
           map.addLayer(sat);
 
           loadSatelliteHistory(map);
+          loadPlots(map);
         }
 
         var _satOverlay = null;
@@ -541,6 +543,71 @@
           var dLat = 0.5, dLng = 0.5; // approx. half-footprint of a Sentinel-2 tile (~1 deg box)
           var bounds = [[c.lat - dLat, c.lng - dLng], [c.lat + dLat, c.lng + dLng]];
           _satOverlay = L.imageOverlay(imgUrl, bounds, { opacity: 0.65, interactive: false }).addTo(map);
+        }
+
+        var PLOT_COLORS = ['#7b1fa2', '#1565c0', '#c62828', '#2e7d32', '#e65100', '#00695c'];
+        function loadPlots(map) {
+          var PLOTS_URLS = [
+            'https://raw.githubusercontent.com/TrueSightDAO/sunmint/main/trees/plots.geojson?cb=' + Date.now(),
+            'https://raw.githubusercontent.com/TrueSightDAO/sunmint/main/trees/plots.geojson'
+          ];
+          var sel = document.getElementById('plotSelector');
+          function render(plots) {
+            var feats = (plots && plots.features) || [];
+            var plotIds = {};
+            feats.forEach(function (p, i) {
+              var props = p.properties || {};
+              var id = props.plot_id || props.id || ('plot_' + i);
+              var name = props.name || id;
+              var geom = p.geometry;
+              if (!geom || geom.type !== 'Polygon') return;
+              var color = PLOT_COLORS[i % PLOT_COLORS.length];
+              var latlngs = (geom.coordinates[0] || []).map(function (c) { return [c[1], c[0]]; });
+              if (!latlngs.length) return;
+              plotIds[id] = { id: id, name: name, color: color, latlngs: latlngs };
+              L.polygon(latlngs, {
+                color: color, weight: 2, fillColor: color, fillOpacity: 0.12
+              }).addTo(map).bindPopup('<strong>' + name + '</strong>' +
+                (props.area_ha ? '<br/>' + props.area_ha + ' ha' : '') +
+                (props.status ? '<br/>' + props.status : ''));
+            });
+            var ids = Object.keys(plotIds);
+            if (sel) {
+              if (ids.length) {
+                sel.style.display = 'flex';
+                sel.innerHTML = '<span style="font-size:0.85em;color:#666;">Plots:</span>' +
+                  ids.map(function (id) {
+                    var p = plotIds[id];
+                    return '<button class="plot-chip" data-plot="' + id + '" style="padding:5px 12px;border-radius:16px;border:1px solid ' + p.color + ';background:#fff;color:' + p.color + ';cursor:pointer;font-size:0.8em;">' + p.name + '</button>';
+                  }).join('');
+                ids.forEach(function (id) {
+                  var btn = sel.querySelector('[data-plot="' + id + '"]');
+                  if (!btn) return;
+                  btn.addEventListener('click', function () {
+                    var p = plotIds[id];
+                    if (p.latlngs.length === 1) map.flyTo(p.latlngs[0], 15);
+                    else map.flyToBounds(L.latLngBounds(p.latlngs));
+                    Array.prototype.forEach.call(sel.querySelectorAll('.plot-chip'), function (b) {
+                      b.style.background = '#fff'; b.style.color = b.style.borderColor;
+                    });
+                    btn.style.background = btn.style.borderColor; btn.style.color = '#fff';
+                  });
+                });
+              } else {
+                sel.style.display = 'none';
+              }
+            }
+            var note = document.querySelector('.impact-map-note');
+            if (note && ids.length) {
+              note.textContent += ' · Plots: ' + ids.length;
+            }
+          }
+          fetch(PLOTS_URLS[0]).then(function (r) { return r.ok ? r.json() : Promise.reject(new Error('first')); })
+            .then(render)
+            .catch(function () {
+              return fetch(PLOTS_URLS[1]).then(function (r) { return r.json(); }).then(render);
+            })
+            .catch(function () { if (sel) sel.style.display = 'none'; });
         }
 
         document.addEventListener('change', function (e) {
