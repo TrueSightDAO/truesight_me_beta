@@ -125,6 +125,19 @@
 <div class="whitepaper-bullet" style="--bullet-level:0"><strong>Carbon Pools Considered:</strong> Aboveground biomass, belowground biomass, soil organic carbon
 </div>
 <p class="whitepaper-spacer">&nbsp;</p>
+<h4 class="whitepaper-heading" id="3-1-geospatial-data-model"><strong>3.1 Geospatial Data Model: Tree Points and Plot Boundaries
+</strong></h4>
+<p class="whitepaper-p">SunMint records geospatial data as two complementary GeoJSON entity types, allowing both single-point registrations today and full plot boundaries as they are digitized:
+</p>
+<div class="whitepaper-bullet" style="--bullet-level:0"><strong>Trees are always Points.</strong> Each registered tree is a GeoJSON Point carrying its coordinates plus species, status, QR link and measurement history. Points are the measurement and carbon-accounting anchor.
+</div>
+<div class="whitepaper-bullet" style="--bullet-level:0"><strong>Plots are always Polygons.</strong> A plot is a GeoJSON Polygon defining the project parcel boundary. Each tree carries a plot_id linking it to its plot; a tree without a plot_id stands alone as a point and remains fully valid.
+</div>
+<div class="whitepaper-bullet" style="--bullet-level:0"><strong>Why this separation is required:</strong> carbon methodologies (VM0047 / PM002) assess baseline, additionality and monitoring at the plot/parcel level, not per tree point. Plot boundaries make the carbon accounting and satellite verification defensible; tree points alone cannot define a project area. Satellite scene caching is clipped to plot boundaries rather than grid cells, and the impact map renders plots as shaded polygons with tree markers on top.
+</div>
+<div class="whitepaper-bullet" style="--bullet-level:0"><strong>Backfill tolerance:</strong> boundaries may be added after registration without migrating legacy records. Trees without a plot simply render as standalone points until their plot is defined, keeping every consumer (map, cache, carbon calculation, on-chain anchor) on a stable contract.
+</div>
+<p class="whitepaper-spacer">&nbsp;</p>
 <h4 class="whitepaper-heading" id="4-baseline-scenario"><strong>4. Baseline Scenario
 </strong></h4>
 <p class="whitepaper-p">The baseline condition reflects continued degradation from cattle ranching and monoculture soybean farming, leading to biodiversity loss, GHG emissions, and disrupted ecosystems. Without intervention, these lands are unlikely to recover naturally due to lack of financial incentives and entrenched economic pressures.
