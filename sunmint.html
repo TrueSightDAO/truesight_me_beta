@@ -224,6 +224,19 @@
         </div>
       </section>
 
+      <section id="impact-map" class="impact-map-section">
+        <p class="pill">Live Impact Map</p>
+        <h2>See Our Trees from Space</h2>
+        <p class="impact-map-intro">Every planted tree is registered on-chain and shown here against recent satellite imagery of the pilot area. Ground measurements (photo + calibration card) feed the carbon numbers; satellite imagery provides the wide-area verification layer.</p>
+        <div id="impactMap" class="impact-map-canvas" style="height: 480px; width: 100%; border-radius: 12px; z-index: 1;"></div>
+        <div class="impact-map-controls" style="margin-top: 10px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+          <button id="mapLayerTrueColor" class="map-layer-btn" style="padding: 6px 14px; border-radius: 6px; border: 1px solid #ccc; background: #f5f5f5; cursor: pointer;">True color</button>
+          <button id="mapLayerNdvi" class="map-layer-btn" style="padding: 6px 14px; border-radius: 6px; border: 1px solid #ccc; background: #fff; cursor: pointer;">Vegetation (NDVI)</button>
+          <span class="impact-map-note" style="color: #666; font-size: 0.85em;">Satellite: Sentinel-2, ~10 m resolution, ~5-day revisit. Markers: registered trees from the SunMint registry.</span>
+        </div>
+        <p class="impact-map-honest" style="color: #888; font-size: 0.8em; margin-top: 8px;">Acquisition date shown per scene; imagery is a verification layer, not per-tree measurement. Tree markers update from the live registry index.</p>
+      </section>
+
       <div id="site-footer"></div>
 <script src="/js/footer.js"></script>
     </div>
@@ -395,6 +408,103 @@
             siteHeader.classList.remove('menu-open');
           }
         });
+      })();
+    </script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script>
+      // Live Impact Map: registered trees + Sentinel-2 satellite layer (anonymous WMS)
+      (function () {
+        var MAP_INDEX_URLS = [
+          'https://raw.githubusercontent.com/TrueSightDAO/sunmint/main/trees/index.geojson?cb=' + Date.now(),
+          'https://cdn.jsdelivr.net/gh/TrueSightDAO/sunmint@main/trees/index.geojson?cb=' + Date.now()
+        ];
+        // Pilot area default: FounderHaus / Altamira region
+        var PILOT_CENTER = [-27.4389, -48.4997];
+        // Sentinel-2 L2A WMS (Copernicus Data Space, anonymous tile access)
+        var WMS_BASE = 'https://sh.dataspace.copernicus.eu/';
+        var TRUE_COLOR = {
+          layers: 'TRUE_COLOR_S2L2A',
+          format: 'image/png',
+          transparent: true,
+          version: '1.3.0',
+          time: '2026-08-01/2026-09-01',
+          maxcc: 20
+        };
+        var NDVI = {
+          layers: 'NDVI_S2L2A',
+          format: 'image/png',
+          transparent: true,
+          version: '1.3.0',
+          time: '2026-08-01/2026-09-01',
+          maxcc: 20
+        };
+
+        function initMap(features) {
+          var map = L.map('impactMap').setView(PILOT_CENTER, 15);
+          var base = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; OpenStreetMap &copy; CARTO'
+          }).addTo(map);
+          var satTrue = L.tileLayer.wms(WMS_BASE, TRUE_COLOR);
+          var satNdvi = L.tileLayer.wms(WMS_BASE, NDVI);
+
+          function addTreeMarkers(feats) {
+            var count = 0;
+            feats.forEach(function (f) {
+              var p = f.properties || {};
+              var coords = f.geometry && f.geometry.coordinates;
+              if (!coords || coords.length < 2) return;
+              var lat = coords[1], lng = coords[0];
+              if (isNaN(lat) || isNaN(lng)) return;
+              count++;
+              var icon = L.divIcon({
+                className: 'tree-marker',
+                html: '<div style="width:14px;height:14px;border-radius:50%;background:#2e7d32;border:2px solid #fff;box-shadow:0 0 4px rgba(0,0,0,.4);"></div>',
+                iconSize: [14, 14]
+              });
+              L.marker([lat, lng], { icon: icon }).addTo(map)
+                .bindPopup('<strong>' + (p.tree_id || p.treeId || 'tree') + '</strong><br/>' +
+                  (p.species || '') + (p.status ? '<br/>' + p.status : ''));
+            });
+            return count;
+          }
+
+          var n = addTreeMarkers(features);
+          document.querySelector('.impact-map-note').textContent =
+            'Satellite: Sentinel-2, ~10 m resolution, ~5-day revisit. Markers: ' + n + ' registered trees from the SunMint registry.';
+
+          document.getElementById('mapLayerTrueColor').addEventListener('click', function () {
+            map.removeLayer(satNdvi); map.addLayer(satTrue);
+          });
+          document.getElementById('mapLayerNdvi').addEventListener('click', function () {
+            map.removeLayer(satTrue); map.addLayer(satNdvi);
+          });
+          // start with true-color layer visible
+          map.addLayer(satTrue);
+        }
+
+        function loadIndex() {
+          var url = MAP_INDEX_URLS[0];
+          fetch(url).then(function (r) { return r.ok ? r.json() : Promise.reject(new Error('first url')); })
+            .then(function (geo) { initMap(geo.features || []); })
+            .catch(function () {
+              return fetch(MAP_INDEX_URLS[1]).then(function (r) { return r.json(); })
+                .then(function (geo) { initMap(geo.features || []); });
+            })
+            .catch(function () {
+              // Last resort: show the map with the pilot-area default basemap only.
+              var map = L.map('impactMap').setView(PILOT_CENTER, 15);
+              L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; OpenStreetMap &copy; CARTO'
+              }).addTo(map);
+              document.querySelector('.impact-map-note').textContent =
+                'Tree registry temporarily unavailable. Showing pilot area basemap.';
+            });
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', loadIndex);
+        } else { loadIndex(); }
       })();
     </script>
   </body>
