@@ -235,6 +235,15 @@
           <span class="impact-map-note" style="color: #666; font-size: 0.85em;">Satellite: Sentinel-2, ~10 m resolution, ~5-day revisit. Markers: registered trees from the SunMint registry.</span>
         </div>
         <p class="impact-map-honest" style="color: #888; font-size: 0.8em; margin-top: 8px;">Acquisition date shown per scene; imagery is a verification layer, not per-tree measurement. Tree markers update from the live registry index.</p>
+        <div id="satelliteHistory" style="margin-top: 12px; display: none;">
+          <div style="font-weight: 600; margin-bottom: 6px;">Satellite history <span style="font-weight:400;color:#888;">(pilot area, Sentinel-2)</span></div>
+          <div id="satHistoryThumbs" style="display: flex; flex-wrap: wrap; gap: 8px;"></div>
+          <div id="satHistoryDetail" style="margin-top: 10px; display: none;">
+            <img id="satHistoryImg" alt="Satellite preview" style="max-width: 100%; border-radius: 8px; border: 1px solid #ddd;" />
+            <p id="satHistoryMeta" style="color: #555; font-size: 0.85em; margin: 6px 0 0;"></p>
+            <label style="font-size: 0.85em; display: block; margin-top: 6px;"><input type="checkbox" id="satOverlayToggle" /> Show on map (preview stretched for context, approx. tile footprint)</label>
+          </div>
+        </div>
       </section>
 
       <div id="site-footer"></div>
@@ -470,7 +479,89 @@
           });
           // start with satellite layer visible
           map.addLayer(sat);
+
+          loadSatelliteHistory(map);
         }
+
+        var _satOverlay = null;
+        function loadSatelliteHistory(map) {
+          var MANIFEST_URL = 'https://raw.githubusercontent.com/TrueSightDAO/sunmint/main/satellite/manifest.json?cb=' + Date.now();
+          var container = document.getElementById('satelliteHistory');
+          fetch(MANIFEST_URL)
+            .then(function (r) { if (!r.ok) throw new Error('manifest ' + r.status); return r.json(); })
+            .then(function (m) {
+              var cells = m.cells || {};
+              stashCells(m);
+              var cellKeys = Object.keys(cells);
+              if (!cellKeys.length) { container.style.display = 'none'; return; }
+              // Prefer the cell closest to the pilot center.
+              cellKeys.sort(function (a, b) { return 0; });
+              var cell = cells[cellKeys[0]];
+              var scenes = (cell.scenes || []).slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; });
+              if (!scenes.length) { container.style.display = 'none'; return; }
+              container.style.display = 'block';
+              var thumbs = document.getElementById('satHistoryThumbs');
+              thumbs.innerHTML = '';
+              scenes.forEach(function (sc) {
+                var imgUrl = sc.asset_url || ('https://raw.githubusercontent.com/TrueSightDAO/sunmint/main/satellite/' + cellKeys[0] + '/' + sc.file);
+                var cloudBadge = (sc.cloud_cover !== undefined) ? '<span style="position:absolute;top:2px;left:2px;background:rgba(0,0,0,.7);color:#fff;font-size:0.68em;padding:1px 4px;border-radius:4px;">' + Math.round(sc.cloud_cover) + '% cloud</span>' : '';
+                var el = document.createElement('div');
+                el.style.cssText = 'position:relative;cursor:pointer;border:2px solid transparent;border-radius:8px;overflow:hidden;';
+                el.innerHTML = '<img src="' + imgUrl + '" alt="' + sc.date + '" style="width:96px;height:96px;object-fit:cover;display:block;" />' + cloudBadge +
+                  '<span style="position:absolute;bottom:2px;left:2px;background:rgba(0,0,0,.7);color:#fff;font-size:0.68em;padding:1px 4px;border-radius:4px;">' + sc.date + '</span>';
+                el.addEventListener('click', function () {
+                  Array.prototype.forEach.call(thumbs.children, function (c) { c.style.borderColor = 'transparent'; });
+                  el.style.borderColor = '#2e7d32';
+                  var detail = document.getElementById('satHistoryDetail');
+                  detail.style.display = 'block';
+                  document.getElementById('satHistoryImg').src = imgUrl;
+                  var meta = 'Scene ' + (sc.id || '') + ' &middot; acquired ' + sc.date +
+                    (sc.cloud_cover !== undefined ? ' &middot; ' + Math.round(sc.cloud_cover) + '% cloud' : '');
+                  document.getElementById('satHistoryMeta').innerHTML = meta;
+                  var toggle = document.getElementById('satOverlayToggle');
+                  toggle.checked = true;
+                  toggleOverlay(map, cell, imgUrl, sc);
+                });
+                thumbs.appendChild(el);
+              });
+              // Auto-select the clearest scene (lowest cloud) on first load.
+              var clear = scenes.slice().sort(function (a, b) { return (a.cloud_cover||99) - (b.cloud_cover||99); })[0];
+              var first = thumbs.children[scenes.indexOf(clear)];
+              if (first) first.click();
+            })
+            .catch(function () { container.style.display = 'none'; });
+        }
+
+        function toggleOverlay(map, cell, imgUrl, sc) {
+          var toggle = document.getElementById('satOverlayToggle');
+          var m = map || window.__satMap;
+          if (_satOverlay) { m.removeLayer(_satOverlay); _satOverlay = null; }
+          if (!toggle.checked) return;
+          var c = (cell && cell.center) || PILOT_CENTER;
+          var dLat = 0.5, dLng = 0.5; // approx. half-footprint of a Sentinel-2 tile (~1 deg box)
+          var bounds = [[c.lat - dLat, c.lng - dLng], [c.lat + dLat, c.lng + dLng]];
+          _satOverlay = L.imageOverlay(imgUrl, bounds, { opacity: 0.65, interactive: false }).addTo(map);
+        }
+
+        document.addEventListener('change', function (e) {
+          var t = e.target;
+          if (t && t.id === 'satOverlayToggle') {
+            if (!t.checked && _satOverlay) {
+              _satOverlay.remove(); _satOverlay = null;
+            } else if (t.checked && !_satOverlay) {
+              var cells = (window.__satCells || {});
+              var keys = Object.keys(cells);
+              if (keys.length) {
+                var img = document.getElementById('satHistoryImg');
+                var sc = cells[keys[0]].scenes[0];
+                if (img && sc) toggleOverlay(null, cells[keys[0]], img.src, sc);
+              }
+            }
+          }
+        });
+
+        // stash the manifest cells for the global toggle handler
+        function stashCells(m) { window.__satCells = m.cells || {}; }
 
         function loadIndex() {
           var url = MAP_INDEX_URLS[0];
