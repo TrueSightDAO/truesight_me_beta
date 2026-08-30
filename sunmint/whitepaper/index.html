@@ -74,13 +74,15 @@
           <li class="whitepaper-toc-item whitepaper-toc-item--depth-2"><a href="#5-additionality">5. Additionality</a></li>
           <li class="whitepaper-toc-item whitepaper-toc-item--depth-2"><a href="#6-project-activities">6. Project Activities</a></li>
           <li class="whitepaper-toc-item whitepaper-toc-item--depth-2"><a href="#7-traceability-and-digital-verification">7. Traceability and Digital Verification</a></li>
+          <li class="whitepaper-toc-item whitepaper-toc-item--depth-2"><a href="#community-first-mrv">Community-First MRV — a decentralized sensing network</a></li>
           <li class="whitepaper-toc-item whitepaper-toc-item--depth-2"><a href="#8-ghg-emissions-reduction-estimation">8. GHG Emissions Reduction Estimation</a></li>
           <li class="whitepaper-toc-item whitepaper-toc-item--depth-2"><a href="#9-leakage">9. Leakage</a></li>
           <li class="whitepaper-toc-item whitepaper-toc-item--depth-2"><a href="#10-environmental-and-social-safeguards">10. Environmental and Social Safeguards</a></li>
           <li class="whitepaper-toc-item whitepaper-toc-item--depth-2"><a href="#11-risk-assessment-and-mitigation">11. Risk Assessment and Mitigation</a></li>
           <li class="whitepaper-toc-item whitepaper-toc-item--depth-2"><a href="#12-scaling-and-replication-strategy">12. Scaling and Replication Strategy</a></li>
-          <li class="whitepaper-toc-item whitepaper-toc-item--depth-2"><a href="#13-carbon-credit-registry-roadmap">13. Carbon Credit Registry Roadmap</a></li>
-          <li class="whitepaper-toc-item whitepaper-toc-item--depth-2"><a href="#14-target-buyers-and-market-context">14. Target Buyers &amp; Market Context</a></li>
+          <li class="whitepaper-toc-item whitepaper-toc-item--depth-2"><a href="#13-on-chain-carbon-credit-lifecycle">13. On-Chain Carbon Credit Lifecycle</a></li>
+          <li class="whitepaper-toc-item whitepaper-toc-item--depth-2"><a href="#14-carbon-credit-registry-roadmap">14. Carbon Credit Registry Roadmap</a></li>
+          <li class="whitepaper-toc-item whitepaper-toc-item--depth-2"><a href="#15-target-buyers-and-market-context">15. Target Buyers &amp; Market Context</a></li>
         </ul>
       </nav>
     </aside>
@@ -160,11 +162,11 @@
 </div>
 <p class="whitepaper-p"><strong>Carbon Credit Development
 </strong></p>
-<div class="whitepaper-bullet" style="--bullet-level:0">Follow a staged registry path: Plan Vivo (PV Climate, microscale) for the pilot; Verra VCS (ARR, VM0047 — ICVCM-approved) at scale
+<div class="whitepaper-bullet" style="--bullet-level:0">Apply Verra VM0047 (ARR) methodology — the ICVCM-approved standard for afforestation, reforestation and revegetation (supersedes the earlier VM0017 reference; VM0017 is SALM, not ARR)
 </div>
 <div class="whitepaper-bullet" style="--bullet-level:0">Quantify sequestration via biomass surveys and soil sampling
 </div>
-<div class="whitepaper-bullet" style="--bullet-level:0">Submit for third-party validation and registry certification
+<div class="whitepaper-bullet" style="--bullet-level:0">Certification decision — Plan Vivo first: Plan Vivo’s PV Climate framework is now CCP-Eligible under the ICVCM, the same benchmark Verra’s top methodologies hold; high-rated nature-based PVCs traded at a median above €30/t in 2025, above the broad VCU market, because buyers pay a premium for community co-benefits — which is SunMint’s model. The strongest cacao/coffee agroforestry precedents (ACORN, CommuniTree) certify under Plan Vivo, not Verra. Verra VM0047 + CCB is retained only for the scale phase or when a corporate offtake buyer demands VCS liquidity. Two-registry portfolio: Plan Vivo for smallholder plots (faster, cheaper, community-aligned, ≥60% revenue to communities), Verra on demand.
 </div>
 <p class="whitepaper-p"><strong>Cacao Production and Export
 </strong></p>
@@ -176,7 +178,7 @@
 </div>
 <p class="whitepaper-p"><strong>Monitoring &amp; Evaluation
 </strong></p>
-<div class="whitepaper-bullet" style="--bullet-level:0">Establish plots and satellite-based tracking
+<div class="whitepaper-bullet" style="--bullet-level:0">Establish plots with satellite-based tracking via free APIs — Copernicus Data Space Ecosystem (ESA Sentinel-2, 10 m, 5-day revisit, free for commercial use), Microsoft Planetary Computer (Sentinel-2 + Landsat + HLS), USGS EarthExplorer (Landsat, 30 m, archive to 1972, public domain) — for the VM0047 non-forest ≥10-year baseline and annual leakage context; farmer smartphone monitoring of tree growth (DBH/height/species via mobile app + calibration card, per the ACORN / CommuniTree / TREEO operating model) is the primary measurement layer, cross-checked by the free satellite tier; drones deferred to post-pilot calibration sampling on a minority of plots
 </div>
 <div class="whitepaper-bullet" style="--bullet-level:0">Regular soil, biomass, and biodiversity sampling
 </div>
@@ -194,6 +196,14 @@
 <h4 class="whitepaper-heading" id="7-traceability-and-digital-verification"><strong>7. Traceability and Digital Verification
 </strong></h4>
 <p class="whitepaper-p">All project activities are logged and verified via open-access, on-chain tools:
+</p>
+<p class="whitepaper-p" id="community-first-mrv"><strong>Community-First MRV — a decentralized sensing network:</strong> SunMint's monitoring model is decentralized by design: every farmer with a phone is a sensor node — measuring their own trees (DBH/height via calibration-card photos), holding their own digital signature, and attesting growth on-chain. This is the model this era demands: community ownership of data and value, with independent verification layered on top for credibility.
+</p>
+<div class="whitepaper-bullet" style="--bullet-level:0">Farmer-as-node: repeat geotagged measurements of the same tree over time (Greenstand Treetracker / TREEO model), signed by the farmer's own keypair — no central survey team required</div>
+<div class="whitepaper-bullet" style="--bullet-level:0">Layered verification: farmer phone data cross-checked by satellite (NOR Space) and calibrated by drone surveys (PODream); VVB audits at credit issuance</div>
+<div class="whitepaper-bullet" style="--bullet-level:0">Value flows to communities: ACORN pays ~80% of credit value to producers; Plan Vivo requires ≥60% of revenue to reach communities — the people who grow the trees keep the value</div>
+<div class="whitepaper-bullet" style="--bullet-level:0">This era's precedents: Plan Vivo participatory monitoring (CommuniTree operating since 2010), ACORN (Rabobank + Solidaridad), Greenstand (open-source, 500k+ trees), Open Forest Protocol (on-chain community reporting), and the cacao transparency movement (direct-trade co-ops, bean-to-bar)</div>
+<div class="whitepaper-bullet" style="--bullet-level:0">Why it matters for the mission: 10,000 hectares of Amazon restoration cannot be surveyed by a central team — it can only be restored and verified by thousands of community farmer-nodes. Decentralization is the mechanism by which the mission scales</div>
 </p>
 <div class="whitepaper-bullet" style="--bullet-level:0"><strong>Farm Registration:</strong>https://dapp.truesight.me/register_farm.html
 </div>
@@ -219,7 +229,7 @@
 </strong></h4>
 <h4 class="whitepaper-heading" id="8-ghg-emissions-reduction-estimation"><strong>8. GHG Emissions Reduction Estimation
 </strong></h4>
-<p class="whitepaper-p"><em>Estimates to be finalized with baseline data and methodology selection.
+<p class="whitepaper-p"><em>Estimates to be finalized with baseline data and methodology selection. Methodology (pilot): Plan Vivo PM002 (ACORN’s certified smallholder agroforestry methodology, active 29/09/2025) with Verra VM0047 (ARR) at scale. Accounting chain (PM002 v1.0): DBH + species → allometric equation → AGB; Eq. 1 ΔBGB_p = ΔAGB_p × R (root:shoot, IPCC default R = 0.32); Eqs. 6.1/6.2 PVCs = ((ΔAGB_p + ΔBGB_p) × 0.47) × 44/12 × (1 − A_pre)(1 − A_unc)(1 − LD)(1 − AR)(1 − RB) − (E_proj − E_base), with AR = 10% achievement reserve and RB = 20% risk buffer — fully implementable in the farmer mobile app. Precedent: Andean Cacao (Colombia) — the first large-scale cacao agroforestry project validated and verified under Verra (VM0047 + CCB co-certification, 56,000+ VCUs on first issuance), demonstrating that cacao-based ARR is bankable under VCS. Phone-MRV precedent: ACORN (Rabobank/Solidaridad/Microsoft) and Taking Root's CommuniTree certify under Plan Vivo using farmer mobile-app tree measurement cross-checked by satellite; TREEO (1M+ trees, 94–95% DBH accuracy) and Greenstand Treetracker (500k+ trees) run photo-based growth monitoring; peer-reviewed smartphone DBH accuracy is R² ≥ 0.95. Verra has not yet approved formal dMRV requirements for forest carbon — phone data feeds monitoring reports while credits flow through standard VVB validation.
 </em></p>
 <div class="whitepaper-bullet" style="--bullet-level:0">Expected sequestration: <em>X</em> tCO₂e per hectare per year
 </div>
@@ -275,8 +285,41 @@
 </div>
 <div class="whitepaper-bullet" style="--bullet-level:0">Offer on-chain carbon credit issuance and transparent benefit sharing via DAO governance
 </div>
+<p class="whitepaper-p"><strong>Funding — existing grants (no external investors needed):</strong> cocoa-industry funds (Cocoa Horizons/Barry Callebaut, Cocoa Life/Mondelēz $1B, Cargill Cocoa Promise, Fundo Vale — Belterra/Caapora cacao agroforestry incubators), GCF + IICA cacao program (12,500 ha, 5.18 Mt CO₂e, 3,000 producers — SunMint’s model at scale), iNovaland South Bahia restoration call (R$8.8M), Gitcoin climate rounds (US$200k+ pools), CFC grants (cocoa focus), Forest Conservation Fund (quarterly cycles), regen.fund, Regenerative Agriculture Foundation. Blockers are paperwork + sequencing, not money. A complementary self-funding flywheel: a share of cacao/chocolate sales is reserved to fund the carbon-certification pipeline (PDD development, VVB validation, monitoring) alongside the share reserved for planting trees — so the more chocolate sold, the more credits can be issued, closing the loop between product revenue and carbon infrastructure.
+</p>
+<p class="whitepaper-p"><strong>Milestones — executed:</strong> M0 ✓ native Android/iOS SunMint app shipped (2026-08-23, Capacitor 8, offline-first, RSA-signed); M1 ✓ first tree linked to a sold QR code (2026-08-22); M2 ✓ PDD methodology corrected to VM0047/PM002. <strong>Planned:</strong> M3 Stage 0 capital + grant applications (Q3 2026) · M4 PDD draft + free-satellite baseline (Q4 2026) · M5 monitor_tree_growth module (Q4 2026) · M6 VVB engagement + Plan Vivo validation (Q1 2027) · M7 pilot planting 20–50 ha (2027) · M8 Terra RFP / offtake + scale (2027+).
+</p>
+<p class="whitepaper-p"><strong>Execution has started — the first funded tree:</strong> QR code <code>FOUNDERHAUS_BOUGAINVILLEA_20260821_1</code> — SunMint Tree Planting Pledge, status ASSIGNED_TO_TREE, owner paloma@founderhaus.club, manager Gary Teh, ledger <a href="https://truesight.me/sunmint/main" rel="noopener noreferrer">truesight.me/sunmint/main</a>, linked 2026-08-22 (first real non-test tree–QR link). Scan: https://edgar.truesight.me/agroverse/qr-code-check?qr_code=FOUNDERHAUS_BOUGAINVILLEA_20260821_1
+</p>
+<h4 class="whitepaper-heading" id="13-on-chain-carbon-credit-lifecycle"><strong>13. On-Chain Carbon Credit Lifecycle — the Tree as Transaction Anchor
+</strong></h4>
+<p class="whitepaper-p">Every carbon credit issued by SunMint is born <strong>attached to a specific tree</strong>, and every subsequent value movement — sale, proceeds, farmer payout — is recorded on-chain as a transaction referencing that same tree. The tree is the anchor; the chain is the audit trail; the farmer is the beneficiary. This follows the TrueChain architecture already used across the DAO (DApp/Edgar → Google Sheets → Mirror Service → TrueChain private PoA chain, chain ID 98794616), where Sheets remain the source of truth and an immutable transaction is appended for each event, with a transaction hash written back to the sheet row (“TrueChain Tx” column) for idempotency and “View on TrueChain” lookups.
+</p>
+<div class="whitepaper-bullet" style="--bullet-level:0"><strong>1. Credit issuance (attached to the tree):</strong> a verified measurement (farmer photo + calibration card → DBH → allometric biomass → CO₂e) is recorded against the tree’s identity. The credit is issued with the tree ID as its provenance anchor — it cannot exist without the tree that produced it.
+</div>
+<div class="whitepaper-bullet" style="--bullet-level:0"><strong>2. Credit sale (a sales transaction):</strong> when a credit is sold, a sales transaction records buyer → credit, sale price, and timestamp, all tied to the tree’s identity — the same pattern used for cacao bag sales receipts.
+</div>
+<div class="whitepaper-bullet" style="--bullet-level:0"><strong>3. Proceeds return to the tree:</strong> the sale proceeds are booked back to the tree’s carbon account — a payment event whose recipient is the tree’s on-chain record — so revenue is provably attributable to the trees that generated it.
+</div>
+<div class="whitepaper-bullet" style="--bullet-level:0"><strong>4. Farmer payout (a payout transaction):</strong> money moves from the tree’s carbon account to the farmer, recorded with the farmer’s identity, the tree ID, and the amount — every payment is auditable, and farmers can see exactly which tree paid them.
+</div>
+<h4 class="whitepaper-heading" id="13-1-how-carbon-is-calculated"><strong>13.1 How Carbon Is Calculated — the measurement-to-CO₂e chain</strong></h4>
+<p class="whitepaper-p">Every tree’s carbon number comes from its trunk diameter (DBH), measured in the close-up photo with the calibration card. The chain is fully transparent and reproducible:</p>
+<div class="whitepaper-bullet" style="--bullet-level:0"><strong>AGB = a × DBH<sup>b</sup></strong> — above-ground biomass (kg), species allometric equation (Chave et al. 2014 pantropical form; per-species coefficients for cacao, Brazil nut, açaí, mahogany, jatobá).</div>
+<div class="whitepaper-bullet" style="--bullet-level:0"><strong>BGB = AGB × 0.32</strong> — below-ground (root) biomass, IPCC default root:shoot ratio.</div>
+<div class="whitepaper-bullet" style="--bullet-level:0"><strong>C = (AGB + BGB) × 0.47</strong> — carbon content, IPCC default carbon fraction.</div>
+<div class="whitepaper-bullet" style="--bullet-level:0"><strong>CO₂e = C × 44/12</strong> — CO₂ equivalent, the carbon-to-CO₂ molar ratio.</div>
+<p class="whitepaper-p">Worked example: a cacao tree (a = 0.0673, b = 2.397) at DBH 10 cm → AGB ≈ 25.1 kg → total biomass ≈ 33.1 kg → carbon ≈ 15.6 kg → <strong>CO₂e ≈ 57 kg</strong> (project-level 10% achievement reserve and 20% risk buffer applied at the program level). Each photo-pair measurement drives this exact chain, so the number on every tree is method-backed and auditable.</p>
+<p class="whitepaper-p">Partner one-liner: “We measure each tree’s trunk diameter from a photo with a calibration card, convert it to biomass using the standard tropical allometric equation (Chave et al. 2014), then apply IPCC factors (roots ×0.32, carbon ×0.47, CO₂ ×44/12) — so every tree has a verifiable, method-backed CO₂e number.”</p>
 <p class="whitepaper-spacer">&nbsp;</p>
-<h4 class="whitepaper-heading" id="13-carbon-credit-registry-roadmap"><strong>13. Carbon Credit Registry Roadmap
+<p class="whitepaper-p">The result is a per-tree provenance timeline anyone can follow: <strong>planted → measured → credit issued → credit sold → farmer paid</strong>. It is the same registry pattern TrueChain already runs for contributions, invoices, QR codes, and sales receipts — SunMint adds the carbon lifecycle as a first-class flow on that existing infrastructure. One honest dependency: the credit-issuance leg is only as strong as the measurement pipeline behind it (the calibration-card photo analysis that computes DBH automatically), which is why the measurement workflow and its audit trail are the foundation this lifecycle is built on.
+</p>
+<p class="whitepaper-spacer">&nbsp;</p>
+<p class="whitepaper-spacer">&nbsp;</p>
+<p class="whitepaper-spacer">&nbsp;</p>
+<p class="whitepaper-spacer">&nbsp;</p>
+<p class="whitepaper-spacer">&nbsp;</p>
+<h4 class="whitepaper-heading" id="14-carbon-credit-registry-roadmap"><strong>14. Carbon Credit Registry Roadmap
 </strong></h4>
 <p class="whitepaper-p">SunMint will register its carbon credit program through a staged registry strategy, matching the registry to project scale and maturity:
 </p>
@@ -313,7 +356,8 @@
 </div>
 <div class="whitepaper-bullet" style="--bullet-level:0"><strong>SBCE (Law 15,042/2024):</strong> Brazil's regulated market still under development; agriculture excluded from the cap and removals accounting undefined — monitor, do not depend on it yet
 </div>
-<h4 class="whitepaper-heading" id="14-target-buyers-and-market-context"><strong>14. Target Buyers &amp; Market Context
+<p class="whitepaper-spacer">&nbsp;</p>
+<h4 class="whitepaper-heading" id="15-target-buyers-and-market-context"><strong>15. Target Buyers &amp; Market Context
 </strong></h4>
 <p class="whitepaper-p">Our primary buyers are Silicon Valley startup Chief Sustainability Officers (CSOs) operating under the Science Based Targets initiative (SBTi) Corporate Net-Zero Standard, plus premium corporate buyers such as Apple’s Restore Fund and hyperscalers with net-zero commitments.
 </p>
