@@ -230,8 +230,8 @@
         <p class="impact-map-intro">Every planted tree is registered on-chain and shown here against recent satellite imagery of the pilot area. Ground measurements (photo + calibration card) feed the carbon numbers; satellite imagery provides the wide-area verification layer.</p>
         <div id="impactMap" class="impact-map-canvas" style="height: 480px; width: 100%; border-radius: 12px; z-index: 1;"></div>
         <div class="impact-map-controls" style="margin-top: 10px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
-          <button id="mapLayerTrueColor" class="map-layer-btn" style="padding: 6px 14px; border-radius: 6px; border: 1px solid #ccc; background: #f5f5f5; cursor: pointer;">True color</button>
-          <button id="mapLayerNdvi" class="map-layer-btn" style="padding: 6px 14px; border-radius: 6px; border: 1px solid #ccc; background: #fff; cursor: pointer;">Vegetation (NDVI)</button>
+          <button id="mapLayerTrueColor" class="map-layer-btn" style="padding: 6px 14px; border-radius: 6px; border: 1px solid #ccc; background: #f5f5f5; cursor: pointer;">Satellite</button>
+          <button id="mapLayerNdvi" class="map-layer-btn" style="padding: 6px 14px; border-radius: 6px; border: 1px solid #ccc; background: #fff; cursor: pointer;">Map</button>
           <span class="impact-map-note" style="color: #666; font-size: 0.85em;">Satellite: Sentinel-2, ~10 m resolution, ~5-day revisit. Markers: registered trees from the SunMint registry.</span>
         </div>
         <p class="impact-map-honest" style="color: #888; font-size: 0.8em; margin-top: 8px;">Acquisition date shown per scene; imagery is a verification layer, not per-tree measurement. Tree markers update from the live registry index.</p>
@@ -422,31 +422,19 @@
         // Pilot area default: FounderHaus / Altamira region
         var PILOT_CENTER = [-27.4389, -48.4997];
         // Sentinel-2 L2A WMS (Copernicus Data Space, anonymous tile access)
-        var WMS_BASE = 'https://sh.dataspace.copernicus.eu/';
-        var TRUE_COLOR = {
-          layers: 'TRUE_COLOR_S2L2A',
-          format: 'image/png',
-          transparent: true,
-          version: '1.3.0',
-          time: '2026-08-01/2026-09-01',
-          maxcc: 20
-        };
-        var NDVI = {
-          layers: 'NDVI_S2L2A',
-          format: 'image/png',
-          transparent: true,
-          version: '1.3.0',
-          time: '2026-08-01/2026-09-01',
-          maxcc: 20
-        };
+        // Satellite basemap: ESRI World Imagery (free, no API key, verified live).
+        // High-resolution Sentinel-2 layers (true-color + NDVI) will come from the
+        // CDSE cache pipeline (sunmint/satellite/...) once credentials are set.
+        var SATELLITE_BASEMAP = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
 
         function initMap(features) {
           var map = L.map('impactMap').setView(PILOT_CENTER, 15);
+          var sat = L.tileLayer(SATELLITE_BASEMAP, {
+            attribution: '&copy; Esri, Maxar, Earthstar Geographics'
+          }).addTo(map);
           var base = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
             attribution: '&copy; OpenStreetMap &copy; CARTO'
-          }).addTo(map);
-          var satTrue = L.tileLayer.wms(WMS_BASE, TRUE_COLOR);
-          var satNdvi = L.tileLayer.wms(WMS_BASE, NDVI);
+          });
 
           function addTreeMarkers(feats) {
             var count = 0;
@@ -471,16 +459,16 @@
 
           var n = addTreeMarkers(features);
           document.querySelector('.impact-map-note').textContent =
-            'Satellite: Sentinel-2, ~10 m resolution, ~5-day revisit. Markers: ' + n + ' registered trees from the SunMint registry.';
+            'Satellite: Esri World Imagery basemap. Markers: ' + n + ' registered trees from the SunMint registry. High-res Sentinel-2 true-color/NDVI layers arrive via the CDSE cache pipeline.';
 
           document.getElementById('mapLayerTrueColor').addEventListener('click', function () {
-            map.removeLayer(satNdvi); map.addLayer(satTrue);
+            map.removeLayer(base); map.addLayer(sat);
           });
           document.getElementById('mapLayerNdvi').addEventListener('click', function () {
-            map.removeLayer(satTrue); map.addLayer(satNdvi);
+            map.removeLayer(sat); map.addLayer(base);
           });
-          // start with true-color layer visible
-          map.addLayer(satTrue);
+          // start with satellite layer visible
+          map.addLayer(sat);
         }
 
         function loadIndex() {
