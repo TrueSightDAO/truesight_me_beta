@@ -429,6 +429,7 @@
 
         function initMap(features) {
           var map = L.map('impactMap').setView(PILOT_CENTER, 11);
+          window.__satMap = map;
           var sat = L.tileLayer(SATELLITE_BASEMAP, {
             attribution: '&copy; Esri, Maxar, Earthstar Geographics'
           }).addTo(map);
