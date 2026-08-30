@@ -428,7 +428,7 @@
         var SATELLITE_BASEMAP = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
 
         function initMap(features) {
-          var map = L.map('impactMap').setView(PILOT_CENTER, 15);
+          var map = L.map('impactMap').setView(PILOT_CENTER, 11);
           var sat = L.tileLayer(SATELLITE_BASEMAP, {
             attribution: '&copy; Esri, Maxar, Earthstar Geographics'
           }).addTo(map);
@@ -481,7 +481,7 @@
             })
             .catch(function () {
               // Last resort: show the map with the pilot-area default basemap only.
-              var map = L.map('impactMap').setView(PILOT_CENTER, 15);
+              var map = L.map('impactMap').setView(PILOT_CENTER, 11);
               L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
                 attribution: '&copy; OpenStreetMap &copy; CARTO'
               }).addTo(map);
