@@ -422,7 +422,10 @@
         // Pilot area default: FounderHaus / Altamira region
         var PILOT_CENTER = [-27.4389, -48.4997];
         // Sentinel-2 L2A WMS (Copernicus Data Space, anonymous tile access)
-        var WMS_BASE = 'https://sh.dataspace.copernicus.eu/';
+        // Satellite basemap: ESRI World Imagery (free, no API key, verified live).
+        // High-resolution Sentinel-2 layers (true-color + NDVI) will come from the
+        // CDSE cache pipeline (sunmint/satellite/...) once credentials are set.
+        var SATELLITE_BASEMAP = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
         var TRUE_COLOR = {
           layers: 'TRUE_COLOR_S2L2A',
           format: 'image/png',
