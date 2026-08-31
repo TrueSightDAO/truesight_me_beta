@@ -228,6 +228,7 @@
         <p class="pill">Live Impact Map</p>
         <h2>See Our Trees from Space</h2>
         <p class="impact-map-intro">Every planted tree is registered on-chain and shown here against recent satellite imagery of the pilot area. Ground measurements (photo + calibration card) feed the carbon numbers; satellite imagery provides the wide-area verification layer.</p>
+        <div id="farmSelector" style="display:none; margin-bottom:10px; align-items:center; flex-wrap:wrap; gap:6px;"></div>
         <div id="plotSelector" style="display:none; margin-bottom:10px; align-items:center; flex-wrap:wrap; gap:6px;"></div>
         <div id="viewSelector" style="display:none; margin-bottom:10px; align-items:center; flex-wrap:wrap; gap:6px;"></div>
         <div id="impactMap" class="impact-map-canvas" style="height: 480px; width: 100%; border-radius: 12px; z-index: 1;"></div>
@@ -458,6 +459,7 @@
           });
 
           var treePoints = [];
+          var treeMarkers = [];
           function addTreeMarkers(feats) {
             var count = 0;
             feats.forEach(function (f) {
@@ -473,9 +475,10 @@
                 html: '<div style="width:14px;height:14px;border-radius:50%;background:#2e7d32;border:2px solid #fff;box-shadow:0 0 4px rgba(0,0,0,.4);"></div>',
                 iconSize: [14, 14]
               });
-              L.marker([lat, lng], { icon: icon }).addTo(map)
+              var mk = L.marker([lat, lng], { icon: icon }).addTo(map)
                 .bindPopup('<strong>' + (p.tree_id || p.treeId || 'tree') + '</strong><br/>' +
                   (p.species || '') + (p.status ? '<br/>' + p.status : ''));
+              treeMarkers.push({ marker: mk, lat: lat, lng: lng });
             });
             return count;
           }
@@ -619,6 +622,52 @@
         }
 
         var PLOT_COLORS = ['#7b1fa2', '#1565c0', '#c62828', '#2e7d32', '#e65100', '#00695c'];
+        function pointInPoly(latlng, ring) {
+          var x = latlng.lng, y = latlng.lat, inside = false;
+          for (var i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+            var xi = ring[i].lng, yi = ring[i].lat;
+            var xj = ring[j].lng, yj = ring[j].lat;
+            if (((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi)) inside = !inside;
+          }
+          return inside;
+        }
+        function applyFarmFilter(map, farmId, plotLayers, plotFarms, treeMarkers, sel) {
+          var any = false;
+          Object.keys(plotLayers).forEach(function (id) {
+            var f = plotFarms[id];
+            var match = !farmId || (f.farmId === farmId);
+            if (match) { map.addLayer(plotLayers[id]); any = true; }
+            else map.removeLayer(plotLayers[id]);
+          });
+          treeMarkers.forEach(function (t) {
+            var show = !farmId;
+            if (!show) {
+              Object.keys(plotFarms).forEach(function (id) {
+                var f = plotFarms[id];
+                if (f.farmId === farmId && pointInPoly({ lat: t.lat, lng: t.lng }, f.latlngs)) show = true;
+              });
+            }
+            if (show) map.addLayer(t.marker); else map.removeLayer(t.marker);
+          });
+          if (any) {
+            var b = null;
+            Object.keys(plotLayers).forEach(function (id) {
+              var f = plotFarms[id];
+              if (f.farmId === farmId) {
+                var lb = L.latLngBounds(f.latlngs);
+                b = b ? b.extend(lb) : lb;
+              }
+            });
+            if (b) map.fitBounds(b, { padding: [40, 40] });
+          }
+          if (sel) {
+            Array.prototype.forEach.call(sel.querySelectorAll('.plot-chip'), function (chip) {
+              var pid = chip.getAttribute('data-plot');
+              var f = plotFarms[pid];
+              chip.style.display = (!farmId || (f && f.farmId === farmId)) ? '' : 'none';
+            });
+          }
+        }
         function loadPlots(map) {
           var PLOTS_URLS = [
             'https://raw.githubusercontent.com/TrueSightDAO/sunmint/main/plots/index.geojson?cb=' + Date.now(),
@@ -628,6 +677,9 @@
           function render(plots) {
             var feats = (plots && plots.features) || [];
             var plotIds = {};
+            var plotLayers = {};
+            var plotFarms = {};
+            var farmNames = {};
             feats.forEach(function (p, i) {
               var props = p.properties || {};
               var id = props.plot_id || props.id || ('plot_' + i);
@@ -638,6 +690,10 @@
               var latlngs = (geom.coordinates[0] || []).map(function (c) { return [c[1], c[0]]; });
               if (!latlngs.length) return;
               plotIds[id] = { id: id, name: name, color: color, latlngs: latlngs };
+              var humanize = function (s) { return String(s).replace(/[-_]/g, ' ').replace(/\b\w/g, function (c) { return c.toUpperCase(); }); };
+              var farmId = props.farm_id || props.owner || 'unknown';
+              plotFarms[id] = { farmId: farmId, latlngs: latlngs };
+              farmNames[farmId] = humanize(farmId);
               function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
               var BA_LABEL = { approx: 'Approx (photo hull)', gps_walk: 'GPS walk', car: 'CAR polygon', incra: 'INCRA polygon' };
               var ST_LABEL = { proposed: 'Proposed', planted: 'Planted', verified: 'Verified' };
@@ -652,9 +708,10 @@
               if (props.owner) popupHtml += '<br/>Owner: ' + esc(props.owner);
               if (props.region) popupHtml += '<br/>Region: ' + esc(props.region);
               if (props.verified_at) popupHtml += '<br/>Verified: ' + esc(props.verified_at);
-              L.polygon(latlngs, {
+              var layer = L.polygon(latlngs, {
                 color: color, weight: 2, fillColor: color, fillOpacity: 0.12
               }).addTo(map).bindPopup(popupHtml);
+              plotLayers[id] = layer;
             });
             var ids = Object.keys(plotIds);
             if (ids.length) {
@@ -694,6 +751,27 @@
                 });
               } else {
                 sel.style.display = 'none';
+              }
+            }
+            // Farms selector: unique farms from plot farm_id (fallback owner)
+            var farmSelBox = document.getElementById('farmSelector');
+            if (farmSelBox) {
+              var farmIds = Object.keys(farmNames);
+              if (farmIds.length) {
+                farmSelBox.style.display = 'flex';
+                farmSelBox.innerHTML = '<span style="font-size:0.85em;color:#666;">Farm:</span>' +
+                  '<select id="farmSelect" style="padding:5px 10px;border-radius:16px;border:1px solid #ccc;font-size:0.8em;background:#fff;color:#333;">' +
+                  '<option value="">All farms</option>' +
+                  farmIds.map(function (f) { return '<option value="' + f + '">' + farmNames[f] + '</option>'; }).join('') +
+                  '</select>';
+                var farmSelect = document.getElementById('farmSelect');
+                if (farmSelect) {
+                  farmSelect.addEventListener('change', function () {
+                    applyFarmFilter(map, farmSelect.value, plotLayers, plotFarms, treeMarkers, sel);
+                  });
+                }
+              } else {
+                farmSelBox.style.display = 'none';
               }
             }
             var note = document.querySelector('.impact-map-note');
