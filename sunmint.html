@@ -652,6 +652,8 @@
               if (props.owner) popupHtml += '<br/>Owner: ' + esc(props.owner);
               if (props.region) popupHtml += '<br/>Region: ' + esc(props.region);
               if (props.verified_at) popupHtml += '<br/>Verified: ' + esc(props.verified_at);
+              var fid = props.farm_id || props.farmId || '';
+              if (fid) popupHtml += '<br/><a href="https://agroverse.shop/farms/' + esc(fid) + '/" target="_blank" rel="noopener" style="font-weight:600;">View farm profile on Agroverse ↗</a>';
               L.polygon(latlngs, {
                 color: color, weight: 2, fillColor: color, fillOpacity: 0.12
               }).addTo(map).bindPopup(popupHtml);
