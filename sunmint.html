@@ -237,6 +237,13 @@
           <span class="impact-map-note" style="color: #666; font-size: 0.85em;">Satellite: Sentinel-2, ~10 m resolution, ~5-day revisit. Markers: registered trees from the SunMint registry.</span>
         </div>
         <p class="impact-map-honest" style="color: #888; font-size: 0.8em; margin-top: 8px;">Acquisition date shown per scene; imagery is a verification layer, not per-tree measurement. Tree markers update from the live registry index.</p>
+        <div style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; font-size: 0.8em; color: #666;">
+          <span style="font-weight: 600;">Boundary authority:</span>
+          <span style="display:inline-flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:#e65100;display:inline-block;"></span>Approx (photo hull)</span>
+          <span style="display:inline-flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:#2e7d32;display:inline-block;"></span>GPS walk</span>
+          <span style="display:inline-flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:#1565c0;display:inline-block;"></span>CAR polygon</span>
+          <span style="display:inline-flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:#7b1fa2;display:inline-block;"></span>INCRA polygon</span>
+        </div>
         <div id="satelliteHistory" style="margin-top: 12px; display: none;">
           <div style="font-weight: 600; margin-bottom: 6px;">Satellite history <span style="font-weight:400;color:#888;">(pilot area, Sentinel-2)</span></div>
           <div id="satHistoryThumbs" style="display: flex; flex-wrap: wrap; gap: 8px;"></div>
@@ -631,11 +638,23 @@
               var latlngs = (geom.coordinates[0] || []).map(function (c) { return [c[1], c[0]]; });
               if (!latlngs.length) return;
               plotIds[id] = { id: id, name: name, color: color, latlngs: latlngs };
+              function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+              var BA_LABEL = { approx: 'Approx (photo hull)', gps_walk: 'GPS walk', car: 'CAR polygon', incra: 'INCRA polygon' };
+              var ST_LABEL = { proposed: 'Proposed', planted: 'Planted', verified: 'Verified' };
+              var ST_COLOR = { proposed: '#e65100', planted: '#2e7d32', verified: '#1565c0' };
+              var ba = props.boundary_authority || props.boundaryAuthority || '';
+              var st = props.status || '';
+              var popupHtml = '<strong>' + esc(name) + '</strong>';
+              if (st) popupHtml += '<br/><span style="color:' + (ST_COLOR[st] || '#333') + ';font-weight:600;">' + esc(ST_LABEL[st] || st) + '</span>';
+              if (ba) popupHtml += '<br/>Boundary: ' + esc(BA_LABEL[ba] || ba);
+              var ha = props.hectares || props.area_ha;
+              if (ha) popupHtml += '<br/>' + esc(ha) + ' ha';
+              if (props.owner) popupHtml += '<br/>Owner: ' + esc(props.owner);
+              if (props.region) popupHtml += '<br/>Region: ' + esc(props.region);
+              if (props.verified_at) popupHtml += '<br/>Verified: ' + esc(props.verified_at);
               L.polygon(latlngs, {
                 color: color, weight: 2, fillColor: color, fillOpacity: 0.12
-              }).addTo(map).bindPopup('<strong>' + name + '</strong>' +
-                ((props.hectares || props.area_ha) ? '<br/>' + (props.hectares || props.area_ha) + ' ha' : '') +
-                (props.status ? '<br/>' + props.status : ''));
+              }).addTo(map).bindPopup(popupHtml);
             });
             var ids = Object.keys(plotIds);
             if (ids.length) {
