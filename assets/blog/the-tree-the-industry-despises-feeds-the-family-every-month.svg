@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" role="img" aria-labelledby="title desc">
+  <title id="title">Two cacao pods, one farm</title>
+  <desc id="desc">Left: a smooth rounded yellow-green cacao pod labelled Ponta Verde, the grafted CCN-51 that fruits year-round. Right: a deeply furrowed crimson-purple pointed pod labelled Traditional Pará cacao, seasonal. A warm seam joins them.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f7f1e6"/>
+      <stop offset="1" stop-color="#eadfc9"/>
+    </linearGradient>
+    <linearGradient id="podA" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#d8c864"/>
+      <stop offset="1" stop-color="#7f9e52"/>
+    </linearGradient>
+    <linearGradient id="podB" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8a2747"/>
+      <stop offset="1" stop-color="#43102a"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="400" fill="url(#bg)"/>
+  <line x1="400" y1="40" x2="400" y2="330" stroke="#c8a96a" stroke-width="2" stroke-dasharray="6 6"/>
+  <ellipse cx="215" cy="185" rx="95" ry="58" fill="url(#podA)" transform="rotate(-12 215 185)"/>
+  <path d="M 122 176 q 90 -22 190 -8" stroke="#6d8a44" stroke-width="2" fill="none" opacity="0.7"/>
+  <path d="M 126 195 q 90 18 186 4" stroke="#6d8a44" stroke-width="2" fill="none" opacity="0.7"/>
+  <ellipse cx="585" cy="185" rx="88" ry="53" fill="url(#podB)" transform="rotate(10 585 185)"/>
+  <path d="M 503 162 q 80 -20 162 12" stroke="#2e0818" stroke-width="2.5" fill="none" opacity="0.85"/>
+  <path d="M 500 180 q 84 0 166 6" stroke="#2e0818" stroke-width="2.5" fill="none" opacity="0.85"/>
+  <path d="M 503 198 q 80 18 160 2" stroke="#2e0818" stroke-width="2.5" fill="none" opacity="0.85"/>
+  <text x="215" y="292" text-anchor="middle" font-family="Inter, sans-serif" font-size="15" font-weight="600" fill="#4a3b2a">Ponta Verde</text>
+  <text x="215" y="312" text-anchor="middle" font-family="Inter, sans-serif" font-size="12.5" fill="#6f5a44">grafted CCN-51 · year-round</text>
+  <text x="585" y="292" text-anchor="middle" font-family="Inter, sans-serif" font-size="15" font-weight="600" fill="#4a3b2a">Traditional Pará</text>
+  <text x="585" y="312" text-anchor="middle" font-family="Inter, sans-serif" font-size="12.5" fill="#6f5a44">seasonal · furrowed · crimson</text>
+</svg>
