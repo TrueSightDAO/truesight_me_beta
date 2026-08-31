@@ -228,6 +228,7 @@
         <p class="pill">Live Impact Map</p>
         <h2>See Our Trees from Space</h2>
         <p class="impact-map-intro">Every planted tree is registered on-chain and shown here against recent satellite imagery of the pilot area. Ground measurements (photo + calibration card) feed the carbon numbers; satellite imagery provides the wide-area verification layer.</p>
+        <div id="farmSelector" style="display:none; margin-bottom:10px; align-items:center; flex-wrap:wrap; gap:6px;"></div>
         <div id="plotSelector" style="display:none; margin-bottom:10px; align-items:center; flex-wrap:wrap; gap:6px;"></div>
         <div id="viewSelector" style="display:none; margin-bottom:10px; align-items:center; flex-wrap:wrap; gap:6px;"></div>
         <div id="impactMap" class="impact-map-canvas" style="height: 480px; width: 100%; border-radius: 12px; z-index: 1;"></div>
@@ -458,6 +459,7 @@
           });
 
           var treePoints = [];
+          window.__treeMarkers = window.__treeMarkers || [];
           function addTreeMarkers(feats) {
             var count = 0;
             feats.forEach(function (f) {
@@ -473,9 +475,10 @@
                 html: '<div style="width:14px;height:14px;border-radius:50%;background:#2e7d32;border:2px solid #fff;box-shadow:0 0 4px rgba(0,0,0,.4);"></div>',
                 iconSize: [14, 14]
               });
-              L.marker([lat, lng], { icon: icon }).addTo(map)
+              var tm = L.marker([lat, lng], { icon: icon }).addTo(map)
                 .bindPopup('<strong>' + (p.tree_id || p.treeId || 'tree') + '</strong><br/>' +
                   (p.species || '') + (p.status ? '<br/>' + p.status : ''));
+              window.__treeMarkers.push(tm);
             });
             return count;
           }
@@ -656,10 +659,69 @@
               var FARM_SLUG = { 'santa-anna-fazenda': 'santa-anna-fazenda-para', 'rancho-maranta': 'rancho-maranta-para' };
               var fslug = FARM_SLUG[fid] || fid;
               if (fid) popupHtml += '<br/><a href="https://agroverse.shop/farms/' + esc(fslug) + '/" target="_blank" rel="noopener" style="font-weight:600;">View farm profile on Agroverse ↗</a>';
-              L.polygon(latlngs, {
+              var pl = L.polygon(latlngs, {
                 color: color, weight: 2, fillColor: color, fillOpacity: 0.12
               }).addTo(map).bindPopup(popupHtml);
+              window.__plotLayers = window.__plotLayers || {};
+              window.__plotLayers[id] = pl;
+              window.__plotFarms = window.__plotFarms || {};
+              window.__plotFarms[id] = fid || props.farm_name || props.farm || "";
             });
+            var fSel = document.getElementById('farmSelector');
+            if (fSel && ids.length) {
+              var fids = [];
+              Object.keys(plotIds).forEach(function (pid) {
+                var f = (window.__plotFarms || {})[pid];
+                if (f && fids.indexOf(f) === -1) fids.push(f);
+              });
+              fids.sort();
+              if (fids.length > 1 || (fids.length === 1 && fids[0])) {
+                fSel.style.display = 'flex';
+                fSel.innerHTML = '<span style="font-size:0.85em;color:#666;">Farm:</span>' +
+                  '<select id="farmSelect" style="padding:5px 10px;border-radius:8px;border:1px solid #ccc;font-size:0.85em;">' +
+                  '<option value="">All farms</option>' +
+                  fids.map(function (f) {
+                    var label = (f).replace(/-/g, ' ');
+                    label = label.replace(/\b\w/g, function (c) { return c.toUpperCase(); });
+                    return '<option value="' + esc(f) + '">' + esc(label) + '</option>';
+                  }).join('') + '</select>';
+                var fs = fSel.querySelector('#farmSelect');
+                fs.addEventListener('change', function () {
+                  var v = fs.value;
+                  Object.keys(window.__plotLayers || {}).forEach(function (pid) {
+                    var match = !v || (window.__plotFarms || {})[pid] === v;
+                    var ly = window.__plotLayers[pid];
+                    if (match) { if (!map.hasLayer(ly)) ly.addTo(map); }
+                    else { if (map.hasLayer(ly)) map.removeLayer(ly); }
+                  });
+                  (window.__treeMarkers || []).forEach(function (m) {
+                    var hit = !v;
+                    if (v) {
+                      var ring = null;
+                      Object.keys(window.__plotLayers || {}).forEach(function (pid) {
+                        if ((window.__plotFarms || {})[pid] === v && !ring) {
+                          var ll = window.__plotLayers[pid].getLatLngs();
+                          var first = ll[0];
+                          if (first && first[0]) ring = first; else ring = ll;
+                        }
+                      });
+                      if (ring) {
+                        var pt = m.getLatLng();
+                        var inside = false;
+                        for (var i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+                          var xi = ring[i].lat, yi = ring[i].lng;
+                          var xj = ring[j].lat, yj = ring[j].lng;
+                          if (((yi > pt.lng) !== (yj > pt.lng)) && (pt.lat < (xj - xi) * (pt.lng - yi) / (yj - yi) + xi)) inside = !inside;
+                        }
+                        hit = inside;
+                      }
+                    }
+                    if (hit) { if (!map.hasLayer(m)) m.addTo(map); }
+                    else { if (map.hasLayer(m)) map.removeLayer(m); }
+                  });
+                });
+              }
+            }
             var ids = Object.keys(plotIds);
             if (ids.length) {
               var allBounds = null;
@@ -670,6 +732,17 @@
                 allBounds = allBounds ? allBounds.extend(b) : b;
               });
               if (allBounds && !__viewChosen) map.fitBounds(allBounds, { padding: [40, 40] });
+            var fs2 = document.getElementById('farmSelect');
+            if (fs2 && fs2.value) {
+              var fb = null;
+              Object.keys(window.__plotLayers || {}).forEach(function (pid) {
+                if ((window.__plotFarms || {})[pid] === fs2.value) {
+                  var b2 = L.latLngBounds(window.__plotLayers[pid].getLatLngs());
+                  fb = fb ? fb.extend(b2) : b2;
+                }
+              });
+              if (fb) map.flyToBounds(fb, { padding: [40, 40] });
+            }
             }
             if (sel) {
               if (ids.length) {
