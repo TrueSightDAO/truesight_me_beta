@@ -256,6 +256,12 @@
         </div>
       </section>
 
+      <section id="farms" class="farms-registry-section" style="margin: 48px auto 0; max-width: 960px; padding: 0 20px;">
+        <h2 style="font-size: 1.6em; margin-bottom: 6px;">Farms Registry</h2>
+        <p style="color: #666; font-size: 0.95em; margin-bottom: 16px;">Every farm in the registry is an auditable parcel: plots with boundary evidence, status, and on-chain registered trees. Data aggregated live from the plots registry.</p>
+        <div id="farmsRegistry" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px;">Loading farms…</div>
+      </section>
+
       <div id="site-footer"></div>
 <script src="/js/footer.js"></script>
     </div>
@@ -773,6 +779,41 @@
                 sel.style.display = 'none';
               }
             }
+            function renderFarms(feats) {
+              var farmMap = {};
+              feats.forEach(function (p) {
+                var pr = p.properties || {};
+                var fid = pr.farm_id || pr.farmId || pr.farm || '';
+                if (!fid) return;
+                var key = fid;
+                if (!farmMap[key]) farmMap[key] = { id: fid, name: pr.farm_name || pr.farm || fid, plots: 0, hectares: 0, statuses: {}, region: pr.region || '' };
+                farmMap[key].plots++;
+                var ha = parseFloat(pr.hectares || pr.area_ha || 0);
+                if (!isNaN(ha)) farmMap[key].hectares += ha;
+                var st = pr.status || 'unknown';
+                farmMap[key].statuses[st] = (farmMap[key].statuses[st] || 0) + 1;
+                if (!farmMap[key].region && pr.region) farmMap[key].region = pr.region;
+              });
+              var el = document.getElementById('farmsRegistry');
+              if (!el) return;
+              var keys = Object.keys(farmMap);
+              if (!keys.length) { el.innerHTML = '<span style="color:#888;">No farm data yet — first plots will appear here.</span>'; return; }
+              var ST_LBL = { proposed: 'Proposed', planted: 'Planted', verified: 'Verified' };
+              el.innerHTML = keys.map(function (k) {
+                var f = farmMap[k];
+                var statusLabel = Object.keys(f.statuses).map(function (s) { return f.statuses[s] + ' ' + (ST_LBL[s] || s); }).join(', ') || '—';
+                var haTxt = f.hectares ? f.hectares.toFixed(1) + ' ha' : '—';
+                return '<div style="border:1px solid #e0d5c3;border-radius:12px;padding:14px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.06);">' +
+                  '<div style="font-weight:700;color:#4a3728;margin-bottom:4px;">' + esc(f.name) + '</div>' +
+                  '<div style="font-size:0.85em;color:#666;">' +
+                  '<div>Plots: ' + f.plots + '</div>' +
+                  '<div>Area: ' + haTxt + '</div>' +
+                  '<div>Status: ' + esc(statusLabel) + '</div>' +
+                  (f.region ? '<div>Region: ' + esc(f.region) + '</div>' : '') +
+                  '</div></div>';
+              }).join('');
+            }
+            renderFarms(feats);
             var note = document.querySelector('.impact-map-note');
             if (note && ids.length) {
               note.textContent += ' · Plots: ' + ids.length;
