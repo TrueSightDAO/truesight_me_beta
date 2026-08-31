@@ -245,6 +245,12 @@
           <span style="display:inline-flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:#1565c0;display:inline-block;"></span>CAR polygon</span>
           <span style="display:inline-flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:#7b1fa2;display:inline-block;"></span>INCRA polygon</span>
         </div>
+        <div style="margin-top: 6px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; font-size: 0.8em; color: #666;">
+          <span style="font-weight: 600;">Plot status:</span>
+          <span style="display:inline-flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#e65100;display:inline-block;opacity:.5;"></span>Proposed (dashed)</span>
+          <span style="display:inline-flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#2e7d32;display:inline-block;"></span>Planted</span>
+          <span style="display:inline-flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#1565c0;display:inline-block;"></span>Verified</span>
+        </div>
         <div id="satelliteHistory" style="margin-top: 12px; display: none;">
           <div style="font-weight: 600; margin-bottom: 6px;">Satellite history <span style="font-weight:400;color:#888;">(pilot area, Sentinel-2)</span></div>
           <div id="satHistoryThumbs" style="display: flex; flex-wrap: wrap; gap: 8px;"></div>
@@ -665,8 +671,26 @@
               var FARM_SLUG = { 'santa-anna-fazenda': 'santa-anna-fazenda-para', 'rancho-maranta': 'rancho-maranta-para' };
               var fslug = FARM_SLUG[fid] || fid;
               if (fid) popupHtml += '<br/><a href="https://agroverse.shop/farms/' + esc(fslug) + '/" target="_blank" rel="noopener" style="font-weight:600;">View farm profile on Agroverse ↗</a>';
+              var media = props.media || props.media_urls || [];
+              if (Array.isArray(media) && media.length) {
+                popupHtml += '<div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:4px;">';
+                media.slice(0, 4).forEach(function (mp) {
+                  var isAbs = mp.indexOf('http') === 0;
+                  var src = isAbs ? mp : 'https://cdn.jsdelivr.net/gh/TrueSightDAO/sunmint@main/' + mp.replace(/^\//, '');
+                  var raw = isAbs ? mp : 'https://raw.githubusercontent.com/TrueSightDAO/sunmint/main/' + mp.replace(/^\//, '');
+                  popupHtml += '<img src="' + esc(src) + '" onerror="this.onerror=null;this.src=\'' + esc(raw) + '\';" alt="Plot evidence" style="width:64px;height:64px;object-fit:cover;border-radius:6px;border:1px solid #ddd;" loading="lazy"/>';
+                });
+                popupHtml += '</div>';
+              }
+              var STYLE = {
+                proposed: { weight: 2, dashArray: '6 4', fillOpacity: 0.08 },
+                planted:  { weight: 2, dashArray: null, fillOpacity: 0.15 },
+                verified: { weight: 3, dashArray: null, fillOpacity: 0.30 }
+              };
+              var sty = STYLE[st] || STYLE.planted;
               var pl = L.polygon(latlngs, {
-                color: color, weight: 2, fillColor: color, fillOpacity: 0.12
+                color: color, weight: sty.weight, dashArray: sty.dashArray,
+                fillColor: color, fillOpacity: sty.fillOpacity
               }).addTo(map).bindPopup(popupHtml);
               window.__plotLayers = window.__plotLayers || {};
               window.__plotLayers[id] = pl;
