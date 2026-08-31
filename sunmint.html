@@ -518,6 +518,10 @@
                   b.style.background = '#fff'; b.style.color = '#2e7d32';
                 });
                 btn.style.background = '#2e7d32'; btn.style.color = '#fff';
+                // exclusive pill group: selecting a view clears any active plot chip
+                Array.prototype.forEach.call(document.querySelectorAll('.plot-chip'), function (b) {
+                  b.style.background = '#fff'; b.style.color = b.style.borderColor;
+                });
               });
             });
           }
@@ -660,6 +664,10 @@
                       b.style.background = '#fff'; b.style.color = b.style.borderColor;
                     });
                     btn.style.background = btn.style.borderColor; btn.style.color = '#fff';
+                    // exclusive pill group: selecting a plot clears any active view chip
+                    Array.prototype.forEach.call(document.querySelectorAll('.view-chip'), function (b) {
+                      b.style.background = '#fff'; b.style.color = '#2e7d32';
+                    });
                   });
                 });
               } else {
