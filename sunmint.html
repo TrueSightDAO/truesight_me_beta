@@ -551,18 +551,20 @@
               stashCells(m);
               var cellKeys = Object.keys(cells);
               if (!cellKeys.length) { container.style.display = 'none'; return; }
-              // Prefer the cell closest to the pilot center.
+              // Prefer the cell nearest the map's current view (falls back to
+              // the first cached cell). Any plot/cell with cached scenes shows
+              // its own history -- Rancho Maranta now has real scenes too.
               function cellDist(key) {
                 var parts = String(key).split('_');
                 var lat = parseFloat(parts[0]), lng = parseFloat(parts[1]);
                 if (isNaN(lat) || isNaN(lng)) return 1e9;
-                return Math.abs(lat - PILOT_CENTER[0]) + Math.abs(lng - PILOT_CENTER[1]);
+                try {
+                  var c = map.getCenter();
+                  return Math.abs(lat - c.lat) + Math.abs(lng - c.lng);
+                } catch (e) { return Math.abs(lat - PILOT_CENTER[0]) + Math.abs(lng - PILOT_CENTER[1]); }
               }
               cellKeys.sort(function (a, b) { return cellDist(a) - cellDist(b); });
               var cell = cells[cellKeys[0]];
-              // Don't show a satellite strip for a cell far from the pilot area
-              // (e.g. the old Florianopolis cache would otherwise overlay Altamira).
-              if (cellDist(cellKeys[0]) > 5) { container.style.display = 'none'; return; }
               var scenes = (cell.scenes || []).slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; });
               if (!scenes.length) { container.style.display = 'none'; return; }
               container.style.display = 'block';
