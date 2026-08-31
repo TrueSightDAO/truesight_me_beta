@@ -429,8 +429,8 @@
           'https://raw.githubusercontent.com/TrueSightDAO/sunmint/main/trees/index.geojson?cb=' + Date.now(),
           'https://cdn.jsdelivr.net/gh/TrueSightDAO/sunmint@main/trees/index.geojson?cb=' + Date.now()
         ];
-        // Pilot area default: FounderHaus / Altamira region
-        var PILOT_CENTER = [-27.4389, -48.4997];
+        // Pilot area default: Altamira region (Rancho Maranta, family of Jedielcio)
+        var PILOT_CENTER = [-3.2940, -52.5780];
         // Sentinel-2 L2A WMS (Copernicus Data Space, anonymous tile access)
         // Satellite basemap: ESRI World Imagery (free, no API key, verified live).
         // High-resolution Sentinel-2 layers (true-color + NDVI) will come from the
@@ -497,8 +497,17 @@
               var cellKeys = Object.keys(cells);
               if (!cellKeys.length) { container.style.display = 'none'; return; }
               // Prefer the cell closest to the pilot center.
-              cellKeys.sort(function (a, b) { return 0; });
+              function cellDist(key) {
+                var parts = String(key).split('_');
+                var lat = parseFloat(parts[0]), lng = parseFloat(parts[1]);
+                if (isNaN(lat) || isNaN(lng)) return 1e9;
+                return Math.abs(lat - PILOT_CENTER[0]) + Math.abs(lng - PILOT_CENTER[1]);
+              }
+              cellKeys.sort(function (a, b) { return cellDist(a) - cellDist(b); });
               var cell = cells[cellKeys[0]];
+              // Don't show a satellite strip for a cell far from the pilot area
+              // (e.g. the old Florianopolis cache would otherwise overlay Altamira).
+              if (cellDist(cellKeys[0]) > 5) { container.style.display = 'none'; return; }
               var scenes = (cell.scenes || []).slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; });
               if (!scenes.length) { container.style.display = 'none'; return; }
               container.style.display = 'block';
@@ -548,8 +557,8 @@
         var PLOT_COLORS = ['#7b1fa2', '#1565c0', '#c62828', '#2e7d32', '#e65100', '#00695c'];
         function loadPlots(map) {
           var PLOTS_URLS = [
-            'https://raw.githubusercontent.com/TrueSightDAO/sunmint/main/trees/plots.geojson?cb=' + Date.now(),
-            'https://raw.githubusercontent.com/TrueSightDAO/sunmint/main/trees/plots.geojson'
+            'https://raw.githubusercontent.com/TrueSightDAO/sunmint/main/plots/index.geojson?cb=' + Date.now(),
+            'https://cdn.jsdelivr.net/gh/TrueSightDAO/sunmint@main/plots/index.geojson'
           ];
           var sel = document.getElementById('plotSelector');
           function render(plots) {
@@ -568,10 +577,20 @@
               L.polygon(latlngs, {
                 color: color, weight: 2, fillColor: color, fillOpacity: 0.12
               }).addTo(map).bindPopup('<strong>' + name + '</strong>' +
-                (props.area_ha ? '<br/>' + props.area_ha + ' ha' : '') +
+                ((props.hectares || props.area_ha) ? '<br/>' + (props.hectares || props.area_ha) + ' ha' : '') +
                 (props.status ? '<br/>' + props.status : ''));
             });
             var ids = Object.keys(plotIds);
+            if (ids.length) {
+              var allBounds = null;
+              ids.forEach(function (id) {
+                var p = plotIds[id];
+                if (!p.latlngs.length) return;
+                var b = L.latLngBounds(p.latlngs);
+                allBounds = allBounds ? allBounds.extend(b) : b;
+              });
+              if (allBounds) map.fitBounds(allBounds, { padding: [40, 40] });
+            }
             if (sel) {
               if (ids.length) {
                 sel.style.display = 'flex';
