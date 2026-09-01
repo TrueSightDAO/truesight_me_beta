@@ -258,7 +258,7 @@
                 '<th>Asset</th>' +
                 '<th>Status</th>' +
                 '<th class="col-minted">Minted</th>' +
-                '<th>Farm</th>' +
+                '<th class="col-farm">Farm</th>' +
                 '<th class="col-year">Harvest</th>' +
                 '<th class="col-holder">Holder</th>' +
               '</tr></thead><tbody></tbody>';
@@ -272,7 +272,7 @@
               '<td><span class="badge asset">' + esc(r.asset_type) + '</span></td>' +
               '<td><span class="badge status-' + esc((r.status || '').replace(/ /g, '_')) + '">' + esc(r.status) + '</span></td>' +
               '<td class="col-minted">' + (minted ? esc(minted) : '<span style="color:var(--muted,#aaa)">—</span>') + '</td>' +
-              '<td>' + esc(r.farm) + (r.country ? '<br><small style="color:var(--muted,#666)">' + esc(r.country) + '</small>' : '') + '</td>' +
+              '<td class="col-farm">' + esc(r.farm) + (r.country ? '<br><small style="color:var(--muted,#666)">' + esc(r.country) + '</small>' : '') + '</td>' +
               '<td class="col-year">' + esc(r.harvest_year) + '</td>' +
               '<td class="col-holder">' + esc(r.current_holder || '') + '</td>' +
             '</tr>';
