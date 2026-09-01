@@ -2,25 +2,19 @@
  * Load Beer Hall / ecosystem_change_logs JSON from a CDN with fallback.
  * Used by index.html (preview) and beerhall/updates.html (list + detail).
  *
- * Why two bases (2026-05-14):
- *   raw.githubusercontent.com is regionally unreliable — blocked by the
- *   GFW for users in mainland China, and occasionally throttles aggressive
- *   refreshes. jsDelivr proxies the same Git tree via a global edge CDN
- *   (Cloudflare + Bunny) that reaches into China and serves cached blobs
- *   sub-second. We try jsDelivr first, fall back to raw on any error so
- *   the homepage Beer Hall section degrades gracefully if either CDN is
- *   blocked, throttled, or stale.
- *
- *   jsDelivr caches `@main` aggressively (~12h TTL). That's acceptable
- *   here because Beer Hall digests are weekly-ish; if an operator needs
- *   to surface a freshly-merged digest immediately, raw.githubusercontent
- *   will pick it up on the fallback path.
+ * Why two bases (2026-07-15):
+ *   raw.githubusercontent.com serves the latest commit immediately (no CDN
+ *   cache), so it's the primary fetch source for fresh data. jsDelivr proxies
+ *   the same Git tree via a global edge CDN (Cloudflare + Bunny) that reaches
+ *   into China, but caches @main aggressively (~12h TTL). We try raw first,
+ *   fall back to jsDelivr on any error so the homepage Beer Hall section
+ *   degrades gracefully if raw.githubusercontent is blocked or throttled.
  */
 (function () {
   'use strict';
 
-  var PRIMARY_BASE = 'https://cdn.jsdelivr.net/gh/TrueSightDAO/ecosystem_change_logs@main/';
-  var FALLBACK_BASE = 'https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/';
+  var PRIMARY_BASE = 'https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/';
+  var FALLBACK_BASE = 'https://cdn.jsdelivr.net/gh/TrueSightDAO/ecosystem_change_logs@main/';
 
   function fetchJsonFrom(base, relPath) {
     return fetch(base + relPath, { cache: 'default' }).then(function (res) {
