@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-09-01T05:33:04Z",
+  "generated_at_utc": "2026-09-01T11:57:31Z",
   "regenerated_by": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/.github/workflows/stats-refresh.yml",
   "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
   "llms_orientation": "https://truesight.me/llms.txt",
@@ -8,16 +8,16 @@
     "mission": "Restore 10,000 hectares of Amazon rainforest."
   },
   "members": {
-    "generated_at": "2026-09-01T03:27:52Z",
+    "generated_at": "2026-09-01T09:02:36Z",
     "total_contributors": 489,
-    "total_tdg_controlled_sum": 2418577.29,
+    "total_tdg_controlled_sum": 2419605.29,
     "governors_count": 10,
     "governors": [
       {
         "display_name": "Gary Teh",
         "slug": "gary-teh",
-        "voting_power_pct": 42.14,
-        "tdg_controlled": 1022245.0,
+        "voting_power_pct": 42.12,
+        "tdg_controlled": 1022292.0,
         "contribution_count": 3625,
         "profile_url": "https://truesight.me/credentials/#gary-teh"
       },
@@ -32,8 +32,8 @@
       {
         "display_name": "Jacob Nelan",
         "slug": "jacob-nelan",
-        "voting_power_pct": 2.6,
-        "tdg_controlled": 63194.0,
+        "voting_power_pct": 2.64,
+        "tdg_controlled": 64175.0,
         "contribution_count": 62,
         "profile_url": "https://truesight.me/credentials/#jacob-nelan"
       },
@@ -97,7 +97,7 @@
     "directory_url": "https://truesight.me/members.html"
   },
   "treasury": {
-    "generated_at": "2026-09-01T04:48:36.451Z",
+    "generated_at": "2026-09-01T11:48:37.702Z",
     "schema_version": 5,
     "trigger": "cron",
     "currency_totals": {
@@ -849,12 +849,12 @@
   },
   "inventory": {
     "stores": {
-      "generated_at": "2026-08-31T13:56:40.000Z",
+      "generated_at": "2026-09-01T11:42:48.000Z",
       "store_count": 0,
       "line_items": 14
     },
     "partners": {
-      "generated_at": "2026-08-31T13:56:40.000Z",
+      "generated_at": "2026-09-01T11:42:48.000Z",
       "partner_count": 23
     }
   },
