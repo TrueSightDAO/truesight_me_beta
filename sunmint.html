@@ -453,6 +453,30 @@
         // Pilot area default: Altamira region (Rancho Maranta, family of Jedielcio)
         var PILOT_CENTER = [-3.2940, -52.5780];
         var __viewChosen = false; // user picked a view -> plot auto-fit must not override
+
+        // Pill state <-> URL sync: selecting a view or plot chip updates
+        // ?view=<id> / ?plot=<id> (mutually exclusive, mirrors the exclusive
+        // pill-group UI) so the selection survives a refresh/share. Restore
+        // runs once each pill group finishes loading (they load async and
+        // independently) and scrolls the section into view — but only on the
+        // restore path, not on every ordinary click, since the user is
+        // already looking at the map when they click it themselves.
+        function impactMapSetUrlParam(name, value) {
+          try {
+            var url = new URL(window.location.href);
+            url.searchParams.delete('view');
+            url.searchParams.delete('plot');
+            if (value) url.searchParams.set(name, value);
+            window.history.replaceState(null, '', url.toString());
+          } catch (e) { /* URL API unavailable — never block the UI */ }
+        }
+        function impactMapGetUrlParam(name) {
+          try { return new URLSearchParams(window.location.search).get(name); } catch (e) { return null; }
+        }
+        function impactMapScrollIntoView() {
+          var el = document.getElementById('impact-map');
+          if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
         // Sentinel-2 L2A WMS (Copernicus Data Space, anonymous tile access)
         // Satellite basemap: ESRI World Imagery (free, no API key, verified live).
         // High-resolution Sentinel-2 layers (true-color + NDVI) will come from the
@@ -545,8 +569,14 @@
                 Array.prototype.forEach.call(document.querySelectorAll('.plot-chip'), function (b) {
                   b.style.background = '#fff'; b.style.color = b.style.borderColor;
                 });
+                impactMapSetUrlParam('view', v.id);
               });
             });
+            var __initialView = impactMapGetUrlParam('view');
+            if (__initialView) {
+              var __viewBtn = viewSel.querySelector('[data-view="' + __initialView + '"]');
+              if (__viewBtn) { __viewBtn.click(); impactMapScrollIntoView(); }
+            }
           }
 
           document.getElementById('mapLayerTrueColor').addEventListener('click', function () {
@@ -797,8 +827,14 @@
                     Array.prototype.forEach.call(document.querySelectorAll('.view-chip'), function (b) {
                       b.style.background = '#fff'; b.style.color = '#2e7d32';
                     });
+                    impactMapSetUrlParam('plot', id);
                   });
                 });
+                var __initialPlot = impactMapGetUrlParam('plot');
+                if (__initialPlot && plotIds[__initialPlot]) {
+                  var __plotBtn = sel.querySelector('[data-plot="' + __initialPlot + '"]');
+                  if (__plotBtn) { __plotBtn.click(); impactMapScrollIntoView(); }
+                }
               } else {
                 sel.style.display = 'none';
               }
