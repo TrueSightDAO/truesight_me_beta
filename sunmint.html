@@ -171,6 +171,44 @@
         </div>
       </section>
 
+      <section id="impact-map" class="impact-map-section">
+        <p class="pill">Live Impact Map</p>
+        <h2>See Our Trees from Space</h2>
+        <p class="impact-map-intro">Every planted tree is registered on-chain and shown here against recent satellite imagery of the pilot area. Ground measurements (photo + calibration card) feed the carbon numbers; satellite imagery provides the wide-area verification layer.</p>
+        <div id="farmSelector" style="display:none; margin-bottom:10px; align-items:center; flex-wrap:wrap; gap:6px;"></div>
+        <div id="plotSelector" style="display:none; margin-bottom:10px; align-items:center; flex-wrap:wrap; gap:6px;"></div>
+        <div id="viewSelector" style="display:none; margin-bottom:10px; align-items:center; flex-wrap:wrap; gap:6px;"></div>
+        <div id="impactMap" class="impact-map-canvas" style="height: 480px; width: 100%; border-radius: 12px; z-index: 1;"></div>
+        <div class="impact-map-controls" style="margin-top: 10px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+          <button id="mapLayerTrueColor" class="map-layer-btn" style="padding: 6px 14px; border-radius: 6px; border: 1px solid #ccc; background: #f5f5f5; cursor: pointer;">Satellite</button>
+          <button id="mapLayerNdvi" class="map-layer-btn" style="padding: 6px 14px; border-radius: 6px; border: 1px solid #ccc; background: #fff; cursor: pointer;">Map</button>
+          <span class="impact-map-note" style="color: #666; font-size: 0.85em;">Satellite: Sentinel-2, ~10 m resolution, ~5-day revisit. Markers: registered trees from the SunMint registry.</span>
+        </div>
+        <p class="impact-map-honest" style="color: #888; font-size: 0.8em; margin-top: 8px;">Acquisition date shown per scene; imagery is a verification layer, not per-tree measurement. Tree markers update from the live registry index.</p>
+        <div style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; font-size: 0.8em; color: #666;">
+          <span style="font-weight: 600;">Boundary authority:</span>
+          <span style="display:inline-flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:#e65100;display:inline-block;"></span>Approx (photo hull)</span>
+          <span style="display:inline-flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:#2e7d32;display:inline-block;"></span>GPS walk</span>
+          <span style="display:inline-flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:#1565c0;display:inline-block;"></span>CAR polygon</span>
+          <span style="display:inline-flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:#7b1fa2;display:inline-block;"></span>INCRA polygon</span>
+        </div>
+        <div style="margin-top: 6px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; font-size: 0.8em; color: #666;">
+          <span style="font-weight: 600;">Plot status:</span>
+          <span style="display:inline-flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#e65100;display:inline-block;opacity:.5;"></span>Proposed (dashed)</span>
+          <span style="display:inline-flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#2e7d32;display:inline-block;"></span>Planted</span>
+          <span style="display:inline-flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#1565c0;display:inline-block;"></span>Verified</span>
+        </div>
+        <div id="satelliteHistory" style="margin-top: 12px; display: none;">
+          <div style="font-weight: 600; margin-bottom: 6px;">Satellite history <span style="font-weight:400;color:#888;">(pilot area, Sentinel-2)</span></div>
+          <div id="satHistoryThumbs" style="display: flex; flex-wrap: wrap; gap: 8px;"></div>
+          <div id="satHistoryDetail" style="margin-top: 10px; display: none;">
+            <img id="satHistoryImg" alt="Satellite preview" style="max-width: 100%; border-radius: 8px; border: 1px solid #ddd;" />
+            <p id="satHistoryMeta" style="color: #555; font-size: 0.85em; margin: 6px 0 0;"></p>
+            <label style="font-size: 0.85em; display: block; margin-top: 6px;"><input type="checkbox" id="satOverlayToggle" /> Show on map (preview stretched for context, approx. tile footprint)</label>
+          </div>
+        </div>
+      </section>
+
       <section id="impact">
         <p class="pill">Impact registry</p>
         <h2>IMPACT REGISTRY</h2>
@@ -221,44 +259,6 @@
             <h3>Biodiversity Conservation</h3>
             <p>Promoting biodiversity and ecosystem services through reforestation and agroforestry practices, enhancing soil health and water conservation.</p>
           </article>
-        </div>
-      </section>
-
-      <section id="impact-map" class="impact-map-section">
-        <p class="pill">Live Impact Map</p>
-        <h2>See Our Trees from Space</h2>
-        <p class="impact-map-intro">Every planted tree is registered on-chain and shown here against recent satellite imagery of the pilot area. Ground measurements (photo + calibration card) feed the carbon numbers; satellite imagery provides the wide-area verification layer.</p>
-        <div id="farmSelector" style="display:none; margin-bottom:10px; align-items:center; flex-wrap:wrap; gap:6px;"></div>
-        <div id="plotSelector" style="display:none; margin-bottom:10px; align-items:center; flex-wrap:wrap; gap:6px;"></div>
-        <div id="viewSelector" style="display:none; margin-bottom:10px; align-items:center; flex-wrap:wrap; gap:6px;"></div>
-        <div id="impactMap" class="impact-map-canvas" style="height: 480px; width: 100%; border-radius: 12px; z-index: 1;"></div>
-        <div class="impact-map-controls" style="margin-top: 10px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
-          <button id="mapLayerTrueColor" class="map-layer-btn" style="padding: 6px 14px; border-radius: 6px; border: 1px solid #ccc; background: #f5f5f5; cursor: pointer;">Satellite</button>
-          <button id="mapLayerNdvi" class="map-layer-btn" style="padding: 6px 14px; border-radius: 6px; border: 1px solid #ccc; background: #fff; cursor: pointer;">Map</button>
-          <span class="impact-map-note" style="color: #666; font-size: 0.85em;">Satellite: Sentinel-2, ~10 m resolution, ~5-day revisit. Markers: registered trees from the SunMint registry.</span>
-        </div>
-        <p class="impact-map-honest" style="color: #888; font-size: 0.8em; margin-top: 8px;">Acquisition date shown per scene; imagery is a verification layer, not per-tree measurement. Tree markers update from the live registry index.</p>
-        <div style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; font-size: 0.8em; color: #666;">
-          <span style="font-weight: 600;">Boundary authority:</span>
-          <span style="display:inline-flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:#e65100;display:inline-block;"></span>Approx (photo hull)</span>
-          <span style="display:inline-flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:#2e7d32;display:inline-block;"></span>GPS walk</span>
-          <span style="display:inline-flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:#1565c0;display:inline-block;"></span>CAR polygon</span>
-          <span style="display:inline-flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:#7b1fa2;display:inline-block;"></span>INCRA polygon</span>
-        </div>
-        <div style="margin-top: 6px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; font-size: 0.8em; color: #666;">
-          <span style="font-weight: 600;">Plot status:</span>
-          <span style="display:inline-flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#e65100;display:inline-block;opacity:.5;"></span>Proposed (dashed)</span>
-          <span style="display:inline-flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#2e7d32;display:inline-block;"></span>Planted</span>
-          <span style="display:inline-flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#1565c0;display:inline-block;"></span>Verified</span>
-        </div>
-        <div id="satelliteHistory" style="margin-top: 12px; display: none;">
-          <div style="font-weight: 600; margin-bottom: 6px;">Satellite history <span style="font-weight:400;color:#888;">(pilot area, Sentinel-2)</span></div>
-          <div id="satHistoryThumbs" style="display: flex; flex-wrap: wrap; gap: 8px;"></div>
-          <div id="satHistoryDetail" style="margin-top: 10px; display: none;">
-            <img id="satHistoryImg" alt="Satellite preview" style="max-width: 100%; border-radius: 8px; border: 1px solid #ddd;" />
-            <p id="satHistoryMeta" style="color: #555; font-size: 0.85em; margin: 6px 0 0;"></p>
-            <label style="font-size: 0.85em; display: block; margin-top: 6px;"><input type="checkbox" id="satOverlayToggle" /> Show on map (preview stretched for context, approx. tile footprint)</label>
-          </div>
         </div>
       </section>
 
@@ -511,9 +511,13 @@
                 html: '<div style="width:14px;height:14px;border-radius:50%;background:#2e7d32;border:2px solid #fff;box-shadow:0 0 4px rgba(0,0,0,.4);"></div>',
                 iconSize: [14, 14]
               });
+              var qr = p.qr_code || p.qrCode || '';
+              var qrLink = qr
+                ? '<br/><a href="https://truesight.me/qr/?id=' + encodeURIComponent(qr) + '" target="_blank" rel="noopener">View linked QR profile ↗</a>'
+                : '';
               var tm = L.marker([lat, lng], { icon: icon }).addTo(map)
                 .bindPopup('<strong>' + (p.tree_id || p.treeId || 'tree') + '</strong><br/>' +
-                  (p.species || '') + (p.status ? '<br/>' + p.status : ''));
+                  (p.species || '') + (p.status ? '<br/>' + p.status : '') + qrLink);
               window.__treeMarkers.push(tm);
             });
             return count;
