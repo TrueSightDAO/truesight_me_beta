@@ -677,6 +677,12 @@
           function render(plots) {
             var feats = (plots && plots.features) || [];
             var plotIds = {};
+            // Moved up from inside the per-plot forEach below (2026-09-04
+            // fix): esc() was only in scope for that one callback, so the
+            // farmSelector block further down (which also calls esc())
+            // threw "esc is not defined" -- silently caught by the fetch
+            // chain's catch-all, which then hid the whole plot selector.
+            function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
             feats.forEach(function (p, i) {
               var props = p.properties || {};
               var id = props.plot_id || props.id || ('plot_' + i);
@@ -687,7 +693,6 @@
               var latlngs = (geom.coordinates[0] || []).map(function (c) { return [c[1], c[0]]; });
               if (!latlngs.length) return;
               plotIds[id] = { id: id, name: name, color: color, latlngs: latlngs };
-              function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
               var BA_LABEL = { approx: 'Approx (photo hull)', gps_walk: 'GPS walk', car: 'CAR polygon', incra: 'INCRA polygon' };
               var ST_LABEL = { proposed: 'Proposed', planted: 'Planted', verified: 'Verified' };
               var ST_COLOR = { proposed: '#e65100', planted: '#2e7d32', verified: '#1565c0' };
@@ -731,6 +736,14 @@
               window.__plotFarms = window.__plotFarms || {};
               window.__plotFarms[id] = fid || props.farm_name || props.farm || "";
             });
+            // Moved up from below (2026-09-04 fix): this used to be declared
+            // after the farmSelector block that reads it, so `ids` was still
+            // `undefined` here (var hoisting) and `ids.length` threw a
+            // TypeError. The whole fetch chain's catch-all silently caught
+            // it and hid the plot selector -- no console error, no visible
+            // failure, pills just never appeared (found live on production,
+            // https://truesight.me/sunmint.html?view=altamira, no plot pills).
+            var ids = Object.keys(plotIds);
             var fSel = document.getElementById('farmSelector');
             if (fSel && ids.length) {
               var fids = [];
@@ -786,7 +799,6 @@
                 });
               }
             }
-            var ids = Object.keys(plotIds);
             if (ids.length) {
               var allBounds = null;
               ids.forEach(function (id) {
