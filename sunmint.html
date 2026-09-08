@@ -1006,7 +1006,7 @@
                       });
                     }
                     if (hit) { if (!map.hasLayer(m)) m.addTo(map); }
-                    else { if (map.hasLayer(m)) m.removeLayer(m); }
+                    else { if (map.hasLayer(m)) map.removeLayer(m); }
                   });
                   if (fb) map.flyToBounds(fb, { padding: [40, 40] });
                 });
