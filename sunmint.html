@@ -974,9 +974,15 @@
                     var match = !wantFarm || pf === wantFarm;
                     if (!match) { if (map.hasLayer(ly)) map.removeLayer(ly); return; }
                     if (!map.hasLayer(ly)) ly.addTo(map);
-                    if (wantPlot && pid === wantPlot) { fb = L.latLngBounds(ly.getLatLngs()); }
+                    // Polygon.getLatLngs() returns NESTED rings ([[LatLng,...]]);
+                    // L.latLngBounds() over that yields NaN bounds and flyToBounds
+                    // silently no-ops -- the 'selecting a plot doesn't move the map'
+                    // bug. Unwrap the flat ring (same as the hit-test below).
+                    var flatA = ly.getLatLngs(); var fA0 = flatA && flatA[0];
+                    if (fA0 && fA0[0]) flatA = fA0;
+                    if (wantPlot && pid === wantPlot) { fb = L.latLngBounds(flatA); }
                     else if (wantFarm && pf === wantFarm) {
-                      var b2 = L.latLngBounds(ly.getLatLngs());
+                      var b2 = L.latLngBounds(flatA);
                       fb = fb ? fb.extend(b2) : b2;
                     }
                   });
