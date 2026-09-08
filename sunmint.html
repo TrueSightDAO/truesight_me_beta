@@ -687,11 +687,19 @@
             viewSel.querySelectorAll('.view-chip').forEach(function (btn) {
               btn.addEventListener('click', function () {
                 var v = VIEWS.filter(function (x) { return x.id === btn.getAttribute('data-view'); })[0];
-                if (v.center) {
+                // Frame the trees this view actually counts. The old code flew
+                // to the view's hardcoded center, but the pilot trees sit ~57 km
+                // from it (Bom Sucesso vs Rancho Maranta), so '?view=altamira'
+                // showed an empty map. Bounds over the classified points (fall
+                // back to the fixed center only when the view has no trees).
+                var pts = (perView[v.id] || []).slice();
+                if (pts.length === 1) {
+                  map.flyTo([pts[0].lat, pts[0].lng], 17);
+                } else if (pts.length > 1) {
+                  var b = L.latLngBounds(pts.map(function (p) { return [p.lat, p.lng]; }));
+                  map.flyToBounds(b, { padding: [50, 50], maxZoom: 17 });
+                } else if (v.center) {
                   map.flyTo(v.center, v.zoom);
-                } else if (perView.all.length) {
-                  var b = L.latLngBounds(perView.all.map(function (p) { return [p.lat, p.lng]; }));
-                  map.flyToBounds(b, { padding: [40, 40] });
                 }
                 __viewChosen = true;
                 Array.prototype.forEach.call(viewSel.querySelectorAll('.view-chip'), function (b) {
