@@ -117,4 +117,46 @@ test.describe('SunMint impact map', () => {
 
     expect(pageErrors, `page errors: ${pageErrors.join(' | ')}`).toHaveLength(0);
   });
+
+  test('plots combobox filters by type and a deep-linked plot opens its popup', async ({ page }) => {
+    const { pageErrors, consoleErrors } = collectPageErrors(page);
+    await page.goto(`${MAP_PATH}?plot=RM-P1`, { waitUntil: 'domcontentloaded', timeout: 45_000 });
+
+    // The Plots control is a filter-as-you-type combobox (mirrors the Tree / QR
+    // box). It only appears once the plots geojson has rendered.
+    await expect(page.locator('#plotFilterInput')).toBeVisible({ timeout: 30_000 });
+
+    // ?plot= deep-link: scrolls to the section, frames the plot, and OPENS the
+    // plot popup (dialogue) -- parity with ?tree= / the Tree box.
+    await expect(page.locator('#impactMap .leaflet-popup')).toBeVisible({ timeout: 30_000 });
+    await expect(page.locator('.leaflet-popup-content')).toContainText('Rancho Maranta Plot 1', { timeout: 15_000 });
+
+    // Chosen plot reflected in the hidden source-of-truth select.
+    const selVal = await page.evaluate(() => (document.getElementById('plotSelect') || { value: '' }).value);
+    expect(selVal).toBe('plot:RM-P1');
+
+    // Type-to-filter: typing narrows the results dropdown by name/farm/id.
+    await page.locator('#plotFilterInput').fill('Bom Sucesso');
+    await expect(page.locator('#plotFilterResults')).toBeVisible({ timeout: 15_000 });
+    const rows = page.locator('#plotFilterResults .plot-result-row');
+    await expect(rows.first()).toBeVisible({ timeout: 15_000 });
+    const texts = await rows.allTextContents();
+    expect(texts.length).toBeGreaterThan(0);
+    for (const t of texts) expect(t).toMatch(/Bom Sucesso/i);
+
+    // Picking a filtered row selects it, flies to it, opens its popup, and
+    // keeps the URL in sync -- the same 'change' pipeline as before.
+    // (The initial ?plot= deep-link popup may still be open, so scope the
+    // assertion to at-least-one visible popup, not a unique locator.)
+    await rows.first().click();
+    await expect
+      .poll(async () => page.locator('#impactMap .leaflet-popup:visible').count(), { timeout: 20_000 })
+      .toBeGreaterThan(0);
+    const selVal2 = await page.evaluate(() => (document.getElementById('plotSelect') || { value: '' }).value);
+    expect(selVal2).toMatch(/^plot:/);
+    expect(selVal2).not.toBe('plot:RM-P1');
+
+    expect(pageErrors, `page errors: ${pageErrors.join(' | ')}`).toHaveLength(0);
+    expect(consoleErrors, `console errors: ${consoleErrors.join(' | ')}`).toHaveLength(0);
+  });
 });
