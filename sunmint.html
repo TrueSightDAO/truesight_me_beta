@@ -453,6 +453,13 @@
         // Pilot area default: Altamira region (Rancho Maranta, family of Jedielcio)
         var PILOT_CENTER = [-3.2940, -52.5780];
         var __viewChosen = false; // user picked a view -> plot auto-fit must not override
+        // Single HTML-escaper at IIFE scope (2026-09-08 root fix: PR #363
+        // reintroduced an out-of-scope ReferenceError (esc is not defined)
+        // in addTreeMarkers(), which silently killed the whole map render.
+        // addTreeMarkers(), buildTreeLookup() and render() all close over
+        // this one copy; the per-function local copies are removed below so
+        // the bug class cannot recur.)
+        function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
 
         // Pill state <-> URL sync: selecting a view or plot chip updates
         // ?view=<id> / ?plot=<id> (mutually exclusive, mirrors the exclusive
@@ -575,7 +582,6 @@
           // hundreds of trees). Choosing one flies to it + opens its popup
           // (mirrors ?tree=/?qr=).
           function buildTreeLookup(map) {
-            function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
             var wrap = document.getElementById('treeLookup');
             var rows = window.__treeLookupData || [];
             if (!wrap || !rows.length) return;
@@ -823,7 +829,6 @@
             // farmSelector block further down (which also calls esc())
             // threw "esc is not defined" -- silently caught by the fetch
             // chain's catch-all, which then hid the whole plot selector.
-            function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
             feats.forEach(function (p, i) {
               var props = p.properties || {};
               var id = props.plot_id || props.id || ('plot_' + i);
