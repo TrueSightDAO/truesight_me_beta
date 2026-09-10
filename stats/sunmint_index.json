@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-09-10T05:08:02Z",
+  "generated_at_utc": "2026-09-10T11:44:16Z",
   "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
   "schema": "sunmint_index/1",
   "north_star": {
@@ -157,8 +157,8 @@
         "total_hectares": 3.0
       },
       {
-        "farm_id": "sitio-2-pacaja-para",
-        "name": "Sitio 2 Pacaja Para",
+        "farm_id": "sitio-torres-pacaja-para",
+        "name": "Sitio Torres Pacaja Para",
         "region": "Pacaja, Para",
         "plot_count": 1,
         "total_hectares": 19.01
@@ -169,11 +169,11 @@
   "media": {
     "farm_count": 12,
     "totals": {
-      "items": 868,
+      "items": 822,
       "videos": 588,
-      "photos": 280,
-      "published_youtube": 364,
-      "transcribed": 87
+      "photos": 234,
+      "published_youtube": 377,
+      "transcribed": 74
     },
     "per_farm": [
       {
@@ -255,19 +255,6 @@
         "s3_archive_prefix": null
       },
       {
-        "farm_id": "cristo-rei-pacaje-para",
-        "farm_name": null,
-        "region": null,
-        "manifest_url": "https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/cristo-rei-pacaje-para.json",
-        "items": 59,
-        "videos": 13,
-        "photos": 46,
-        "published_youtube": 0,
-        "transcribed": 13,
-        "updated": "2026-09-10",
-        "s3_archive_prefix": null
-      },
-      {
         "farm_id": "fazenda-clara-bahia",
         "farm_name": "Fazenda Clara (Fernando Soller Gimenez & Clara)",
         "region": "Itacare, Bahia, Brazil",
@@ -330,6 +317,19 @@
         "published_youtube": 14,
         "transcribed": 0,
         "updated": "2026-09-04",
+        "s3_archive_prefix": null
+      },
+      {
+        "farm_id": "cristo-rei-pacaje-para",
+        "farm_name": null,
+        "region": null,
+        "manifest_url": "https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/cristo-rei-pacaje-para.json",
+        "items": 13,
+        "videos": 13,
+        "photos": 0,
+        "published_youtube": 13,
+        "transcribed": 0,
+        "updated": "2026-09-10",
         "s3_archive_prefix": null
       }
     ],

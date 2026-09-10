@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-09-10T05:08:02Z",
+  "generated_at_utc": "2026-09-10T11:44:16Z",
   "regenerated_by": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/.github/workflows/stats-refresh.yml",
   "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
   "llms_orientation": "https://truesight.me/llms.txt",
@@ -8,7 +8,7 @@
     "mission": "Restore 10,000 hectares of Amazon rainforest."
   },
   "members": {
-    "generated_at": "2026-09-10T02:09:39Z",
+    "generated_at": "2026-09-10T08:32:37Z",
     "total_contributors": 493,
     "total_tdg_controlled_sum": 2419605.29,
     "governors_count": 10,
@@ -54,6 +54,14 @@
         "profile_url": "https://truesight.me/credentials/#kirsten-ritschel"
       },
       {
+        "display_name": "Aga Marecka",
+        "slug": "aga-marecka",
+        "voting_power_pct": 0.57,
+        "tdg_controlled": 13731.0,
+        "contribution_count": 60,
+        "profile_url": "https://truesight.me/credentials/#aga-marecka"
+      },
+      {
         "display_name": "Shena Davenport",
         "slug": "shena-davenport",
         "voting_power_pct": 0.37,
@@ -84,20 +92,12 @@
         "tdg_controlled": 1705.0,
         "contribution_count": 18,
         "profile_url": "https://truesight.me/credentials/#nima-kaz"
-      },
-      {
-        "display_name": "Andrea Catalina Falcon Rios De Pabst",
-        "slug": "andrea-catalina-falcon-rios-de-pabst",
-        "voting_power_pct": 0.06,
-        "tdg_controlled": 1558.0,
-        "contribution_count": 17,
-        "profile_url": "https://truesight.me/credentials/#andrea-catalina-falcon-rios-de-pabst"
       }
     ],
     "directory_url": "https://truesight.me/members.html"
   },
   "treasury": {
-    "generated_at": "2026-09-10T04:48:37.844Z",
+    "generated_at": "2026-09-10T10:48:39.535Z",
     "schema_version": 5,
     "trigger": "cron",
     "currency_totals": {
@@ -849,17 +849,17 @@
   },
   "inventory": {
     "stores": {
-      "generated_at": "2026-09-09T11:27:50.000Z",
+      "generated_at": "2026-09-10T11:24:18.000Z",
       "store_count": 0,
       "line_items": 14
     },
     "partners": {
-      "generated_at": "2026-09-09T11:27:50.000Z",
+      "generated_at": "2026-09-10T11:24:18.000Z",
       "partner_count": 23
     }
   },
   "sunmint": {
-    "generated_at_utc": "2026-09-10T05:08:02Z",
+    "generated_at_utc": "2026-09-10T11:44:16Z",
     "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
     "schema": "sunmint_index/1",
     "north_star": {
@@ -1017,8 +1017,8 @@
           "total_hectares": 3.0
         },
         {
-          "farm_id": "sitio-2-pacaja-para",
-          "name": "Sitio 2 Pacaja Para",
+          "farm_id": "sitio-torres-pacaja-para",
+          "name": "Sitio Torres Pacaja Para",
           "region": "Pacaja, Para",
           "plot_count": 1,
           "total_hectares": 19.01
@@ -1029,11 +1029,11 @@
     "media": {
       "farm_count": 12,
       "totals": {
-        "items": 868,
+        "items": 822,
         "videos": 588,
-        "photos": 280,
-        "published_youtube": 364,
-        "transcribed": 87
+        "photos": 234,
+        "published_youtube": 377,
+        "transcribed": 74
       },
       "per_farm": [
         {
@@ -1115,19 +1115,6 @@
           "s3_archive_prefix": null
         },
         {
-          "farm_id": "cristo-rei-pacaje-para",
-          "farm_name": null,
-          "region": null,
-          "manifest_url": "https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/cristo-rei-pacaje-para.json",
-          "items": 59,
-          "videos": 13,
-          "photos": 46,
-          "published_youtube": 0,
-          "transcribed": 13,
-          "updated": "2026-09-10",
-          "s3_archive_prefix": null
-        },
-        {
           "farm_id": "fazenda-clara-bahia",
           "farm_name": "Fazenda Clara (Fernando Soller Gimenez & Clara)",
           "region": "Itacare, Bahia, Brazil",
@@ -1191,6 +1178,19 @@
           "transcribed": 0,
           "updated": "2026-09-04",
           "s3_archive_prefix": null
+        },
+        {
+          "farm_id": "cristo-rei-pacaje-para",
+          "farm_name": null,
+          "region": null,
+          "manifest_url": "https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/cristo-rei-pacaje-para.json",
+          "items": 13,
+          "videos": 13,
+          "photos": 0,
+          "published_youtube": 13,
+          "transcribed": 0,
+          "updated": "2026-09-10",
+          "s3_archive_prefix": null
         }
       ],
       "index_source": "https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/index.json",
@@ -1203,7 +1203,74 @@
     "interpretation_hint": "SunMint = the DAO's on-the-ground restoration evidence layer (trees, plots, farms) plus its media archive (MAP). Use this to answer 'how many trees have you planted?', 'how many plots / hectares?', 'which farms and where?', and 'what farm footage / videos / transcriptions exist?'. Progress toward the 10,000-hectare mission is plots.total_hectares vs 10000."
   },
   "recent_beerhall_digests": {
-    "error": "beerhall listing unavailable"
+    "total_entries": 112,
+    "recent": [
+      {
+        "date": "2026-09-10",
+        "slug": "sunmint-map-upgrades-plot-validation",
+        "filename": "beer-hall_2026-09-10T033637Z_sunmint-map-upgrades-plot-validation.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-09-10T033637Z_sunmint-map-upgrades-plot-validation.md"
+      },
+      {
+        "date": "2026-09-07",
+        "slug": "fsvp-blocks-fazenda-clara-ledger",
+        "filename": "beer-hall_2026-09-07T032714Z_fsvp-blocks-fazenda-clara-ledger.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-09-07T032714Z_fsvp-blocks-fazenda-clara-ledger.md"
+      },
+      {
+        "date": "2026-09-05",
+        "slug": "sunmint-deep-links-farms-cepotx-deal",
+        "filename": "beer-hall_2026-09-05T032747Z_sunmint-deep-links-farms-cepotx-deal.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-09-05T032747Z_sunmint-deep-links-farms-cepotx-deal.md"
+      },
+      {
+        "date": "2026-09-01",
+        "slug": "sunmint-map-filters-boundary-webhook-live",
+        "filename": "beer-hall_2026-09-01T040402Z_sunmint-map-filters-boundary-webhook-live.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-09-01T040402Z_sunmint-map-filters-boundary-webhook-live.md"
+      },
+      {
+        "date": "2026-08-31",
+        "slug": "sunmint-impact-map-farm-pages-invalidation-fix",
+        "filename": "beer-hall_2026-08-31T041857Z_sunmint-impact-map-farm-pages-invalidation-fix.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-08-31T041857Z_sunmint-impact-map-farm-pages-invalidation-fix.md"
+      },
+      {
+        "date": "2026-08-29",
+        "slug": "founderhaus-content-launch-bitangels-event",
+        "filename": "beer-hall_2026-08-29T060614Z_founderhaus-content-launch-bitangels-event.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-08-29T060614Z_founderhaus-content-launch-bitangels-event.md"
+      },
+      {
+        "date": "2026-08-27",
+        "slug": "sunmint-monitor-plan-backend-sync",
+        "filename": "beer-hall_2026-08-27T080454Z_sunmint-monitor-plan-backend-sync.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-08-27T080454Z_sunmint-monitor-plan-backend-sync.md"
+      },
+      {
+        "date": "2026-08-26",
+        "slug": "sunmint-monitoring-page-deploy-sop",
+        "filename": "beer-hall_2026-08-26T012318Z_sunmint-monitoring-page-deploy-sop.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-08-26T012318Z_sunmint-monitoring-page-deploy-sop.md"
+      },
+      {
+        "date": "2026-08-24",
+        "slug": "founderhaus-launch-fund-transfer-state",
+        "filename": "beer-hall_2026-08-24T012305Z_founderhaus-launch-fund-transfer-state.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-08-24T012305Z_founderhaus-launch-fund-transfer-state.md"
+      },
+      {
+        "date": "2026-08-23",
+        "slug": "qr-map-updates-email-oauth-fix",
+        "filename": "beer-hall_2026-08-23T012558Z_qr-map-updates-email-oauth-fix.md",
+        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-08-23T012558Z_qr-map-updates-email-oauth-fix.md"
+      }
+    ],
+    "full_archive_url": "https://truesight.me/stats/beerhall_archive.json",
+    "directory_url": "https://github.com/TrueSightDAO/ecosystem_change_logs/tree/main/beer_hall/entries",
+    "raw_url_pattern": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/<filename>",
+    "human_index_url": "https://truesight.me/beerhall/updates.html",
+    "interpretation_hint": "Each entry is a community digest summarizing recent shipped work. The slug encodes the headline themes; the date is when the digest was published. Fetch raw_url for the full markdown body. For digests older than the 10 most-recent shown here, fetch full_archive_url for the complete historical index."
   },
   "canonical_sources": {
     "treasury_cache": "https://raw.githubusercontent.com/TrueSightDAO/treasury-cache/main/dao_offchain_treasury.json",
