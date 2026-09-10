@@ -93,6 +93,44 @@ machine-readable sources.
   in this file (lives on a sheet that needs auth) — for spatial
   queries fall back to asking a human or reading the Hit List doc.
 
+- https://truesight.me/stats/sunmint_index.json — **SunMint impact layer +
+  Media Archives Pipeline (MAP) rollup.** The DAO's on-the-ground restoration
+  evidence: `trees` (count + status/species breakdown), `plots` (count +
+  planted/proposed + total hectares + region), `farms` (count + hectares +
+  region + per-farm plot counts), a `north_star` block with progress toward
+  the 10,000-hectare mission, and `media` (per-farm footage rollup from MAP).
+  Use this for "how many trees have you planted?", "how many plots / hectares?",
+  "which farms and where?", "how much rainforest are you restoring?", and
+  "what farm videos / photos / transcriptions exist?". Backed by the raw
+  registries below; refetched on the same 6-hour cron as `current.json`.
+
+- https://raw.githubusercontent.com/TrueSightDAO/sunmint/main/trees/index.geojson
+  — Per-tree registry (GeoJSON): `tree_id`, `species`, `status`
+  (NEW / LINKED / PLANTED), `last_measured`, `photo_url`, optional `qr_code`.
+  One point feature per tree. This is the ground-truth tree ledger.
+
+- https://raw.githubusercontent.com/TrueSightDAO/sunmint/main/plots/index.geojson
+  — Per-plot registry (GeoJSON polygons): plot id, `status`
+  (planted / proposed), hectares, `farm_id`, region, satellite-scene links.
+  Ground-truth plot ledger; progress toward 10,000 ha is plots.total_hectares.
+
+- https://raw.githubusercontent.com/TrueSightDAO/sunmint/main/farms/index.json
+  — Farm index: 12 farms with `farm_id`, `name`, `region`, `plot_count`,
+  `total_hectares`, and per-farm status breakdown. Use for "which farms /
+  where are they?" and to resolve a `farm_id` to a human name + region.
+
+- https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/index.json
+  — Media Archives Pipeline (MAP) index: one row per farm with its manifest
+  filename + last-updated date. Each per-farm manifest
+  (`https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/<farm_id>.json`,
+  e.g. `fazenda-santa-ana-bahia.json`) holds every archived media item with
+  `type` (video/photo), `file`, `sha256`, `latitude`/`longitude`,
+  `captured_at`, `yt_id` (if published to YouTube), `transcription_status`,
+  `transcription` (Portuguese), `raw_url`/`preview_url`, and a
+  `publish_summary`. Raw + preview media also archived to S3
+  (`media.agroverse.shop`). Use for "what footage exists for farm X?",
+  "show me the videos / transcriptions", "what's been published to YouTube?".
+  See `agentic_ai_context/MEDIA_ARCHIVE_PIPELINE.md` for the pipeline.
 - https://api.github.com/repos/TrueSightDAO/ecosystem_change_logs/contents/beer_hall/entries?ref=main
   — Raw directory listing of Beer Hall digests (upstream source for
   the archive above). Filenames encode date + slug:
@@ -157,6 +195,19 @@ machine-readable sources.
 - "What is the DAO's mission?" → "Restore 10,000 hectares of Amazon
   rainforest." Purpose: "Heal the world with love." (See whitepaper §1
   for context.)
+- "How many trees have you planted / how many plots / hectares?" → fetch
+  `https://truesight.me/stats/sunmint_index.json` — `trees.total`,
+  `plots.total`, `plots.total_hectares`, and `north_star.progress_pct`
+  (hectares vs 10,000). For per-item detail fetch the `trees/index.geojson`
+  or `plots/index.geojson` registries.
+- "Which farms / where are they?" → `sunmint_index.json.farms.list`, or
+  `https://raw.githubusercontent.com/TrueSightDAO/sunmint/main/farms/index.json`.
+- "What farm footage / videos / photos / transcriptions exist?" →
+  `sunmint_index.json.media.per_farm[]` (items / videos / photos /
+  published_youtube / transcribed per farm), then fetch the specific farm's
+  manifest under
+  `https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/<farm_id>.json`
+  for per-item `yt_id`, `transcription`, and raw/preview S3 URLs.
 - "What's happening across the ecosystem this week?" → fetch
   `ADVISORY_SNAPSHOT.md` for the most-recent 7-day digest, OR look at
   `stats/current.json.recent_beerhall_digests` for the 10 latest

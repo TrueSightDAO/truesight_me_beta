@@ -32,17 +32,21 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Regenerate stats/current.json
+      - name: Regenerate stats indexes
         run: python3 scripts/build_stats_current.py
 
       - name: Commit if changed
         run: |
           git config user.name 'truesight-me-stats-bot'
           git config user.email 'truesight-me-stats-bot@users.noreply.github.com'
-          git add stats/current.json
+          # Stage EVERY index the builder writes, not just current.json --
+          # repos_index / programs_index / partners_index / beerhall_archive /
+          # sunmint_index were being regenerated but never committed (stale
+          # since 2026-05-18) because only current.json was staged here.
+          git add stats/current.json stats/sunmint_index.json stats/beerhall_archive.json stats/repos_index.json stats/programs_index.json stats/partners_index.json
           if git diff --cached --quiet; then
             echo "No stats changes."
             exit 0
           fi
-          git commit -m "chore(stats): refresh stats/current.json [skip ci]"
+          git commit -m "chore(stats): refresh stats indexes [skip ci]"
           git push
