@@ -1,0 +1,344 @@
+{
+  "generated_at_utc": "2026-09-10T05:08:02Z",
+  "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
+  "schema": "sunmint_index/1",
+  "north_star": {
+    "mission": "Restore 10,000 hectares of Amazon rainforest.",
+    "progress_hectares": 273.43,
+    "progress_pct": 2.7343
+  },
+  "trees": {
+    "total": 100,
+    "by_status": {
+      "LINKED": 1,
+      "NEW": 99
+    },
+    "by_species": {
+      "Cacau - Hybrid": 98,
+      "Bougainvillea": 1,
+      "Cacau": 1
+    },
+    "source": "https://raw.githubusercontent.com/TrueSightDAO/sunmint/main/trees/index.geojson"
+  },
+  "plots": {
+    "total": 22,
+    "by_status": {
+      "planted": 1,
+      "proposed": 21
+    },
+    "total_hectares": 273.43,
+    "by_region": {
+      "Altamira, Para": 7,
+      "Medio Xingu, Para": 3,
+      "Uruara, Para": 2,
+      "Pacaja, Para": 2,
+      "Pacajá, Pará": 2,
+      "Medicilandia, Para": 1,
+      "Itajuibe, Bahia": 1,
+      "Itacare, Bahia": 1,
+      "Urucuca, Bahia, Brazil": 1,
+      "Urucuca, Bahia": 1,
+      "unknown": 1
+    },
+    "source": "https://raw.githubusercontent.com/TrueSightDAO/sunmint/main/plots/index.geojson"
+  },
+  "farms": {
+    "total": 15,
+    "total_hectares": 273.43,
+    "by_region": {
+      "Altamira, Para": 4,
+      "Pacaja, Para": 2,
+      "Uruara, Para": 2,
+      "Pacajá, Pará": 1,
+      "Itacare, Bahia": 1,
+      "Medicilandia, Para": 1,
+      "Urucuca, Bahia": 1,
+      "Itajuibe, Bahia": 1,
+      "Urucuca, Bahia, Brazil": 1,
+      "Medio Xingu, Para": 1
+    },
+    "list": [
+      {
+        "farm_id": "fazenda-cleide",
+        "name": "Fazenda Cleide",
+        "region": "Altamira, Para",
+        "plot_count": 3,
+        "total_hectares": 115.5094
+      },
+      {
+        "farm_id": "paulo-la-do-sitio-para",
+        "name": "Paulo La Do Sitio Para",
+        "region": "Medio Xingu, Para",
+        "plot_count": 3,
+        "total_hectares": 6.3999999999999995
+      },
+      {
+        "farm_id": "cacau-na-veia-pacaje",
+        "name": "Cacau Na Veia Pacaje",
+        "region": "Pacajá, Pará",
+        "plot_count": 2,
+        "total_hectares": 30.74
+      },
+      {
+        "farm_id": "rancho-maranta",
+        "name": "Rancho Maranta",
+        "region": "Altamira, Para",
+        "plot_count": 2,
+        "total_hectares": 5.4
+      },
+      {
+        "farm_id": "cristo-rei-pacaje-para",
+        "name": "Cristo Rei Pacaje Para",
+        "region": "Pacaja, Para",
+        "plot_count": 1,
+        "total_hectares": 0.956
+      },
+      {
+        "farm_id": "fazenda-bom-sucesso",
+        "name": "Fazenda Bom Sucesso",
+        "region": "Altamira, Para",
+        "plot_count": 1,
+        "total_hectares": 1.016
+      },
+      {
+        "farm_id": "fazenda-clara-bahia",
+        "name": "Fazenda Clara Bahia",
+        "region": "Itacare, Bahia",
+        "plot_count": 1,
+        "total_hectares": 1.75
+      },
+      {
+        "farm_id": "fazenda-dona-rosa",
+        "name": "Fazenda Dona Rosa",
+        "region": "Medicilandia, Para",
+        "plot_count": 1,
+        "total_hectares": 0.14
+      },
+      {
+        "farm_id": "fazenda-santa-ana-bahia",
+        "name": "Fazenda Santa Ana Bahia",
+        "region": "Urucuca, Bahia",
+        "plot_count": 1,
+        "total_hectares": 16.0
+      },
+      {
+        "farm_id": "fazenda-santa-rosa",
+        "name": "Fazenda Santa Rosa",
+        "region": "Uruara, Para",
+        "plot_count": 1,
+        "total_hectares": 4.75
+      },
+      {
+        "farm_id": "fazenda-sao-jorge-bahia",
+        "name": "Fazenda Sao Jorge Bahia",
+        "region": "Itajuibe, Bahia",
+        "plot_count": 1,
+        "total_hectares": 64.7
+      },
+      {
+        "farm_id": "oscar-bahia",
+        "name": "Oscar Bahia",
+        "region": "Urucuca, Bahia, Brazil",
+        "plot_count": 1,
+        "total_hectares": 3.74
+      },
+      {
+        "farm_id": "raimundo-geniza-para",
+        "name": "Raimundo Geniza Para",
+        "region": "Uruara, Para",
+        "plot_count": 1,
+        "total_hectares": 0.32
+      },
+      {
+        "farm_id": "santa-anna-fazenda",
+        "name": "Santa Anna Fazenda",
+        "region": "Altamira, Para",
+        "plot_count": 1,
+        "total_hectares": 3.0
+      },
+      {
+        "farm_id": "sitio-2-pacaja-para",
+        "name": "Sitio 2 Pacaja Para",
+        "region": "Pacaja, Para",
+        "plot_count": 1,
+        "total_hectares": 19.01
+      }
+    ],
+    "source": "https://raw.githubusercontent.com/TrueSightDAO/sunmint/main/farms/index.json"
+  },
+  "media": {
+    "farm_count": 12,
+    "totals": {
+      "items": 868,
+      "videos": 588,
+      "photos": 280,
+      "published_youtube": 364,
+      "transcribed": 87
+    },
+    "per_farm": [
+      {
+        "farm_id": "fazenda-santa-ana-bahia",
+        "farm_name": "Fazenda Santa Ana (Bahia) — Chocolate Morbeck / Coopercabruca",
+        "region": "Uruçuca, Bahia, Brazil",
+        "manifest_url": "https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/fazenda-santa-ana-bahia.json",
+        "items": 242,
+        "videos": 151,
+        "photos": 91,
+        "published_youtube": 16,
+        "transcribed": 16,
+        "updated": "2026-09-06",
+        "s3_archive_prefix": null
+      },
+      {
+        "farm_id": "fazenda-sao-jorge-bahia",
+        "farm_name": "Fazenda Sao Jorge (Matheus & Mailan)",
+        "region": "Itajuibe, Bahia, Brazil",
+        "manifest_url": "https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/fazenda-sao-jorge-bahia.json",
+        "items": 103,
+        "videos": 67,
+        "photos": 36,
+        "published_youtube": 67,
+        "transcribed": 0,
+        "updated": "2026-09-06",
+        "s3_archive_prefix": null
+      },
+      {
+        "farm_id": "paulo-la-do-sitio-para",
+        "farm_name": null,
+        "region": null,
+        "manifest_url": "https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/paulo-la-do-sitio-para.json",
+        "items": 74,
+        "videos": 74,
+        "photos": 0,
+        "published_youtube": 73,
+        "transcribed": 0,
+        "updated": "2026-09-09",
+        "s3_archive_prefix": null
+      },
+      {
+        "farm_id": "cleide",
+        "farm_name": null,
+        "region": null,
+        "manifest_url": "https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/cleide.json",
+        "items": 71,
+        "videos": 71,
+        "photos": 0,
+        "published_youtube": 71,
+        "transcribed": 0,
+        "updated": "2026-09-01",
+        "s3_archive_prefix": null
+      },
+      {
+        "farm_id": "oscar-bahia",
+        "farm_name": "Oscar Fazenda (Oscar's 100-Year Farm)",
+        "region": "Urucuca, Bahia, Brazil",
+        "manifest_url": "https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/oscar-bahia.json",
+        "items": 67,
+        "videos": 62,
+        "photos": 5,
+        "published_youtube": 62,
+        "transcribed": 0,
+        "updated": "2026-09-07",
+        "s3_archive_prefix": null
+      },
+      {
+        "farm_id": "cacau-na-veia-pacaje",
+        "farm_name": null,
+        "region": null,
+        "manifest_url": "https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/cacau-na-veia-pacaje.json",
+        "items": 64,
+        "videos": 33,
+        "photos": 31,
+        "published_youtube": 0,
+        "transcribed": 29,
+        "updated": "2026-09-10",
+        "s3_archive_prefix": null
+      },
+      {
+        "farm_id": "cristo-rei-pacaje-para",
+        "farm_name": null,
+        "region": null,
+        "manifest_url": "https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/cristo-rei-pacaje-para.json",
+        "items": 59,
+        "videos": 13,
+        "photos": 46,
+        "published_youtube": 0,
+        "transcribed": 13,
+        "updated": "2026-09-10",
+        "s3_archive_prefix": null
+      },
+      {
+        "farm_id": "fazenda-clara-bahia",
+        "farm_name": "Fazenda Clara (Fernando Soller Gimenez & Clara)",
+        "region": "Itacare, Bahia, Brazil",
+        "manifest_url": "https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/fazenda-clara-bahia.json",
+        "items": 58,
+        "videos": 34,
+        "photos": 24,
+        "published_youtube": 34,
+        "transcribed": 29,
+        "updated": "2026-09-06",
+        "s3_archive_prefix": "fernando-carla"
+      },
+      {
+        "farm_id": "rancho-maranta-para",
+        "farm_name": null,
+        "region": null,
+        "manifest_url": "https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/rancho-maranta-para.json",
+        "items": 52,
+        "videos": 37,
+        "photos": 15,
+        "published_youtube": 3,
+        "transcribed": 0,
+        "updated": "2026-08-31",
+        "s3_archive_prefix": null
+      },
+      {
+        "farm_id": "santa-anna-fazenda-para",
+        "farm_name": null,
+        "region": null,
+        "manifest_url": "https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/santa-anna-fazenda-para.json",
+        "items": 45,
+        "videos": 13,
+        "photos": 32,
+        "published_youtube": 5,
+        "transcribed": 0,
+        "updated": "2026-08-31",
+        "s3_archive_prefix": null
+      },
+      {
+        "farm_id": "fazenda-dona-rosa",
+        "farm_name": null,
+        "region": null,
+        "manifest_url": "https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/fazenda-dona-rosa.json",
+        "items": 19,
+        "videos": 19,
+        "photos": 0,
+        "published_youtube": 19,
+        "transcribed": 0,
+        "updated": "2026-09-05",
+        "s3_archive_prefix": null
+      },
+      {
+        "farm_id": "raimundo-geniza-para",
+        "farm_name": null,
+        "region": null,
+        "manifest_url": "https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/raimundo-geniza-para.json",
+        "items": 14,
+        "videos": 14,
+        "photos": 0,
+        "published_youtube": 14,
+        "transcribed": 0,
+        "updated": "2026-09-04",
+        "s3_archive_prefix": null
+      }
+    ],
+    "index_source": "https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/index.json",
+    "note": "Media Archives Pipeline (MAP) — raw farm footage archived per MEDIA_ARCHIVE_PIPELINE.md. Per-farm manifest is the queryable index (items carry lat/lon, captured_at, yt_id, transcription). Media is also archived to S3 (media.agroverse.shop, raw+preview)."
+  },
+  "attestations": {
+    "note": "Planting/growth events are RSA-signed and publicly verifiable; see the SunMint public audit surface. Plot/tree registries above are the machine-readable rollup.",
+    "sunmint_repo": "https://github.com/TrueSightDAO/sunmint"
+  },
+  "interpretation_hint": "SunMint = the DAO's on-the-ground restoration evidence layer (trees, plots, farms) plus its media archive (MAP). Use this to answer 'how many trees have you planted?', 'how many plots / hectares?', 'which farms and where?', and 'what farm footage / videos / transcriptions exist?'. Progress toward the 10,000-hectare mission is plots.total_hectares vs 10000."
+}

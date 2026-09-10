@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-09-09T21:07:01Z",
+  "generated_at_utc": "2026-09-10T05:08:02Z",
   "regenerated_by": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/.github/workflows/stats-refresh.yml",
   "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
   "llms_orientation": "https://truesight.me/llms.txt",
@@ -8,7 +8,7 @@
     "mission": "Restore 10,000 hectares of Amazon rainforest."
   },
   "members": {
-    "generated_at": "2026-09-09T18:58:03Z",
+    "generated_at": "2026-09-10T02:09:39Z",
     "total_contributors": 493,
     "total_tdg_controlled_sum": 2419605.29,
     "governors_count": 10,
@@ -97,7 +97,7 @@
     "directory_url": "https://truesight.me/members.html"
   },
   "treasury": {
-    "generated_at": "2026-09-09T20:48:38.132Z",
+    "generated_at": "2026-09-10T04:48:37.844Z",
     "schema_version": 5,
     "trigger": "cron",
     "currency_totals": {
@@ -808,11 +808,11 @@
         }
       },
       "USD": {
-        "total_quantity": 11703.01,
-        "total_value_usd": 11703.01,
+        "total_quantity": 11702.9,
+        "total_value_usd": 11702.9,
         "item_count": 1,
         "ledger_breakdown": {
-          "Main Ledger": 5030.75,
+          "Main Ledger": 5030.64,
           "AGL15": 4307.78,
           "AGL6": 1337.59,
           "AGL8": 569.95,
@@ -822,11 +822,11 @@
         }
       },
       "USD - provisions for voting rights cash out": {
-        "total_quantity": 54.72,
-        "total_value_usd": 54.72,
+        "total_quantity": 54.82,
+        "total_value_usd": 54.82,
         "item_count": 1,
         "ledger_breakdown": {
-          "Main Ledger": 54.72
+          "Main Ledger": 54.82
         }
       },
       "USDT": {
@@ -858,82 +858,363 @@
       "partner_count": 23
     }
   },
+  "sunmint": {
+    "generated_at_utc": "2026-09-10T05:08:02Z",
+    "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
+    "schema": "sunmint_index/1",
+    "north_star": {
+      "mission": "Restore 10,000 hectares of Amazon rainforest.",
+      "progress_hectares": 273.43,
+      "progress_pct": 2.7343
+    },
+    "trees": {
+      "total": 100,
+      "by_status": {
+        "LINKED": 1,
+        "NEW": 99
+      },
+      "by_species": {
+        "Cacau - Hybrid": 98,
+        "Bougainvillea": 1,
+        "Cacau": 1
+      },
+      "source": "https://raw.githubusercontent.com/TrueSightDAO/sunmint/main/trees/index.geojson"
+    },
+    "plots": {
+      "total": 22,
+      "by_status": {
+        "planted": 1,
+        "proposed": 21
+      },
+      "total_hectares": 273.43,
+      "by_region": {
+        "Altamira, Para": 7,
+        "Medio Xingu, Para": 3,
+        "Uruara, Para": 2,
+        "Pacaja, Para": 2,
+        "Pacajá, Pará": 2,
+        "Medicilandia, Para": 1,
+        "Itajuibe, Bahia": 1,
+        "Itacare, Bahia": 1,
+        "Urucuca, Bahia, Brazil": 1,
+        "Urucuca, Bahia": 1,
+        "unknown": 1
+      },
+      "source": "https://raw.githubusercontent.com/TrueSightDAO/sunmint/main/plots/index.geojson"
+    },
+    "farms": {
+      "total": 15,
+      "total_hectares": 273.43,
+      "by_region": {
+        "Altamira, Para": 4,
+        "Pacaja, Para": 2,
+        "Uruara, Para": 2,
+        "Pacajá, Pará": 1,
+        "Itacare, Bahia": 1,
+        "Medicilandia, Para": 1,
+        "Urucuca, Bahia": 1,
+        "Itajuibe, Bahia": 1,
+        "Urucuca, Bahia, Brazil": 1,
+        "Medio Xingu, Para": 1
+      },
+      "list": [
+        {
+          "farm_id": "fazenda-cleide",
+          "name": "Fazenda Cleide",
+          "region": "Altamira, Para",
+          "plot_count": 3,
+          "total_hectares": 115.5094
+        },
+        {
+          "farm_id": "paulo-la-do-sitio-para",
+          "name": "Paulo La Do Sitio Para",
+          "region": "Medio Xingu, Para",
+          "plot_count": 3,
+          "total_hectares": 6.3999999999999995
+        },
+        {
+          "farm_id": "cacau-na-veia-pacaje",
+          "name": "Cacau Na Veia Pacaje",
+          "region": "Pacajá, Pará",
+          "plot_count": 2,
+          "total_hectares": 30.74
+        },
+        {
+          "farm_id": "rancho-maranta",
+          "name": "Rancho Maranta",
+          "region": "Altamira, Para",
+          "plot_count": 2,
+          "total_hectares": 5.4
+        },
+        {
+          "farm_id": "cristo-rei-pacaje-para",
+          "name": "Cristo Rei Pacaje Para",
+          "region": "Pacaja, Para",
+          "plot_count": 1,
+          "total_hectares": 0.956
+        },
+        {
+          "farm_id": "fazenda-bom-sucesso",
+          "name": "Fazenda Bom Sucesso",
+          "region": "Altamira, Para",
+          "plot_count": 1,
+          "total_hectares": 1.016
+        },
+        {
+          "farm_id": "fazenda-clara-bahia",
+          "name": "Fazenda Clara Bahia",
+          "region": "Itacare, Bahia",
+          "plot_count": 1,
+          "total_hectares": 1.75
+        },
+        {
+          "farm_id": "fazenda-dona-rosa",
+          "name": "Fazenda Dona Rosa",
+          "region": "Medicilandia, Para",
+          "plot_count": 1,
+          "total_hectares": 0.14
+        },
+        {
+          "farm_id": "fazenda-santa-ana-bahia",
+          "name": "Fazenda Santa Ana Bahia",
+          "region": "Urucuca, Bahia",
+          "plot_count": 1,
+          "total_hectares": 16.0
+        },
+        {
+          "farm_id": "fazenda-santa-rosa",
+          "name": "Fazenda Santa Rosa",
+          "region": "Uruara, Para",
+          "plot_count": 1,
+          "total_hectares": 4.75
+        },
+        {
+          "farm_id": "fazenda-sao-jorge-bahia",
+          "name": "Fazenda Sao Jorge Bahia",
+          "region": "Itajuibe, Bahia",
+          "plot_count": 1,
+          "total_hectares": 64.7
+        },
+        {
+          "farm_id": "oscar-bahia",
+          "name": "Oscar Bahia",
+          "region": "Urucuca, Bahia, Brazil",
+          "plot_count": 1,
+          "total_hectares": 3.74
+        },
+        {
+          "farm_id": "raimundo-geniza-para",
+          "name": "Raimundo Geniza Para",
+          "region": "Uruara, Para",
+          "plot_count": 1,
+          "total_hectares": 0.32
+        },
+        {
+          "farm_id": "santa-anna-fazenda",
+          "name": "Santa Anna Fazenda",
+          "region": "Altamira, Para",
+          "plot_count": 1,
+          "total_hectares": 3.0
+        },
+        {
+          "farm_id": "sitio-2-pacaja-para",
+          "name": "Sitio 2 Pacaja Para",
+          "region": "Pacaja, Para",
+          "plot_count": 1,
+          "total_hectares": 19.01
+        }
+      ],
+      "source": "https://raw.githubusercontent.com/TrueSightDAO/sunmint/main/farms/index.json"
+    },
+    "media": {
+      "farm_count": 12,
+      "totals": {
+        "items": 868,
+        "videos": 588,
+        "photos": 280,
+        "published_youtube": 364,
+        "transcribed": 87
+      },
+      "per_farm": [
+        {
+          "farm_id": "fazenda-santa-ana-bahia",
+          "farm_name": "Fazenda Santa Ana (Bahia) — Chocolate Morbeck / Coopercabruca",
+          "region": "Uruçuca, Bahia, Brazil",
+          "manifest_url": "https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/fazenda-santa-ana-bahia.json",
+          "items": 242,
+          "videos": 151,
+          "photos": 91,
+          "published_youtube": 16,
+          "transcribed": 16,
+          "updated": "2026-09-06",
+          "s3_archive_prefix": null
+        },
+        {
+          "farm_id": "fazenda-sao-jorge-bahia",
+          "farm_name": "Fazenda Sao Jorge (Matheus & Mailan)",
+          "region": "Itajuibe, Bahia, Brazil",
+          "manifest_url": "https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/fazenda-sao-jorge-bahia.json",
+          "items": 103,
+          "videos": 67,
+          "photos": 36,
+          "published_youtube": 67,
+          "transcribed": 0,
+          "updated": "2026-09-06",
+          "s3_archive_prefix": null
+        },
+        {
+          "farm_id": "paulo-la-do-sitio-para",
+          "farm_name": null,
+          "region": null,
+          "manifest_url": "https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/paulo-la-do-sitio-para.json",
+          "items": 74,
+          "videos": 74,
+          "photos": 0,
+          "published_youtube": 73,
+          "transcribed": 0,
+          "updated": "2026-09-09",
+          "s3_archive_prefix": null
+        },
+        {
+          "farm_id": "cleide",
+          "farm_name": null,
+          "region": null,
+          "manifest_url": "https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/cleide.json",
+          "items": 71,
+          "videos": 71,
+          "photos": 0,
+          "published_youtube": 71,
+          "transcribed": 0,
+          "updated": "2026-09-01",
+          "s3_archive_prefix": null
+        },
+        {
+          "farm_id": "oscar-bahia",
+          "farm_name": "Oscar Fazenda (Oscar's 100-Year Farm)",
+          "region": "Urucuca, Bahia, Brazil",
+          "manifest_url": "https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/oscar-bahia.json",
+          "items": 67,
+          "videos": 62,
+          "photos": 5,
+          "published_youtube": 62,
+          "transcribed": 0,
+          "updated": "2026-09-07",
+          "s3_archive_prefix": null
+        },
+        {
+          "farm_id": "cacau-na-veia-pacaje",
+          "farm_name": null,
+          "region": null,
+          "manifest_url": "https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/cacau-na-veia-pacaje.json",
+          "items": 64,
+          "videos": 33,
+          "photos": 31,
+          "published_youtube": 0,
+          "transcribed": 29,
+          "updated": "2026-09-10",
+          "s3_archive_prefix": null
+        },
+        {
+          "farm_id": "cristo-rei-pacaje-para",
+          "farm_name": null,
+          "region": null,
+          "manifest_url": "https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/cristo-rei-pacaje-para.json",
+          "items": 59,
+          "videos": 13,
+          "photos": 46,
+          "published_youtube": 0,
+          "transcribed": 13,
+          "updated": "2026-09-10",
+          "s3_archive_prefix": null
+        },
+        {
+          "farm_id": "fazenda-clara-bahia",
+          "farm_name": "Fazenda Clara (Fernando Soller Gimenez & Clara)",
+          "region": "Itacare, Bahia, Brazil",
+          "manifest_url": "https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/fazenda-clara-bahia.json",
+          "items": 58,
+          "videos": 34,
+          "photos": 24,
+          "published_youtube": 34,
+          "transcribed": 29,
+          "updated": "2026-09-06",
+          "s3_archive_prefix": "fernando-carla"
+        },
+        {
+          "farm_id": "rancho-maranta-para",
+          "farm_name": null,
+          "region": null,
+          "manifest_url": "https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/rancho-maranta-para.json",
+          "items": 52,
+          "videos": 37,
+          "photos": 15,
+          "published_youtube": 3,
+          "transcribed": 0,
+          "updated": "2026-08-31",
+          "s3_archive_prefix": null
+        },
+        {
+          "farm_id": "santa-anna-fazenda-para",
+          "farm_name": null,
+          "region": null,
+          "manifest_url": "https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/santa-anna-fazenda-para.json",
+          "items": 45,
+          "videos": 13,
+          "photos": 32,
+          "published_youtube": 5,
+          "transcribed": 0,
+          "updated": "2026-08-31",
+          "s3_archive_prefix": null
+        },
+        {
+          "farm_id": "fazenda-dona-rosa",
+          "farm_name": null,
+          "region": null,
+          "manifest_url": "https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/fazenda-dona-rosa.json",
+          "items": 19,
+          "videos": 19,
+          "photos": 0,
+          "published_youtube": 19,
+          "transcribed": 0,
+          "updated": "2026-09-05",
+          "s3_archive_prefix": null
+        },
+        {
+          "farm_id": "raimundo-geniza-para",
+          "farm_name": null,
+          "region": null,
+          "manifest_url": "https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/raimundo-geniza-para.json",
+          "items": 14,
+          "videos": 14,
+          "photos": 0,
+          "published_youtube": 14,
+          "transcribed": 0,
+          "updated": "2026-09-04",
+          "s3_archive_prefix": null
+        }
+      ],
+      "index_source": "https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/index.json",
+      "note": "Media Archives Pipeline (MAP) — raw farm footage archived per MEDIA_ARCHIVE_PIPELINE.md. Per-farm manifest is the queryable index (items carry lat/lon, captured_at, yt_id, transcription). Media is also archived to S3 (media.agroverse.shop, raw+preview)."
+    },
+    "attestations": {
+      "note": "Planting/growth events are RSA-signed and publicly verifiable; see the SunMint public audit surface. Plot/tree registries above are the machine-readable rollup.",
+      "sunmint_repo": "https://github.com/TrueSightDAO/sunmint"
+    },
+    "interpretation_hint": "SunMint = the DAO's on-the-ground restoration evidence layer (trees, plots, farms) plus its media archive (MAP). Use this to answer 'how many trees have you planted?', 'how many plots / hectares?', 'which farms and where?', and 'what farm footage / videos / transcriptions exist?'. Progress toward the 10,000-hectare mission is plots.total_hectares vs 10000."
+  },
   "recent_beerhall_digests": {
-    "total_entries": 111,
-    "recent": [
-      {
-        "date": "2026-09-07",
-        "slug": "fsvp-blocks-fazenda-clara-ledger",
-        "filename": "beer-hall_2026-09-07T032714Z_fsvp-blocks-fazenda-clara-ledger.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-09-07T032714Z_fsvp-blocks-fazenda-clara-ledger.md"
-      },
-      {
-        "date": "2026-09-05",
-        "slug": "sunmint-deep-links-farms-cepotx-deal",
-        "filename": "beer-hall_2026-09-05T032747Z_sunmint-deep-links-farms-cepotx-deal.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-09-05T032747Z_sunmint-deep-links-farms-cepotx-deal.md"
-      },
-      {
-        "date": "2026-09-01",
-        "slug": "sunmint-map-filters-boundary-webhook-live",
-        "filename": "beer-hall_2026-09-01T040402Z_sunmint-map-filters-boundary-webhook-live.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-09-01T040402Z_sunmint-map-filters-boundary-webhook-live.md"
-      },
-      {
-        "date": "2026-08-31",
-        "slug": "sunmint-impact-map-farm-pages-invalidation-fix",
-        "filename": "beer-hall_2026-08-31T041857Z_sunmint-impact-map-farm-pages-invalidation-fix.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-08-31T041857Z_sunmint-impact-map-farm-pages-invalidation-fix.md"
-      },
-      {
-        "date": "2026-08-29",
-        "slug": "founderhaus-content-launch-bitangels-event",
-        "filename": "beer-hall_2026-08-29T060614Z_founderhaus-content-launch-bitangels-event.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-08-29T060614Z_founderhaus-content-launch-bitangels-event.md"
-      },
-      {
-        "date": "2026-08-27",
-        "slug": "sunmint-monitor-plan-backend-sync",
-        "filename": "beer-hall_2026-08-27T080454Z_sunmint-monitor-plan-backend-sync.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-08-27T080454Z_sunmint-monitor-plan-backend-sync.md"
-      },
-      {
-        "date": "2026-08-26",
-        "slug": "sunmint-monitoring-page-deploy-sop",
-        "filename": "beer-hall_2026-08-26T012318Z_sunmint-monitoring-page-deploy-sop.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-08-26T012318Z_sunmint-monitoring-page-deploy-sop.md"
-      },
-      {
-        "date": "2026-08-24",
-        "slug": "founderhaus-launch-fund-transfer-state",
-        "filename": "beer-hall_2026-08-24T012305Z_founderhaus-launch-fund-transfer-state.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-08-24T012305Z_founderhaus-launch-fund-transfer-state.md"
-      },
-      {
-        "date": "2026-08-23",
-        "slug": "qr-map-updates-email-oauth-fix",
-        "filename": "beer-hall_2026-08-23T012558Z_qr-map-updates-email-oauth-fix.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-08-23T012558Z_qr-map-updates-email-oauth-fix.md"
-      },
-      {
-        "date": "2026-08-22",
-        "slug": "cacao-tea-launch-media-refactor",
-        "filename": "beer-hall_2026-08-22T011925Z_cacao-tea-launch-media-refactor.md",
-        "raw_url": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/beer-hall_2026-08-22T011925Z_cacao-tea-launch-media-refactor.md"
-      }
-    ],
-    "full_archive_url": "https://truesight.me/stats/beerhall_archive.json",
-    "directory_url": "https://github.com/TrueSightDAO/ecosystem_change_logs/tree/main/beer_hall/entries",
-    "raw_url_pattern": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries/<filename>",
-    "human_index_url": "https://truesight.me/beerhall/updates.html",
-    "interpretation_hint": "Each entry is a community digest summarizing recent shipped work. The slug encodes the headline themes; the date is when the digest was published. Fetch raw_url for the full markdown body. For digests older than the 10 most-recent shown here, fetch full_archive_url for the complete historical index."
+    "error": "beerhall listing unavailable"
   },
   "canonical_sources": {
     "treasury_cache": "https://raw.githubusercontent.com/TrueSightDAO/treasury-cache/main/dao_offchain_treasury.json",
     "members_index": "https://raw.githubusercontent.com/TrueSightDAO/lineage-credentials/main/_cache/index.json",
     "store_inventory": "https://raw.githubusercontent.com/TrueSightDAO/agroverse-inventory/main/store-inventory.json",
     "partner_inventory": "https://raw.githubusercontent.com/TrueSightDAO/agroverse-inventory/main/partners-inventory.json",
-    "beerhall_listing": "https://api.github.com/repos/TrueSightDAO/ecosystem_change_logs/contents/beer_hall/entries?ref=main"
+    "beerhall_listing": "https://api.github.com/repos/TrueSightDAO/ecosystem_change_logs/contents/beer_hall/entries?ref=main",
+    "sunmint_trees": "https://raw.githubusercontent.com/TrueSightDAO/sunmint/main/trees/index.geojson",
+    "sunmint_plots": "https://raw.githubusercontent.com/TrueSightDAO/sunmint/main/plots/index.geojson",
+    "sunmint_farms": "https://raw.githubusercontent.com/TrueSightDAO/sunmint/main/farms/index.json",
+    "media_manifests_index": "https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/index.json"
   },
   "canonical_context_docs": {
     "advisory_base": "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/advisory/BASE.md",

@@ -1,8 +1,8 @@
 {
-  "generated_at_utc": "2026-05-18T21:50:20Z",
+  "generated_at_utc": "2026-09-10T05:08:03Z",
   "source": "https://raw.githubusercontent.com/TrueSightDAO/agroverse-inventory/main/partners-inventory.json",
   "interpretation_hint": "Active Agroverse partner storage points. Each entry: partner slug, active SKU count, total inventory units across SKUs, and the top-3 products by stock. Use this for 'which partners are currently carrying inventory?' / 'who has the most stock?' / 'where can someone buy product X?'. The full per-item detail (price, GTIN, image, farm of origin, shipment ID) is at the source URL above. Partner location / region is NOT carried here — for region grouping you'd need the Agroverse Partners sheet, which requires authenticated access.",
-  "total_active_partners": 24,
+  "total_active_partners": 23,
   "partners": [
     {
       "slug": "black-king-ilheus",
@@ -61,34 +61,6 @@
       ]
     },
     {
-      "slug": "green-gulch-farm-zen-center",
-      "active_sku_count": 4,
-      "total_inventory_units": 18,
-      "top_products": [
-        {
-          "product_id": "8-ounce-organic-cacao-nibs",
-          "product_name": "Amazon Rainforest Regenerative 8 Ounce Organic Cacao Nibs",
-          "inventory": 6,
-          "shipment": "AGL4",
-          "farm": "Oscar"
-        },
-        {
-          "product_id": "taste-of-rainforest-caramelized-cacao-beans",
-          "product_name": "Taste of Rainforest - 200 grams Caramelized Cacao Beans",
-          "inventory": 6,
-          "shipment": "AGL10",
-          "farm": "Capela Velha Fazenda"
-        },
-        {
-          "product_id": "ceremonial-cacao-paulo-s-la-do-sitio-farm-200g",
-          "product_name": "Ceremonial Cacao – La do Sitio Farm, Pará Brazil, 2024 (200g)",
-          "inventory": 3,
-          "shipment": "AGL8",
-          "farm": "Paulo"
-        }
-      ]
-    },
-    {
       "slug": "love-wisdom-power",
       "active_sku_count": 2,
       "total_inventory_units": 16,
@@ -131,6 +103,27 @@
       ]
     },
     {
+      "slug": "kikis-cocoa",
+      "active_sku_count": 2,
+      "total_inventory_units": 11,
+      "top_products": [
+        {
+          "product_id": "organic-81-dark-chocolate-bar-50g-fazenda-sao-jorge-bahia-2024",
+          "product_name": "81% Organic Dark Chocolate Bar (50g) — Fazenda São Jorge, Bahia Brazil, 2024",
+          "inventory": 9,
+          "shipment": "AGL4",
+          "farm": "Fazenda São Jorge"
+        },
+        {
+          "product_id": "8-ounce-organic-cacao-nibs",
+          "product_name": "Amazon Rainforest Regenerative 8 Ounce Organic Cacao Nibs",
+          "inventory": 2,
+          "shipment": "AGL4",
+          "farm": "Oscar"
+        }
+      ]
+    },
+    {
       "slug": "miss-tomato",
       "active_sku_count": 1,
       "total_inventory_units": 10,
@@ -146,20 +139,6 @@
     },
     {
       "slug": "the-enchanted-forest-boutique",
-      "active_sku_count": 1,
-      "total_inventory_units": 10,
-      "top_products": [
-        {
-          "product_id": "oscar-bahia-ceremonial-cacao-200g",
-          "product_name": "Ceremonial Cacao – Oscar",
-          "inventory": 10,
-          "shipment": "AGL4",
-          "farm": "Oscar"
-        }
-      ]
-    },
-    {
-      "slug": "the-way-home-shop",
       "active_sku_count": 1,
       "total_inventory_units": 10,
       "top_products": [
@@ -202,6 +181,20 @@
     },
     {
       "slug": "rpm-ninja",
+      "active_sku_count": 1,
+      "total_inventory_units": 7,
+      "top_products": [
+        {
+          "product_id": "oscar-bahia-ceremonial-cacao-200g",
+          "product_name": "Ceremonial Cacao – Oscar",
+          "inventory": 7,
+          "shipment": "AGL4",
+          "farm": "Oscar"
+        }
+      ]
+    },
+    {
+      "slug": "the-way-home-shop",
       "active_sku_count": 1,
       "total_inventory_units": 7,
       "top_products": [
@@ -299,27 +292,6 @@
       ]
     },
     {
-      "slug": "rhythm-and-stones",
-      "active_sku_count": 2,
-      "total_inventory_units": 4,
-      "top_products": [
-        {
-          "product_id": "oscar-bahia-ceremonial-cacao-200g",
-          "product_name": "Ceremonial Cacao – Oscar",
-          "inventory": 3,
-          "shipment": "AGL4",
-          "farm": "Oscar"
-        },
-        {
-          "product_id": "taste-of-rainforest-caramelized-cacao-beans",
-          "product_name": "Taste of Rainforest - 200 grams Caramelized Cacao Beans",
-          "inventory": 1,
-          "shipment": "AGL10",
-          "farm": "Capela Velha Fazenda"
-        }
-      ]
-    },
-    {
       "slug": "founderhaus",
       "active_sku_count": 1,
       "total_inventory_units": 3,
@@ -327,20 +299,6 @@
         {
           "product_id": "8-ounce-organic-cacao-nibs",
           "product_name": "Amazon Rainforest Regenerative 8 Ounce Organic Cacao Nibs",
-          "inventory": 3,
-          "shipment": "AGL4",
-          "farm": "Oscar"
-        }
-      ]
-    },
-    {
-      "slug": "lumin-earth-apothecary",
-      "active_sku_count": 1,
-      "total_inventory_units": 3,
-      "top_products": [
-        {
-          "product_id": "oscar-bahia-ceremonial-cacao-200g",
-          "product_name": "Ceremonial Cacao – Oscar",
           "inventory": 3,
           "shipment": "AGL4",
           "farm": "Oscar"
@@ -369,6 +327,20 @@
         {
           "product_id": "8-ounce-organic-cacao-nibs",
           "product_name": "Amazon Rainforest Regenerative 8 Ounce Organic Cacao Nibs",
+          "inventory": 1,
+          "shipment": "AGL4",
+          "farm": "Oscar"
+        }
+      ]
+    },
+    {
+      "slug": "lumin-earth-apothecary",
+      "active_sku_count": 1,
+      "total_inventory_units": 1,
+      "top_products": [
+        {
+          "product_id": "oscar-bahia-ceremonial-cacao-200g",
+          "product_name": "Ceremonial Cacao – Oscar",
           "inventory": 1,
           "shipment": "AGL4",
           "farm": "Oscar"
