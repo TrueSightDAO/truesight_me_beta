@@ -32,6 +32,16 @@ GITHUB_ORG_REPOS_URL = "https://api.github.com/orgs/TrueSightDAO/repos?per_page=
 PROGRAMS_LISTING_URL = "https://api.github.com/repos/TrueSightDAO/lineage-credentials/contents/programs?ref=main"
 PARTNERS_INVENTORY_URL = "https://raw.githubusercontent.com/TrueSightDAO/agroverse-inventory/main/partners-inventory.json"
 
+# SunMint impact layer (trees / plots / farms) + Media Archives Pipeline (MAP).
+# All public raw URLs, no credentials. These power the "how much rainforest are
+# you restoring?" and "what farm footage exists?" agent questions.
+SUNMINT_TREES_URL = "https://raw.githubusercontent.com/TrueSightDAO/sunmint/main/trees/index.geojson"
+SUNMINT_PLOTS_URL = "https://raw.githubusercontent.com/TrueSightDAO/sunmint/main/plots/index.geojson"
+SUNMINT_FARMS_URL = "https://raw.githubusercontent.com/TrueSightDAO/sunmint/main/farms/index.json"
+SUNMINT_INDEX_PATH = REPO_ROOT / "stats" / "sunmint_index.json"
+MEDIA_MANIFESTS_INDEX_URL = "https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/index.json"
+MEDIA_MANIFEST_BASE = "https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main"
+
 # Known production deploy targets per repo. Hand-maintained because most repos
 # have a deploy target that isn't discoverable from the repo metadata alone
 # (CNAME files only cover Pages; Edgar lives on EC2; some repos are data-only).
@@ -59,6 +69,10 @@ SOURCES = {
     "store_inventory": "https://raw.githubusercontent.com/TrueSightDAO/agroverse-inventory/main/store-inventory.json",
     "partner_inventory": "https://raw.githubusercontent.com/TrueSightDAO/agroverse-inventory/main/partners-inventory.json",
     "beerhall_listing": "https://api.github.com/repos/TrueSightDAO/ecosystem_change_logs/contents/beer_hall/entries?ref=main",
+    "sunmint_trees": SUNMINT_TREES_URL,
+    "sunmint_plots": SUNMINT_PLOTS_URL,
+    "sunmint_farms": SUNMINT_FARMS_URL,
+    "media_manifests_index": MEDIA_MANIFESTS_INDEX_URL,
 }
 
 BEERHALL_RAW_BASE = "https://raw.githubusercontent.com/TrueSightDAO/ecosystem_change_logs/main/beer_hall/entries"
@@ -506,7 +520,235 @@ def summarize_inventory(store_inv: dict | None, partner_inv: dict | None) -> dic
     return out or {"error": "inventory snapshots unavailable"}
 
 
-def build_stats() -> dict:
+
+def _is_video_item(it: dict) -> bool:
+    """Classify a media manifest item as video vs photo. Prefer the explicit
+    `type` field; fall back to the file extension for older manifests."""
+    t = (it.get("type") or "").strip().lower()
+    if t in ("video", "photo"):
+        return t == "video"
+    f = (it.get("file") or "").strip().lower()
+    return f.endswith((".mp4", ".mov", ".m4v", ".avi", ".mkv", ".webm"))
+
+
+def summarize_sunmint(trees: dict | None, plots: dict | None,
+                      farms: dict | None, media_index: dict | None,
+                      media_manifests: dict | None) -> dict:
+    """Roll up the SunMint impact layer (trees, plots, farms) and the Media
+    Archives Pipeline (MAP) into one headline digest answering 'how much
+    rainforest are you restoring?' and 'what farm footage exists?'.
+
+    Every field is derived from public raw URLs. Tree features currently carry
+    status/species only (no region linkage yet), so the tree rollup is by
+    status + species; plot/farm rollups carry region + hectares.
+    """
+    out: dict = {}
+
+    # --- Trees (from trees/index.geojson feature properties) ---
+    if trees and isinstance(trees, dict):
+        feats = trees.get("features") or []
+        by_status: dict[str, int] = {}
+        by_species: dict[str, int] = {}
+        for f in feats:
+            props = (f.get("properties") or {}) if isinstance(f, dict) else {}
+            st = (props.get("status") or "unknown").strip() or "unknown"
+            sp = (props.get("species") or "unknown").strip() or "unknown"
+            by_status[st] = by_status.get(st, 0) + 1
+            by_species[sp] = by_species.get(sp, 0) + 1
+        out["trees"] = {
+            "total": len(feats),
+            "by_status": dict(sorted(by_status.items())),
+            "by_species": dict(sorted(by_species.items(), key=lambda kv: -kv[1])),
+            "source": SUNMINT_TREES_URL,
+        }
+    else:
+        out["trees"] = {"error": "tree index unavailable"}
+
+    # --- Plots (from plots/index.geojson feature properties) ---
+    if plots and isinstance(plots, dict):
+        feats = plots.get("features") or []
+        by_status: dict[str, int] = {}
+        total_ha = 0.0
+        by_region: dict[str, int] = {}
+        for f in feats:
+            props = (f.get("properties") or {}) if isinstance(f, dict) else {}
+            st = (props.get("status") or "unknown").strip() or "unknown"
+            by_status[st] = by_status.get(st, 0) + 1
+            region = (props.get("region") or props.get("farm_region") or "unknown").strip() or "unknown"
+            by_region[region] = by_region.get(region, 0) + 1
+            for key in ("area_hectares", "hectares", "area_ha"):
+                if props.get(key) is not None:
+                    try:
+                        total_ha += float(props[key])
+                        break
+                    except (TypeError, ValueError):
+                        pass
+        out["plots"] = {
+            "total": len(feats),
+            "by_status": dict(sorted(by_status.items())),
+            "total_hectares": round(total_ha, 2),
+            "by_region": dict(sorted(by_region.items(), key=lambda kv: -kv[1])),
+            "source": SUNMINT_PLOTS_URL,
+        }
+    else:
+        out["plots"] = {"error": "plot index unavailable"}
+
+    # --- Farms (from farms/index.json) ---
+    if farms and isinstance(farms, dict):
+        farm_list = farms.get("farms") or []
+        by_region: dict[str, int] = {}
+        total_ha = 0.0
+        for f in farm_list:
+            region = (f.get("region") or "unknown").strip() or "unknown"
+            by_region[region] = by_region.get(region, 0) + 1
+            try:
+                total_ha += float(f.get("total_hectares") or 0)
+            except (TypeError, ValueError):
+                pass
+        out["farms"] = {
+            "total": len(farm_list),
+            "total_hectares": round(total_ha, 2),
+            "by_region": dict(sorted(by_region.items(), key=lambda kv: -kv[1])),
+            "list": [
+                {
+                    "farm_id": f.get("farm_id"),
+                    "name": f.get("name"),
+                    "region": f.get("region"),
+                    "plot_count": f.get("plot_count"),
+                    "total_hectares": f.get("total_hectares"),
+                }
+                for f in sorted(farm_list, key=lambda x: -(x.get("plot_count") or 0))
+            ],
+            "source": SUNMINT_FARMS_URL,
+        }
+    else:
+        out["farms"] = {"error": "farms index unavailable"}
+
+    # --- Media Archives Pipeline (MAP): per-farm manifest rollup ---
+    media: dict = {}
+    media_items = (media_index.get("index") if isinstance(media_index, dict) else None) or []
+    if media_items and isinstance(media_manifests, dict):
+        per_farm = []
+        tot_items = tot_video = tot_photo = tot_yt = tot_transcribed = 0
+        for row in media_items:
+            fid = row.get("farm_id")
+            man = media_manifests.get(fid)
+            if not isinstance(man, dict):
+                continue
+            items = man.get("items") or []
+            videos = [i for i in items if isinstance(i, dict) and _is_video_item(i)]
+            photos = [i for i in items if isinstance(i, dict) and not _is_video_item(i)]
+            yt = sum(1 for i in videos if i.get("yt_id"))
+            transcribed = sum(1 for i in items if (i.get("transcription_status") == "done") or i.get("transcription"))
+            tot_items += len(items)
+            tot_video += len(videos)
+            tot_photo += len(photos)
+            tot_yt += yt
+            tot_transcribed += transcribed
+            per_farm.append({
+                "farm_id": fid,
+                "farm_name": man.get("farm_name"),
+                "region": man.get("region"),
+                "manifest_url": f"{MEDIA_MANIFEST_BASE}/{row.get('manifest') or (fid + '.json')}",
+                "items": len(items),
+                "videos": len(videos),
+                "photos": len(photos),
+                "published_youtube": yt,
+                "transcribed": transcribed,
+                "updated": row.get("updated"),
+                "s3_archive_prefix": man.get("s3_archive_prefix"),
+            })
+        per_farm.sort(key=lambda x: -(x.get("items") or 0))
+        media = {
+            "farm_count": len(per_farm),
+            "totals": {
+                "items": tot_items,
+                "videos": tot_video,
+                "photos": tot_photo,
+                "published_youtube": tot_yt,
+                "transcribed": tot_transcribed,
+            },
+            "per_farm": per_farm,
+            "index_source": MEDIA_MANIFESTS_INDEX_URL,
+            "note": (
+                "Media Archives Pipeline (MAP) — raw farm footage archived per "
+                "MEDIA_ARCHIVE_PIPELINE.md. Per-farm manifest is the queryable "
+                "index (items carry lat/lon, captured_at, yt_id, transcription). "
+                "Media is also archived to S3 (media.agroverse.shop, raw+preview)."
+            ),
+        }
+    else:
+        media = {"error": "media manifests unavailable"}
+    out["media"] = media
+
+    out["attestations"] = {
+        "note": (
+            "Planting/growth events are RSA-signed and publicly verifiable; "
+            "see the SunMint public audit surface. Plot/tree registries above "
+            "are the machine-readable rollup."
+        ),
+        "sunmint_repo": "https://github.com/TrueSightDAO/sunmint",
+    }
+    out["interpretation_hint"] = (
+        "SunMint = the DAO's on-the-ground restoration evidence layer (trees, "
+        "plots, farms) plus its media archive (MAP). Use this to answer 'how "
+        "many trees have you planted?', 'how many plots / hectares?', 'which "
+        "farms and where?', and 'what farm footage / videos / transcriptions "
+        "exist?'. Progress toward the 10,000-hectare mission is plots."
+        "total_hectares vs 10000."
+    )
+    return out
+
+
+def write_sunmint_index() -> dict:
+    """Write stats/sunmint_index.json — the SunMint impact + MAP media rollup.
+    Returns the full payload dict (so main() can inject a headline into
+    stats/current.json without re-fetching the manifests)."""
+    trees = fetch_json(SUNMINT_TREES_URL)
+    plots = fetch_json(SUNMINT_PLOTS_URL)
+    farms = fetch_json(SUNMINT_FARMS_URL)
+    media_index = fetch_json(MEDIA_MANIFESTS_INDEX_URL)
+    media_manifests: dict = {}
+    rows = (media_index.get("index") if isinstance(media_index, dict) else None) or []
+    for row in rows:
+        fid = row.get("farm_id")
+        fname = row.get("manifest") or (f"{fid}.json" if fid else None)
+        if not fname:
+            continue
+        man = fetch_json(f"{MEDIA_MANIFEST_BASE}/{fname}")
+        if isinstance(man, dict):
+            # key by farm_id, but tolerate manifests keyed by filename's stem
+            media_manifests[fid or fname[:-5]] = man
+
+    summary = summarize_sunmint(trees, plots, farms, media_index, media_manifests)
+    now = datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
+    payload = {
+        "generated_at_utc": now,
+        "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
+        "schema": "sunmint_index/1",
+        "north_star": {
+            "mission": "Restore 10,000 hectares of Amazon rainforest.",
+            "progress_hectares": summary.get("plots", {}).get("total_hectares"),
+            "progress_pct": (
+                round(100.0 * (summary.get("plots", {}).get("total_hectares") or 0) / 10000.0, 4)
+            ),
+        },
+        "trees": summary.get("trees"),
+        "plots": summary.get("plots"),
+        "farms": summary.get("farms"),
+        "media": summary.get("media"),
+        "attestations": summary.get("attestations"),
+        "interpretation_hint": summary.get("interpretation_hint"),
+    }
+    SUNMINT_INDEX_PATH.parent.mkdir(parents=True, exist_ok=True)
+    SUNMINT_INDEX_PATH.write_text(
+        json.dumps(payload, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
+    return payload
+
+
+def build_stats(sunmint: dict | None = None) -> dict:
     now = datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
     treasury = fetch_json(SOURCES["treasury_cache"])
     members_idx = fetch_json(SOURCES["members_index"])
@@ -526,6 +768,7 @@ def build_stats() -> dict:
         "members": summarize_members(members_idx),
         "treasury": summarize_treasury(treasury),
         "inventory": summarize_inventory(store_inv, partner_inv),
+        "sunmint": sunmint or {"note": "see stats/sunmint_index.json"},
         "recent_beerhall_digests": summarize_beerhall(beerhall),
         "canonical_sources": SOURCES,
         "canonical_context_docs": {
@@ -550,9 +793,16 @@ def build_stats() -> dict:
 
 
 def main() -> int:
+    # SunMint impact layer (trees/plots/farms) + MAP media rollup. Built
+    # first so its headline can be injected into stats/current.json without
+    # double-fetching the manifests.
+    sunmint_payload = write_sunmint_index()
+    _t = (sunmint_payload.get("trees") or {}).get("total") or 0
+    print(f"✅ wrote stats/sunmint_index.json ({_t} trees)")
+
     # Stats (headline + 10 recent digests)
     OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
-    stats = build_stats()
+    stats = build_stats(sunmint=sunmint_payload)
     OUT_PATH.write_text(json.dumps(stats, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print(f"✅ wrote {OUT_PATH.relative_to(REPO_ROOT)}")
 
