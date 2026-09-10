@@ -847,6 +847,11 @@
               var popupHtml = '<strong>' + esc(name) + '</strong>';
               if (st) popupHtml += '<br/><span style="color:' + (ST_COLOR[st] || '#333') + ';font-weight:600;">' + esc(ST_LABEL[st] || st) + '</span>';
               if (ba) popupHtml += '<br/>Boundary: ' + esc(BA_LABEL[ba] || ba);
+              // Plot type (program role) — thread 24326. Single controlled column on the
+              // sheet ('Plot Type'); always show raw value if it's somehow off-vocabulary.
+              var PT_LABEL = { restoration: 'Restoration', mature: 'Mature', maturing: 'Maturing', enrichment: 'Enrichment', research: 'Research', nursery: 'Nursery', infrastructure: 'Infrastructure' };
+              var pt = props.plot_type || props.plotType || '';
+              if (pt) popupHtml += '<br/>Type: <span style="font-weight:600;">' + esc(PT_LABEL[pt] || pt) + '</span>';
               var ha = props.hectares || props.area_ha;
               if (ha) popupHtml += '<br/>' + esc(ha) + ' ha';
               if (props.owner) popupHtml += '<br/>Owner: ' + esc(props.owner);
