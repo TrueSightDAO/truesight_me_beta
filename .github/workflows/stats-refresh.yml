@@ -1,7 +1,9 @@
-# Regenerates `stats/current.json` from public DAO data sources so LLM agents
-# (and any HTTP client) can read headline numbers without executing the
-# landing page's JavaScript. Pairs with `llms.txt` which directs agents to
-# fetch this file first.
+# Regenerates the `stats/*.json` LLM discovery indexes (current.json,
+# beerhall_archive.json, repos_index.json, programs_index.json,
+# partners_index.json, sunmint_index.json) from public DAO data sources so
+# LLM agents (and any HTTP client) can read headline numbers without
+# executing the landing page's JavaScript. Pairs with `llms.txt` which
+# directs agents to these files.
 #
 # The script only reads public raw.github URLs — no credentials needed.
 # Cron runs every 6 hours, offset from top-of-hour to avoid collision with
@@ -39,11 +41,11 @@ jobs:
         run: |
           git config user.name 'truesight-me-stats-bot'
           git config user.email 'truesight-me-stats-bot@users.noreply.github.com'
-          # Stage EVERY index the builder writes, not just current.json --
-          # repos_index / programs_index / partners_index / beerhall_archive /
-          # sunmint_index were being regenerated but never committed (stale
-          # since 2026-05-18) because only current.json was staged here.
-          git add stats/current.json stats/sunmint_index.json stats/beerhall_archive.json stats/repos_index.json stats/programs_index.json stats/partners_index.json
+          # Stage the whole stats/ directory: it holds ONLY generated
+          # indexes (nothing hand-authored lives here), so a newly added
+          # dimension (e.g. sunmint_index.json) ships automatically instead
+          # of being dropped by a hand-maintained filename list.
+          git add stats/
           if git diff --cached --quiet; then
             echo "No stats changes."
             exit 0
