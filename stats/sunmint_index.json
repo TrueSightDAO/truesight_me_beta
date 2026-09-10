@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-09-10T11:44:16Z",
+  "generated_at_utc": "2026-09-10T16:38:33Z",
   "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
   "schema": "sunmint_index/1",
   "north_star": {
@@ -167,13 +167,13 @@
     "source": "https://raw.githubusercontent.com/TrueSightDAO/sunmint/main/farms/index.json"
   },
   "media": {
-    "farm_count": 12,
+    "farm_count": 13,
     "totals": {
-      "items": 822,
-      "videos": 588,
-      "photos": 234,
+      "items": 949,
+      "videos": 623,
+      "photos": 326,
       "published_youtube": 377,
-      "transcribed": 74
+      "transcribed": 100
     },
     "per_farm": [
       {
@@ -200,6 +200,19 @@
         "published_youtube": 67,
         "transcribed": 0,
         "updated": "2026-09-06",
+        "s3_archive_prefix": null
+      },
+      {
+        "farm_id": "sitio-torres-pacaja-para",
+        "farm_name": null,
+        "region": null,
+        "manifest_url": "https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/sitio-torres-pacaja-para.json",
+        "items": 81,
+        "videos": 35,
+        "photos": 46,
+        "published_youtube": 0,
+        "transcribed": 26,
+        "updated": "2026-09-10",
         "s3_archive_prefix": null
       },
       {
@@ -251,6 +264,19 @@
         "photos": 31,
         "published_youtube": 0,
         "transcribed": 29,
+        "updated": "2026-09-10",
+        "s3_archive_prefix": null
+      },
+      {
+        "farm_id": "cristo-rei-pacaje-para",
+        "farm_name": null,
+        "region": null,
+        "manifest_url": "https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/cristo-rei-pacaje-para.json",
+        "items": 59,
+        "videos": 13,
+        "photos": 46,
+        "published_youtube": 13,
+        "transcribed": 0,
         "updated": "2026-09-10",
         "s3_archive_prefix": null
       },
@@ -317,19 +343,6 @@
         "published_youtube": 14,
         "transcribed": 0,
         "updated": "2026-09-04",
-        "s3_archive_prefix": null
-      },
-      {
-        "farm_id": "cristo-rei-pacaje-para",
-        "farm_name": null,
-        "region": null,
-        "manifest_url": "https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/cristo-rei-pacaje-para.json",
-        "items": 13,
-        "videos": 13,
-        "photos": 0,
-        "published_youtube": 13,
-        "transcribed": 0,
-        "updated": "2026-09-10",
         "s3_archive_prefix": null
       }
     ],
