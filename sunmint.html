@@ -491,11 +491,23 @@
         var SATELLITE_BASEMAP = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
 
         function initMap(features) {
-          var map = L.map('impactMap', { maxZoom: 17 }).setView(PILOT_CENTER, 11);
-          // maxZoom 17: Esri World Imagery has no tiles above z17 in the Altamira region (z18+ returns gray 'data not yet available' placeholders).
+          var map = L.map('impactMap', { maxZoom: 19 }).setView(PILOT_CENTER, 11);
+          // maxNativeZoom 17 / maxZoom 19: Esri World Imagery has no high-resolution COVERAGE
+          // above z17 over most of the pilot area -- a regional data gap, not a service limit
+          // (Esri's own service advertises LOD 23; the Amazon-basin imagery simply stops at z17).
+          // Re-verified 2026-09-11 across all plot centroids: 15 of 19 pilot-area plots return the
+          // 2,521-byte 94%-flat-grey #cccccc placeholder at z18, while the Bahia plots
+          // (SJ/FC/OB/FSA, ~-14.5 lat) return real 10-13 KB imagery at z18 -- so the gap is
+          // regional, not global. San Francisco z18 also returns real imagery.
+          // Setting maxNativeZoom makes Leaflet UPSCALE the last real z17 tiles for z18-z19
+          // instead of requesting tiles that render as a grey wall, so a user can still zoom in
+          // to trace a plot boundary (blurry but present). Swap this layer for a CDSE Sentinel-2
+          // deep-zoom layer if genuine sub-z17 detail is ever needed.
           window.__satMap = map;
           var sat = L.tileLayer(SATELLITE_BASEMAP, {
-            attribution: '&copy; Esri, Maxar, Earthstar Geographics'
+            attribution: '&copy; Esri, Maxar, Earthstar Geographics',
+            maxNativeZoom: 17,   // last zoom with real Esri imagery over the pilot area
+            maxZoom: 19          // upscale z17 tiles for z18-z19 rather than showing blanks
           }).addTo(map);
           var base = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
             attribution: '&copy; OpenStreetMap &copy; CARTO'
@@ -728,7 +740,7 @@
                   map.flyTo([pts[0].lat, pts[0].lng], 17);
                 } else if (pts.length > 1) {
                   var b = L.latLngBounds(pts.map(function (p) { return [p.lat, p.lng]; }));
-                  map.flyToBounds(b, { padding: [50, 50], maxZoom: 17 });
+                  map.flyToBounds(b, { padding: [50, 50], maxZoom: 19 });
                 } else if (v.center) {
                   map.flyTo(v.center, v.zoom);
                 }
@@ -1235,7 +1247,7 @@
             })
             .catch(function () {
               // Last resort: show the map with the pilot-area default basemap only.
-              var map = L.map('impactMap', { maxZoom: 17 }).setView(PILOT_CENTER, 11);
+              var map = L.map('impactMap', { maxZoom: 19 }).setView(PILOT_CENTER, 11);
               L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
                 attribution: '&copy; OpenStreetMap &copy; CARTO'
               }).addTo(map);
