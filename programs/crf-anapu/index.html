@@ -63,6 +63,24 @@
       .cobrand-issuer a { color: inherit; text-decoration: underline; }
       .cobrand-tagline { color: var(--muted, #666); font-size: 0.88rem; margin-top: 0.25rem; }
       .cobrand-partner-link { display: inline-block; margin-top: 0.5rem; font-size: 0.88rem; color: #6a4a1a; }
+
+      /* Program media gallery (JSON-driven via js/media-gallery.js) */
+      .program-gallery { margin-top: 3rem; }
+      .program-gallery > h2 { font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 1.6rem; margin: 0 0 var(--space-sm); }
+      .program-gallery-intro { color: var(--muted, #666); max-width: 640px; margin: 0 0 var(--space-md); }
+      .farm-video-section {
+        margin: 2rem 0; border-radius: 12px; overflow: hidden;
+        background: var(--surface, #fff9f0); border: 1px solid var(--border, #e6dcc9);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+      }
+      .farm-video-container {
+        position: relative; width: 100%; display: flex; align-items: center;
+        justify-content: center; background: #f3ede2;
+      }
+      .farm-video { width: 100%; max-width: 800px; height: auto; display: block; }
+      .farm-video-section p {
+        padding: 0.8rem 1rem; margin: 0; color: var(--muted, #666); font-size: 0.85rem;
+      }
     </style>
   </head>
   <body>
@@ -87,6 +105,12 @@
         <div id="program-status"></div>
         <div class="program-description" id="program-description"></div>
 
+        <section class="program-gallery" id="program-gallery">
+          <h2>Field notes from Anapu</h2>
+          <p class="program-gallery-intro">Photos from the 9 September 2026 site visit to the Casa Familiar Rural Dorothy Stang with the CEPOTX team.</p>
+          <div class="farm-videos-container" id="media-gallery"></div>
+        </section>
+
         <div class="program-cta-row">
           <a class="program-cta primary" href="members.html">View cohort →</a>
           <a class="program-cta secondary" id="program-source-link" style="display:none" target="_blank" rel="noopener noreferrer">Visit partner site →</a>
@@ -95,6 +119,7 @@
     </div>
 
     <script src="../../js/program-shell.js"></script>
+    <script src="../../js/media-gallery.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', function () {
         TrueSightProgramShell.init({ manifestPath: './manifest.json', type: 'landing' });

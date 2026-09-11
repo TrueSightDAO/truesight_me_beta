@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "hero": {
+    "type": "image",
+    "src": "https://raw.githubusercontent.com/TrueSightDAO/.github/main/assets/crf-anapu-hero.jpg",
+    "alt": "Casa Familiar Rural de Anapu - students and visiting team at the rural family school, Anapu, Para"
+  },
+  "gallery": [
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/TrueSightDAO/.github/main/assets/crf-anapu-IMG_9723.jpg",
+      "alt": "The CRF tree nursery - a group gathered under the shade cloth among rows of seedling pots, Anapu, Para"
+    },
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/TrueSightDAO/.github/main/assets/crf-anapu-IMG_9730.jpg",
+      "alt": "The 2025 graduating 9th-grade class of CFR Dorothy Stang, with Prefeitura de Anapu and Casa Familiar Rural logos"
+    },
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/TrueSightDAO/.github/main/assets/crf-anapu-IMG_9731.jpg",
+      "alt": "A Brazilian Independence Day banner beside the school entrance and the Auditorio, CFR Dorothy Stang, Anapu"
+    },
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/TrueSightDAO/.github/main/assets/crf-anapu-IMG_9732.jpg",
+      "alt": "An adult and seven students in green CFR shirts in front of the rural family school, Anapu, Para"
+    },
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/TrueSightDAO/.github/main/assets/crf-anapu-IMG_9733.jpg",
+      "alt": "The group photographed in front of the school's yellow building among palm trees, CFR Dorothy Stang, Anapu"
+    },
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/TrueSightDAO/.github/main/assets/crf-anapu-IMG_9735.jpg",
+      "alt": "An Agroverse volunteer and a CFR student in the school garden, Anapu, Para"
+    },
+    {
+      "type": "image",
+      "src": "https://raw.githubusercontent.com/TrueSightDAO/.github/main/assets/crf-anapu-IMG_9717.jpg",
+      "alt": "Inside the school building during the CEPOTX and SunMint site visit, CRF Dorothy Stang, Anapu"
+    }
+  ]
+}
