@@ -517,6 +517,13 @@
           window.__treeMarkers = window.__treeMarkers || [];
           function addTreeMarkers(feats) {
             var count = 0;
+            // Local copy of the esc() helper (also defined inside
+            // buildTreeLookup() and loadPlots().render() below): the tree
+            // popup built in this loop calls esc(photo), and without a local
+            // definition the first tree carrying a photo_url threw
+            // "esc is not defined", aborting initMap() partway (same bug
+            // class as the 2026-09-04 f0b0dd6e5d fix).
+            function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
             feats.forEach(function (f) {
               var p = f.properties || {};
               var coords = f.geometry && f.geometry.coordinates;
