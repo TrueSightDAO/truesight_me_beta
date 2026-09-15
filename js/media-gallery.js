@@ -59,6 +59,7 @@
       if (item.type === 'youtube' && item.videoId) {
         var iframe = document.createElement('iframe');
         iframe.className = 'farm-video';
+        iframe.loading = 'lazy';
         iframe.src = 'https://www.youtube.com/embed/' + item.videoId + '?rel=0';
         iframe.setAttribute('frameborder', '0');
         iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
