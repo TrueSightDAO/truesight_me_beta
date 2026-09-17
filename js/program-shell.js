@@ -249,6 +249,33 @@
     el.innerHTML = html;
   }
 
+  // CRF_ANAPU_SUNMINT_COHORT_PROPOSAL.md \u00a72.2 pt 6 / \u00a74 \u2014 one row per SunMint
+  // tree/monitoring/plot event, linking out to the item's already-public
+  // record rather than duplicating GPS/photo on the credential page.
+  function renderSunmintEventListItem(ev) {
+    var when = formatDate(ev.captured_at || ev.submitted_at);
+    var payload = (ev && ev.payload) || {};
+    var kind = ev.activity_type || ev.event_type || 'activity';
+    var kindLabel = {
+      tree_planting: '\ud83c\udf33 Tree planted',
+      tree_growth_monitoring: '\ud83c\udf31 Tree monitored',
+      farm_boundary_evidence: '\ud83d\udccd Plot registered'
+    }[kind] || escapeHtml(String(kind));
+    var species = payload.species || payload.species_name || '';
+    var bits = [kindLabel];
+    if (species) bits.push('<span class="event-theme">' + escapeHtml(species) + '</span>');
+    // Link out to the item's public record. A per-tree QR (qr_code / tree_id)
+    // points at the QR page; otherwise fall back to the public Impact Map,
+    // where every planted tree already lives independent of this program.
+    var qr = payload.qr_code || payload.tree_id || ev.qr_code || '';
+    var href = qr
+      ? 'https://truesight.me/qr/?id=' + encodeURIComponent(qr)
+      : 'https://truesight.me/sunmint.html';
+    var linkLabel = qr ? 'View tree \u2192' : 'View on Impact Map \u2192';
+    return '<li><time>' + escapeHtml(when) + '</time> \u00b7 ' + bits.join(' \u00b7 ') +
+      ' \u00b7 <a href="' + href + '" target="_blank" rel="noopener noreferrer">' + linkLabel + '</a></li>';
+  }
+
   function memberCardHtml(m, programSlug) {
     var slug = m.slug || (m.pk_hash || '');
     var html = '<a class="member-card" href="credentials/#' + encodeURIComponent(slug) + '">';
@@ -261,6 +288,14 @@
     var badges = [];
     if (m.is_governor) badges.push('<span class="badge governor">Governor</span>');
     if (m.has_elective_records) badges.push('<span class="badge practitioner">Practitioner</span>');
+    // SunMint activity badges (CRF_ANAPU_SUNMINT_COHORT_PROPOSAL.md \u00a72.2 pt 5,
+    // \u00a74). Aggregate-only on the card; the itemized per-event detail lives on
+    // the click-through (credentials/#<slug>). Reads optional per-member
+    // aggregate fields off _cache/index.json \u2014 forward-compatible, so the
+    // badges simply stay hidden until lineage-engine exposes those fields.
+    if (m.sunmint_trees_planted) badges.push('<span class="badge sunmint" title="Trees planted">\ud83c\udf33 ' + escapeHtml(String(m.sunmint_trees_planted)) + '</span>');
+    if (m.sunmint_plots_registered) badges.push('<span class="badge sunmint" title="Plots registered">\ud83d\udccd ' + escapeHtml(String(m.sunmint_plots_registered)) + '</span>');
+    if (m.sunmint_last_activity_at) badges.push('<span class="badge sunmint" title="Last SunMint activity">\ud83c\udf31 ' + escapeHtml(formatDate(m.sunmint_last_activity_at)) + '</span>');
     if (badges.length) html += '<div class="badges">' + badges.join('') + '</div>';
     html += '</a>';
     return html;
@@ -447,6 +482,22 @@
           html += '<h3>Recent events</h3><ul class="credential-events">';
           for (var i = 0; i < Math.min(events.length, 10); i++) {
             html += renderEventListItem(events[i]);
+          }
+          html += '</ul>';
+        }
+
+        // Itemized SunMint activity (CRF_ANAPU_SUNMINT_COHORT_PROPOSAL.md
+        // \u00a72.2 pt 6, \u00a74). One row per tree planting / monitoring visit / plot
+        // the student submitted \u2014 NOT an aggregate. Each row links OUT to that
+        // item's already-public record (the public Impact Map / QR page), so
+        // this page never re-renders raw GPS/photo; it only lists what the
+        // student did. Populated from programs[<slug>].sunmint_events[] in the
+        // member's CV (built by lineage-engine build_cv_cache.py).
+        var smEvents = programRecord.sunmint_events || [];
+        if (smEvents.length) {
+          html += '<h3>SunMint activity</h3><ul class="credential-events credential-sunmint">';
+          for (var s = 0; s < Math.min(smEvents.length, 20); s++) {
+            html += renderSunmintEventListItem(smEvents[s]);
           }
           html += '</ul>';
         }
