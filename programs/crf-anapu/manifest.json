@@ -20,6 +20,9 @@
   "credential_visibility_default": "private",
   "issuer_lineage_root": "CRF Anapu",
   "status": "onboarding",
-  "program_mode": "cohort_credentialing",
-  "last_reviewed": "2026-09-11"
+  "last_reviewed": "2026-09-11",
+  "program_modes": [
+    "cohort_credentialing",
+    "sunmint_cohort"
+  ]
 }
