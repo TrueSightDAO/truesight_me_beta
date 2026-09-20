@@ -53,6 +53,24 @@
   .skipped .skip-title { font-weight: 700; margin-bottom: 4px; }
   .skipped ul { margin: 0; padding-left: 16px; }
 
+  /* PR3 filters */
+  .filters { border-bottom: 1px solid var(--line); padding: 8px 12px 10px; }
+  .reconcile { font-size: 11.5px; color: var(--muted); padding: 0 0 8px; }
+  .reconcile b { color: var(--ink); }
+  .facet { margin-bottom: 8px; }
+  .facet .flabel { font-size: 10.5px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .facet .opts { display: flex; flex-wrap: wrap; gap: 4px; }
+  .opt { font-size: 11.5px; padding: 2px 8px; border: 1px solid var(--line); border-radius: 999px; background: #fff; cursor: pointer; color: #4a443d; }
+  .opt:hover { background: #f6f1e9; }
+  .opt[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .opt .cnt { opacity: .65; margin-left: 4px; font-variant-numeric: tabular-nums; }
+  .opt[aria-pressed="true"] .cnt { opacity: .85; }
+  .opt.zero { opacity: .45; }
+  .dq { border-top: 1px dashed var(--line); margin-top: 6px; padding-top: 7px; }
+  .dq .opt[aria-pressed="true"] { background: #7a4b00; border-color: #7a4b00; }
+  .dq .flabel { color: #7a4b00; }
+  .noresult { padding: 14px 16px; color: var(--muted); font-size: 13px; }
+
   #status { position: absolute; left: 12px; top: 12px; z-index: 500; background: rgba(255,255,255,.94); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; font-size: 12px; color: var(--muted); box-shadow: 0 1px 4px rgba(0,0,0,.08); }
   #status.err { color: #b00020; border-color: #f2c3c8; background: #fff5f6; }
 
@@ -75,6 +93,7 @@
       <h1>SunMint Plot Explorer</h1>
       <div class="sub" id="left-sub">Loading plots…</div>
     </div>
+    <div class="filters" id="filters" aria-label="Plot filters" style="display:none"></div>
     <div class="rail-body" id="plot-list"></div>
     <div id="plot-skipped" class="skipped" style="display:none"></div>
   </aside>
@@ -114,6 +133,12 @@
   // Satellite basemap: ESRI World Imagery (free, no API key). maxNativeZoom 17 / maxZoom 19:
   // Esri has no sub-z17 coverage over most of the pilot area, so Leaflet upscales z17 tiles
   // for z18-z19 instead of requesting tiles that render as a grey wall (same as sunmint.html).
+  // Per-plot media index (PR1 artifact). Fetched here so the "no media" data-quality state
+  // reflects the gallery source of truth, not the rarely-populated geojson `media` prop.
+  var MEDIA_URLS = [
+    'https://raw.githubusercontent.com/TrueSightDAO/sunmint/main/plots/media.json?cb=' + Date.now(),
+    'https://cdn.jsdelivr.net/gh/TrueSightDAO/sunmint@main/plots/media.json'
+  ];
   var SATELLITE_BASEMAP = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
   var CARTO_LIGHT = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
   var PILOT_CENTER = [-3.2940, -52.5780];
@@ -138,11 +163,83 @@
     });
   }
 
+  // --- data-quality helpers -------------------------------------------------
+  function hasFarm(props) { return !!(props && props.farm_id); }
+  function plotMediaCount(props) {
+    // Source of truth is the PR1 media index; fall back to the geojson `media` prop
+    // (only ~7 plots carry it) so the count still works if the index hasn't loaded.
+    var id = props && (props.plot_id || props.id);
+    if (mediaIndex && mediaIndex.has) {
+      if (mediaIndex.has[id]) return 1; // presence is what the state needs; exact count comes from the gallery (PR4)
+    }
+    var g = props && props.media;
+    return Array.isArray(g) ? g.length : 0;
+  }
+  function hasMedia(props) {
+    if (mediaIndex && mediaIndex.has) return !!mediaIndex.has[props && (props.plot_id || props.id)];
+    var g = props && props.media;
+    return Array.isArray(g) && g.length > 0;
+  }
+  function isUnclassified(props) {
+    var st = String((props && props.status) || '').toLowerCase();
+    return !st || !ST_LABEL[st];
+  }
+
+  // --- faceted filtering (¤5: counts must reconcile, gaps must be visible) ----
+  function facetValue(props, key) {
+    var v = props ? props[key] : null;
+    return (v == null || v === '') ? null : String(v); // null bucket = "Unclassified"
+  }
+  function passesFacets(props) {
+    for (var k in filters) {
+      if (!filters.hasOwnProperty(k)) continue;
+      if (filters[k] == null) continue;
+      var v = facetValue(props, k);
+      if (filters[k] === '__unclassified__') { if (v != null) return false; }
+      else if (v !== filters[k]) return false;
+    }
+    return true;
+  }
+  function passesOnly(props) {
+    if (only['no-media'] && hasMedia(props)) return false;
+    if (only['no-farm'] && hasFarm(props)) return false;
+    if (only['unclassified'] && !isUnclassified(props)) return false;
+    return true;
+  }
+  function isVisible(props) { return passesFacets(props) && passesOnly(props); }
+  function visiblePlots() { return plotList.filter(function (p) { return isVisible(p.props); }); }
+
+  function facetCounts(key) {
+    // counts recompute from the rows passing the OTHER facets + the active data-quality flags,
+    // so the number next to each option is exactly what clicking it will leave on screen.
+    var c = {};
+    plotList.forEach(function (p) {
+      if (!passesOnly(p.props)) return;
+      var ok = true;
+      for (var k in filters) {
+        if (!filters.hasOwnProperty(k) || k === key || filters[k] == null) continue;
+        var v = facetValue(p.props, k);
+        if (filters[k] === '__unclassified__') { if (v != null) ok = false; }
+        else if (v !== filters[k]) ok = false;
+      }
+      if (!ok) return;
+      var v = facetValue(p.props, key);
+      var bucket = v == null ? '__unclassified__' : v;
+      c[bucket] = (c[bucket] || 0) + 1;
+    });
+    return c;
+  }
+
   var map = null;
   var layers = {};        // plot_id -> { layer, props, latlngs }
   var plotList = [];      // [{ id, props }] sorted for the rail
   var skipped = [];       // plots in the registry that could not be drawn (data-quality signal, §5)
   var selectedId = null;
+  var mediaIndex = null;  // {has: Set(plot_id), generated_at, unattributed} | null until loaded
+  // Faceted filters. Each facet key holds an active value (or null = All). `only` holds the
+  // data-quality restrictors (§5: unclassified / no media / no farm).
+  var filters = { farm_id: null, plot_type: null, status: null, boundary_authority: null };
+  var only = { 'no-media': false, 'no-farm': false, 'unclassified': false };
 
   function $(id) { return document.getElementById(id); }
 
@@ -183,8 +280,24 @@
     });
   }
 
+  function fetchMediaIndex() {
+    // Non-fatal: if the index is unreachable the explorer still works, but "no media" then
+    // falls back to the geojson prop. We surface the failure in the reconcile line instead
+    // of silently pretending every plot has media.
+    return fetchJsonChain(MEDIA_URLS, 0).then(function (j) {
+      var have = {};
+      var plots = (j && j.plots) || {};
+      Object.keys(plots).forEach(function (id) {
+        var v = plots[id];
+        var arr = v && v.media ? v.media : (Array.isArray(v) ? v : []);
+        if (arr && arr.length) have[id] = arr.length;
+      });
+      mediaIndex = { has: have, generated_at: (j && j.generated_at) || null, counts: (j && j.counts) || null };
+    }).catch(function () { mediaIndex = { has: null, generated_at: null, failed: true }; });
+  }
+
   function fetchPlots() {
-    fetchJsonChain(PLOTS_URLS, 0).then(renderPlots).catch(function (err) {
+    fetchMediaIndex().then(function () { return fetchJsonChain(PLOTS_URLS, 0); }).then(renderPlots).catch(function (err) {
       setStatus('Could not load plots/index.geojson — ' + (err && err.message ? err.message : 'network error'), true);
       var sub = $('left-sub'); if (sub) sub.textContent = 'Failed to load';
       var list = $('plot-list');
@@ -223,12 +336,147 @@
     plotList.sort(function (a, b) {
       return String(a.props.name || a.id).localeCompare(String(b.props.name || b.id));
     });
+    renderFilters();
     renderList();
     renderSkipped();
-    var withMediaNote = $('left-sub');
-    if (withMediaNote) withMediaNote.textContent = plotList.length + ' plots · ' + Object.keys(plotFarms()).length + ' farms';
     setStatus('');
     if (bounds.length) map.fitBounds(bounds, { padding: [30, 30] });
+  }
+
+  function facetOptions(key, label, order) {
+    var counts = facetCounts(key);
+    var keys = Object.keys(counts);
+    // known values first, in declared order; then any unknown values alphabetically; null last
+    var known = (order || []).filter(function (v) { return keys.indexOf(v) >= 0; });
+    var extra = keys.filter(function (v) { return v !== '__unclassified__' && known.indexOf(v) < 0; }).sort();
+    var hasNull = keys.indexOf('__unclassified__') >= 0;
+    return { label: label, key: key, known: known.concat(extra), hasNull: hasNull, counts: counts };
+  }
+
+  function optEl(label, value, count) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'opt' + (count === 0 ? ' zero' : '');
+    b.setAttribute('aria-pressed', String(filters[this.key] === value));
+    b.dataset.facet = this.key;
+    b.dataset.value = value == null ? '' : value;
+    b.innerHTML = esc(label) + '<span class="cnt">' + count + '</span>';
+    var key = this.key;
+    b.addEventListener('click', function () {
+      filters[key] = (filters[key] === value) ? null : value;
+      applyFilters();
+    });
+    return b;
+  }
+
+  function dqEl(id, label, count) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'opt' + (count === 0 ? ' zero' : '');
+    b.setAttribute('aria-pressed', String(!!only[id]));
+    b.innerHTML = esc(label) + '<span class="cnt">' + count + '</span>';
+    b.addEventListener('click', function () { only[id] = !only[id]; applyFilters(); });
+    return b;
+  }
+
+  function renderFilters() {
+    var host = $('filters');
+    if (!host) return;
+    host.style.display = '';
+    host.innerHTML = '';
+
+    // reconcile line
+    var total = plotList.length;
+    var vis = visiblePlots().length;
+    var rec = document.createElement('div');
+    rec.className = 'reconcile';
+    rec.innerHTML = '<b>' + vis + '</b> of <b>' + total + '</b> plots shown' +
+      (skipped.length ? ' · ' + skipped.length + ' undrawable' : '');
+    if (mediaIndex && mediaIndex.failed) rec.innerHTML += ' · media index unavailable';
+    else if (mediaIndex && mediaIndex.generated_at) rec.innerHTML += ' · media as of ' + esc(String(mediaIndex.generated_at).slice(0, 16).replace('T', ' ')) + 'Z';
+    host.appendChild(rec);
+
+    // farm (highest cardinality -> a <select> keeps the rail calm)
+    var farms = facetCounts('farm_id');
+    var fk = Object.keys(farms).filter(function (k) { return k !== '__unclassified__'; }).sort();
+    var fwrap = document.createElement('div'); fwrap.className = 'facet';
+    var fl = document.createElement('div'); fl.className = 'flabel'; fl.textContent = 'Farm'; fwrap.appendChild(fl);
+    var sel = document.createElement('select');
+    sel.className = 'opt'; sel.style.width = '100%'; sel.setAttribute('aria-label', 'Filter by farm');
+    var allOpt = document.createElement('option');
+    allOpt.value = ''; allOpt.textContent = 'All farms (' + Object.keys(plotFarms()).length + ')';
+    sel.appendChild(allOpt);
+    fk.forEach(function (v) {
+      var o = document.createElement('option'); o.value = v;
+      o.textContent = v + ' (' + farms[v] + ')';
+      sel.appendChild(o);
+    });
+    if (farms['__unclassified__']) {
+      var uo = document.createElement('option'); uo.value = '__unclassified__';
+      uo.textContent = 'No farm (' + farms['__unclassified__'] + ')';
+      sel.appendChild(uo);
+    }
+    sel.value = filters.farm_id == null ? '' : filters.farm_id;
+    sel.addEventListener('change', function () { filters.farm_id = sel.value === '' ? null : sel.value; applyFilters(); });
+    fwrap.appendChild(sel);
+    host.appendChild(fwrap);
+
+    // plot type / status / boundary authority -> chip rows
+    function chipRow(title, key, order, labels) {
+      var info = facetOptions(key, title, order);
+      var wrap = document.createElement('div'); wrap.className = 'facet';
+      var lb = document.createElement('div'); lb.className = 'flabel'; lb.textContent = title;
+      wrap.appendChild(lb);
+      var opts = document.createElement('div'); opts.className = 'opts';
+      info.known.forEach(function (v) {
+        var lbl = (labels && (labels[v] || labels[String(v).toLowerCase()])) || v;
+        opts.appendChild(optEl.call({ key: key }, lbl, v, info.counts[v] || 0));
+      });
+      if (info.hasNull) opts.appendChild(optEl.call({ key: key }, 'Unclassified', '__unclassified__', info.counts['__unclassified__'] || 0));
+      wrap.appendChild(opts);
+      host.appendChild(wrap);
+    }
+    chipRow('Plot type', 'plot_type', ['restoration', 'mature', 'maturing', 'enrichment', 'research', 'nursery'], PT_LABEL);
+    chipRow('Status', 'status', ['proposed', 'planted', 'verified'], ST_LABEL);
+    chipRow('Boundary authority', 'boundary_authority', ['gps_walk', 'walk-approx', 'car', 'incra', 'approx'], BA_LABEL);
+
+    // data-quality flags (¤5)
+    var dq = document.createElement('div'); dq.className = 'facet dq';
+    var dl = document.createElement('div'); dl.className = 'flabel'; dl.textContent = 'Data quality';
+    dq.appendChild(dl);
+    var dopts = document.createElement('div'); dopts.className = 'opts';
+    var noMedia = plotList.filter(function (p) { return !hasMedia(p.props); }).length;
+    var noFarm = plotList.filter(function (p) { return !hasFarm(p.props); }).length;
+    var uncl = plotList.filter(function (p) { return isUnclassified(p.props); }).length;
+    dopts.appendChild(dqEl('no-media', 'No media', noMedia));
+    dopts.appendChild(dqEl('no-farm', 'No farm', noFarm));
+    dopts.appendChild(dqEl('unclassified', 'Unclassified', uncl));
+    dq.appendChild(dopts);
+    host.appendChild(dq);
+  }
+
+  function applyFilters() {
+    renderFilters();
+    renderList();
+    // hide/show map layers + refit to the visible set
+    var bounds = [];
+    plotList.forEach(function (p) {
+      var e = layers[p.id]; if (!e) return;
+      var vis = isVisible(p.props);
+      if (vis) {
+        if (!map.hasLayer(e.layer)) e.layer.addTo(map);
+        e.latlngs.forEach(function (ll) { bounds.push(ll); });
+      } else if (map.hasLayer(e.layer)) {
+        map.removeLayer(e.layer);
+      }
+    });
+    // if the selected plot just got filtered out, clear the detail panel
+    if (selectedId && layers[selectedId] && !isVisible(layers[selectedId].props)) {
+      selectedId = null;
+      var d = $('detail');
+      if (d) d.innerHTML = '<div class="empty">Pick a plot from the list or click a boundary on the map.</div>';
+    }
+    if (bounds.length) { try { map.fitBounds(bounds, { padding: [30, 30] }); } catch (e2) { /* keep */ } }
   }
 
   function renderSkipped() {
@@ -256,7 +504,14 @@
       host.innerHTML = '<div class="empty">No plots in the registry yet.</div>';
       return;
     }
-    plotList.forEach(function (p) {
+    var shown = visiblePlots();
+    var sub = $('left-sub');
+    if (sub) sub.textContent = shown.length + ' of ' + plotList.length + ' plots \u00b7 ' + Object.keys(plotFarms()).length + ' farms';
+    if (!shown.length) {
+      host.innerHTML = '<div class="noresult">No plots match the current filters. Clear a facet or a data-quality flag to see rows again.</div>';
+      return;
+    }
+    shown.forEach(function (p) {
       var props = p.props;
       var st = String(props.status || '').toLowerCase();
       var item = document.createElement('div');
