@@ -71,6 +71,27 @@
   .dq .flabel { color: #7a4b00; }
   .noresult { padding: 14px 16px; color: var(--muted); font-size: 13px; }
 
+  /* PR4 detail panel: gallery + trees + provenance */
+  .dsec { margin-top: 14px; border-top: 1px solid var(--line); padding-top: 11px; }
+  .dsec h3 { font-size: 11px; letter-spacing: .5px; text-transform: uppercase; color: var(--muted); margin: 0 0 7px; }
+  .dsec .more { font-size: 11.5px; color: var(--muted); margin-top: 5px; }
+  .dempty { font-size: 12.5px; color: var(--muted); font-style: italic; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
+  .tile { position: relative; aspect-ratio: 1/1; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: #f3efe8; display: block; }
+  .tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .tile .badge { position: absolute; inset: auto 0 0 0; background: rgba(20,16,12,.72); color: #fff; font-size: 10px; padding: 2px 5px; text-align: center; }
+  .tile .play { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+  .tile .play span { width: 26px; height: 26px; border-radius: 50%; background: rgba(0,0,0,.62); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; padding-left: 2px; }
+  .tile.unpub { display: flex; align-items: center; justify-content: center; text-align: center; padding: 4px; }
+  .tile.unpub span { font-size: 9.5px; line-height: 1.25; color: #8a7f72; }
+  .treelist { list-style: none; margin: 0; padding: 0; max-height: 190px; overflow-y: auto; }
+  .treelist li { font-size: 12.5px; padding: 3px 0; border-bottom: 1px solid #f1ece4; display: flex; gap: 6px; justify-content: space-between; }
+  .treelist li:last-child { border-bottom: 0; }
+  .treelist .sp { color: var(--muted); }
+  .treelist a { color: #1565c0; text-decoration: none; }
+  .prov { margin-top: 12px; display: flex; flex-direction: column; gap: 5px; }
+  .prov a { font-size: 12.5px; }
+
   #status { position: absolute; left: 12px; top: 12px; z-index: 500; background: rgba(255,255,255,.94); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; font-size: 12px; color: var(--muted); box-shadow: 0 1px 4px rgba(0,0,0,.08); }
   #status.err { color: #b00020; border-color: #f2c3c8; background: #fff5f6; }
 
@@ -139,6 +160,15 @@
     'https://raw.githubusercontent.com/TrueSightDAO/sunmint/main/plots/media.json?cb=' + Date.now(),
     'https://cdn.jsdelivr.net/gh/TrueSightDAO/sunmint@main/plots/media.json'
   ];
+  // Trees geojson (tree list join) + farm galleries (published image derivatives).
+  // Gallery images live at agroverse.shop/assets/images/farms/<farm-slug>-<basename>.jpg;
+  // the gallery JSON is farm-keyed and is the only source that carries that mapping.
+  var TREES_URLS = [
+    'https://raw.githubusercontent.com/TrueSightDAO/sunmint/main/trees/index.geojson?cb=' + Date.now(),
+    'https://cdn.jsdelivr.net/gh/TrueSightDAO/sunmint@main/trees/index.geojson'
+  ];
+  var GALLERY_BASE = 'https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/galleries/';
+  var ASSET_BASE = 'https://agroverse.shop/assets/images/farms/';
   var SATELLITE_BASEMAP = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
   var CARTO_LIGHT = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
   var PILOT_CENTER = [-3.2940, -52.5780];
@@ -236,6 +266,10 @@
   var skipped = [];       // plots in the registry that could not be drawn (data-quality signal, §5)
   var selectedId = null;
   var mediaIndex = null;  // {has: Set(plot_id), generated_at, unattributed} | null until loaded
+  var mediaByPlot = null;  // {plot_id: [item, ...]} from the PR1 index (gallery source of truth)
+  var treesByPlot = {};    // {plot_id: [{tree_id,species,status,qr_code,photo_url}]} -- trees/index.geojson join
+  var galleryByFarm = {};  // {farm_id: {hero:[tile], gallery:[tile]}} from farm_media_manifests/galleries/*.json
+  var galleryTried = {};   // farm_id -> true once we've attempted the fetch (avoid repeated 404s)
   // Faceted filters. Each facet key holds an active value (or null = All). `only` holds the
   // data-quality restrictors (§5: unclassified / no media / no farm).
   var filters = { farm_id: null, plot_type: null, status: null, boundary_authority: null };
@@ -292,12 +326,56 @@
         var arr = v && v.media ? v.media : (Array.isArray(v) ? v : []);
         if (arr && arr.length) have[id] = arr.length;
       });
+      mediaByPlot = {};
+      Object.keys(plots).forEach(function (id) {
+        var v = plots[id];
+        var arr = v && v.media ? v.media : (Array.isArray(v) ? v : []);
+        if (arr && arr.length) mediaByPlot[id] = arr;
+      });
       mediaIndex = { has: have, generated_at: (j && j.generated_at) || null, counts: (j && j.counts) || null };
     }).catch(function () { mediaIndex = { has: null, generated_at: null, failed: true }; });
   }
 
+  function fetchTrees() {
+    // Non-fatal: the tree list is a bonus section; a failure must not break the explorer.
+    return fetchJsonChain(TREES_URLS, 0).then(function (gj) {
+      (gj && gj.features ? gj.features : []).forEach(function (f) {
+        var p = (f && f.properties) || {};
+        if (!p.plot_id) return;
+        (treesByPlot[p.plot_id] = treesByPlot[p.plot_id] || []).push({
+          tree_id: p.tree_id, species: p.species, status: p.status, qr_code: p.qr_code
+        });
+      });
+    }).catch(function () { treesByPlot = {}; });
+  }
+
+  // Farm galleries: fetched on demand (first time a plot in that farm is opened) so we
+  // don't pull 17 files up front. Farm-slug resolution mirrors the FARM_SLUG map used
+  // for the Agroverse profile link, plus the sunmint media manifest naming.
+  function gallerySlug(farmId) {
+    if (!farmId) return null;
+    if (FARM_SLUG[farmId]) return FARM_SLUG[farmId];
+    return farmId;
+  }
+  function ensureGallery(farmId) {
+    var slug = gallerySlug(farmId);
+    if (!slug || galleryTried[slug]) return;
+    galleryTried[slug] = true;
+    fetch(GALLERY_BASE + encodeURIComponent(slug) + '.json')
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (g) {
+        if (!g) return;
+        galleryByFarm[farmId] = g;
+        // If the currently-shown plot belongs to this farm, re-render so images appear.
+        if (selectedId && layers[selectedId] && layers[selectedId].props.farm_id === farmId) {
+          renderDetail(selectedId, layers[selectedId].props);
+        }
+      })
+      .catch(function () { /* 404 or network -- the panel stays on the index-only tiles */ });
+  }
+
   function fetchPlots() {
-    fetchMediaIndex().then(function () { return fetchJsonChain(PLOTS_URLS, 0); }).then(renderPlots).catch(function (err) {
+    fetchMediaIndex().then(function () { return fetchTrees(); }).then(function () { return fetchJsonChain(PLOTS_URLS, 0); }).then(renderPlots).catch(function (err) {
       setStatus('Could not load plots/index.geojson — ' + (err && err.message ? err.message : 'network error'), true);
       var sub = $('left-sub'); if (sub) sub.textContent = 'Failed to load';
       var list = $('plot-list');
@@ -586,10 +664,199 @@
     dl.appendChild(dt); dl.appendChild(dd);
   }
 
+  // Resolve a gallery image src ('../../assets/images/farms/FARM-IMG_x.jpg') to a public
+  // URL on agroverse.shop, and pair it with the plot index item it corresponds to
+  // (same basename) so we can caption it with captured_at.
+  function assetUrl(src) {
+    if (!src) return null;
+    var base = String(src).split('/').pop();
+    return ASSET_BASE + encodeURIComponent(base);
+  }
+  function basenameOf(ref) {
+    if (!ref) return null;
+    var b = String(ref).split('/').pop();
+    return b.replace(/\.[a-z0-9]+$/i, '');
+  }
+
+  // Attribution. Galleries are FARM-keyed, but the PR1 per-plot index is the source of
+  // truth for what belongs to THIS plot. So we publish a gallery image only when its
+  // basename matches one of this plot's own index image refs (exact attribution); a plot
+  // never inherits a sibling's photos. Index images with no published derivative are
+  // COUNTED and surfaced (plan s5), never silently dropped.
+  function ownImageBases(props) {
+    var set = {};
+    var arr = (mediaByPlot && mediaByPlot[props.plot_id]) || [];
+    arr.forEach(function (it) {
+      if (it.kind === 'image' && it.ref) {
+        var b = basenameOf(it.ref);
+        if (b) set[b] = true;
+      }
+    });
+    return set;
+  }
+
+  function galleryTiles(props) {
+    var plotItems = (mediaByPlot && mediaByPlot[props.plot_id]) || [];
+    var videos = plotItems.filter(function (it) { return it.kind === 'video' && it.url; });
+    var own = ownImageBases(props);
+
+    // 1) PUBLISHED images -- only gallery entries attributable to this plot.
+    var tiles = [];
+    var publishedBases = {};
+    var slug = gallerySlug(props.farm_id);
+    var prefix = slug ? slug + '-' : null;
+    var gal = galleryByFarm[props.farm_id];
+    if (gal) {
+      var items = [];
+      if (gal.hero) items.push(gal.hero);
+      (gal.gallery || []).forEach(function (x) { items.push(x); });
+      items.forEach(function (x) {
+        if (x.type !== 'image' || !x.src) return;
+        var base = basenameOf(x.src) || '';
+        var stripped = (prefix && base.indexOf(prefix) === 0) ? base.slice(prefix.length) : base;
+        if (!own[stripped]) return;            // not this plot's image -> don't show it
+        if (publishedBases[stripped]) return;  // dedupe (hero often repeats a gallery entry)
+        publishedBases[stripped] = true;
+        tiles.push({ kind: 'image', url: assetUrl(x.src), ref: stripped, captured_at: null });
+      });
+    }
+
+    // 2) videos from the index (exact per-plot attribution)
+    videos.forEach(function (it) {
+      tiles.push({ kind: 'video', url: it.url, thumb: it.thumbnail, ref: it.ref, captured_at: it.captured_at });
+    });
+
+    // 3) index images with no published derivative -> explicit "not published" count
+    var unpublished = 0;
+    Object.keys(own).forEach(function (b) { if (!publishedBases[b]) unpublished++; });
+
+    return { tiles: tiles, unpublished: unpublished, total: tiles.length + unpublished,
+             indexImages: Object.keys(own).length, indexVideos: videos.length };
+  }
+
+  var MAX_TILES = 12;
+  function renderGallery(props) {
+    var sec = document.createElement('div'); sec.className = 'dsec';
+    var h = document.createElement('h3'); h.textContent = 'Media'; sec.appendChild(h);
+
+    var g = galleryTiles(props);
+    if (!g.total) {
+      var e = document.createElement('div'); e.className = 'dempty';
+      // distinguish "we have no index at all" from "the plot genuinely has no media"
+      e.textContent = (mediaIndex && mediaIndex.failed)
+        ? 'Media index unavailable right now — gallery cannot be shown.'
+        : 'No media recorded for this plot yet.';
+      sec.appendChild(e);
+      return sec;
+    }
+
+    var grid = document.createElement('div'); grid.className = 'grid';
+    var shown = 0;
+    g.tiles.slice(0, MAX_TILES).forEach(function (t) {
+      var a = document.createElement('a');
+      a.className = 'tile'; a.target = '_blank'; a.rel = 'noopener';
+      a.href = t.url;
+      a.title = [t.ref, t.captured_at].filter(Boolean).join(' · ') || '';
+      if (t.kind === 'video') {
+        if (t.thumb) { var im = document.createElement('img'); im.loading = 'lazy'; im.alt = t.ref || 'video'; im.src = t.thumb; a.appendChild(im); }
+        var pl = document.createElement('div'); pl.className = 'play';
+        var sp = document.createElement('span'); sp.textContent = '▶'; pl.appendChild(sp); a.appendChild(pl);
+      } else {
+        var im2 = document.createElement('img'); im2.loading = 'lazy'; im2.alt = t.ref || 'photo'; im2.src = t.url;
+        im2.onerror = function () { // derivative missing -> swap tile to an explicit state, not a broken image
+          a.classList.add('unpub'); a.removeChild(im2);
+          var s2 = document.createElement('span'); s2.textContent = (t.ref || 'image') + ' — not published'; a.appendChild(s2);
+        };
+        a.appendChild(im2);
+      }
+      grid.appendChild(a); shown++;
+    });
+    // the unpublished remainder is a tile too ("not published" counts as a state)
+    for (var i = 0; i < Math.min(g.unpublished, MAX_TILES - shown); i++) {
+      var u = document.createElement('div'); u.className = 'tile unpub';
+      var us = document.createElement('span'); us.textContent = 'image not published'; u.appendChild(us);
+      grid.appendChild(u); shown++;
+    }
+    sec.appendChild(grid);
+
+    var more = document.createElement('div'); more.className = 'more';
+    var hidden = g.total - Math.min(g.total, MAX_TILES);
+    more.textContent = g.total + ' item' + (g.total === 1 ? '' : 's') +
+      (g.unpublished ? ' · ' + g.unpublished + ' image' + (g.unpublished === 1 ? '' : 's') + ' not published' : '') +
+      (hidden > 0 ? ' · +' + hidden + ' more' : '');
+    sec.appendChild(more);
+    return sec;
+  }
+
+  function renderTrees(props) {
+    var sec = document.createElement('div'); sec.className = 'dsec';
+    var h = document.createElement('h3'); h.textContent = 'Trees'; sec.appendChild(h);
+    var ts = treesByPlot[props.plot_id] || [];
+    if (!ts.length) {
+      var e = document.createElement('div'); e.className = 'dempty';
+      e.textContent = 'No linked trees in this plot.';
+      sec.appendChild(e);
+      return sec;
+    }
+    var ul = document.createElement('ul'); ul.className = 'treelist';
+    ts.forEach(function (t) {
+      var li = document.createElement('li');
+      var left = document.createElement('span');
+      if (t.qr_code) {
+        var a = document.createElement('a');
+        a.href = 'https://truesight.me/qr/?id=' + encodeURIComponent(t.qr_code);
+        a.target = '_blank'; a.rel = 'noopener';
+        a.textContent = t.tree_id || t.qr_code;
+        left.appendChild(a);
+      } else {
+        left.textContent = t.tree_id || 'tree';
+      }
+      li.appendChild(left);
+      var sp = document.createElement('span'); sp.className = 'sp';
+      sp.textContent = [t.species, t.status].filter(Boolean).join(' · ');
+      li.appendChild(sp);
+      ul.appendChild(li);
+    });
+    sec.appendChild(ul);
+    return sec;
+  }
+
+  function renderProvenance(props) {
+    var sec = document.createElement('div'); sec.className = 'dsec';
+    var h = document.createElement('h3'); h.textContent = 'Provenance'; sec.appendChild(h);
+    var box = document.createElement('div'); box.className = 'prov';
+    if (props.farm_id) {
+      var slug = FARM_SLUG[props.farm_id] || props.farm_id;
+      var a = document.createElement('a');
+      a.href = 'https://agroverse.shop/farms/' + encodeURIComponent(slug) + '/';
+      a.target = '_blank'; a.rel = 'noopener';
+      a.textContent = 'Farm profile on Agroverse ↗';
+      box.appendChild(a);
+    }
+    // QR profile: the first linked tree's credential (plot-level provenance).
+    var ts = treesByPlot[props.plot_id] || [];
+    var withQr = ts.filter(function (t) { return t.qr_code; });
+    if (withQr.length) {
+      var qa = document.createElement('a');
+      qa.href = 'https://truesight.me/qr/?id=' + encodeURIComponent(withQr[0].qr_code);
+      qa.target = '_blank'; qa.rel = 'noopener';
+      qa.textContent = 'QR credential (first linked tree) ↗';
+      box.appendChild(qa);
+    }
+    if (!box.children.length) {
+      var e = document.createElement('div'); e.className = 'dempty';
+      e.textContent = 'No provenance links for this plot.';
+      box.appendChild(e);
+    }
+    sec.appendChild(box);
+    return sec;
+  }
+
   function renderDetail(id, props) {
     var host = $('detail');
     if (!host) return;
     host.innerHTML = '';
+    if (!props.plot_id) props.plot_id = id;   // the tree/gallery join keys on plot_id
     var wrap = document.createElement('div');
     wrap.className = 'detail';
 
@@ -622,21 +889,16 @@
       wrap.appendChild(n);
     }
 
-    // Provenance out-link: Agroverse farm profile (same slug convention as sunmint.html).
-    if (props.farm_id) {
-      var a = document.createElement('a');
-      var slug = FARM_SLUG[props.farm_id] || props.farm_id;
-      a.href = 'https://agroverse.shop/farms/' + encodeURIComponent(slug) + '/';
-      a.target = '_blank';
-      a.rel = 'noopener';
-      a.textContent = 'View farm profile on Agroverse ↗';
-      var p = document.createElement('p');
-      p.style.marginTop = '12px';
-      p.appendChild(a);
-      wrap.appendChild(p);
-    }
+    // PR4 sections: media gallery, linked trees, provenance out-links.
+    wrap.appendChild(renderGallery(props));
+    wrap.appendChild(renderTrees(props));
+    wrap.appendChild(renderProvenance(props));
 
     host.appendChild(wrap);
+
+    // Farm galleries are fetched on demand -- the first time any plot in this farm is
+    // opened. Once it arrives, ensureGallery re-renders this panel so images appear.
+    if (props.farm_id) ensureGallery(props.farm_id);
   }
 
   if (document.readyState === 'loading') {
