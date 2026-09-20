@@ -38,6 +38,13 @@
   .plot-item .meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
   .chip { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: .4px; text-transform: uppercase; padding: 1px 6px; border-radius: 10px; color: #fff; vertical-align: middle; }
   .chip.proposed { background: #e65100; } .chip.planted { background: #2e7d32; } .chip.verified { background: #1565c0; } .chip.none { background: #9e9e9e; }
+  /* PR5: share affordance + deep-link tree highlight */
+  .sharelink { margin: 2px 0 10px; font-size: 12px; padding: 4px 12px; border: 1px solid var(--line); background: #fff; border-radius: 14px; cursor: pointer; color: var(--muted); }
+  .sharelink:hover { background: #f6f1e9; }
+  .sharelink.ok { color: var(--accent); border-color: var(--accent); font-weight: 600; }
+  .treelist li.hl { background: #fff3d6; box-shadow: inset 3px 0 0 var(--accent); border-radius: 3px; }
+  .tlink { margin-left: 6px; border: none; background: none; cursor: pointer; font-size: 12px; opacity: .45; padding: 0 2px; line-height: 1; }
+  .tlink:hover { opacity: 1; }
 
   .detail { padding: 14px 16px; }
   .detail h2 { font-size: 15px; margin: 0 0 2px; }
@@ -268,12 +275,16 @@
   var mediaIndex = null;  // {has: Set(plot_id), generated_at, unattributed} | null until loaded
   var mediaByPlot = null;  // {plot_id: [item, ...]} from the PR1 index (gallery source of truth)
   var treesByPlot = {};    // {plot_id: [{tree_id,species,status,qr_code,photo_url}]} -- trees/index.geojson join
+  var treeIndex = {};      // {'t:'+tree_id|'q:'+qr_code -> plot_id} -- reverse index for ?tree=/?qr= deep-links
   var galleryByFarm = {};  // {farm_id: {hero:[tile], gallery:[tile]}} from farm_media_manifests/galleries/*.json
   var galleryTried = {};   // farm_id -> true once we've attempted the fetch (avoid repeated 404s)
   // Faceted filters. Each facet key holds an active value (or null = All). `only` holds the
   // data-quality restrictors (§5: unclassified / no media / no farm).
   var filters = { farm_id: null, plot_type: null, status: null, boundary_authority: null };
   var only = { 'no-media': false, 'no-farm': false, 'unclassified': false };
+  // PR5 deep-link state. `deep` holds a tree/qr focus carried by the URL; it is cleared on a
+  // manual plot selection so a stale ?tree= never lingers on an unrelated plot.
+  var deep = { tree: null, qr: null };
 
   function $(id) { return document.getElementById(id); }
 
@@ -345,6 +356,8 @@
         (treesByPlot[p.plot_id] = treesByPlot[p.plot_id] || []).push({
           tree_id: p.tree_id, species: p.species, status: p.status, qr_code: p.qr_code
         });
+        if (p.tree_id) treeIndex['t:' + p.tree_id] = p.plot_id;
+        if (p.qr_code) treeIndex['q:' + p.qr_code] = p.plot_id;
       });
     }).catch(function () { treesByPlot = {}; });
   }
@@ -419,6 +432,7 @@
     renderSkipped();
     setStatus('');
     if (bounds.length) map.fitBounds(bounds, { padding: [30, 30] });
+    restoreFromUrl();   // PR5: honour ?plot=/ ?farm=/ ?tree=/ ?qr= after the layers exist
   }
 
   function facetOptions(key, label, order) {
@@ -495,7 +509,7 @@
       sel.appendChild(uo);
     }
     sel.value = filters.farm_id == null ? '' : filters.farm_id;
-    sel.addEventListener('change', function () { filters.farm_id = sel.value === '' ? null : sel.value; applyFilters(); });
+    sel.addEventListener('change', function () { filters.farm_id = sel.value === '' ? null : sel.value; applyFilters(); syncUrl(); });
     fwrap.appendChild(sel);
     host.appendChild(fwrap);
 
@@ -637,6 +651,7 @@
 
   function select(id, zoom) {
     var entry = layers[id];
+    deep.tree = null; deep.qr = null;   // a fresh selection drops any carried tree/qr deep-link
     if (!entry) return;
     if (selectedId && layers[selectedId]) {
       var prev = layers[selectedId];
@@ -652,9 +667,73 @@
     selectedId = id;
     highlightList(id);
     renderDetail(id, entry.props);
+    syncUrl();
     if (zoom) {
       try { map.fitBounds(entry.layer.getBounds(), { padding: [40, 40], maxZoom: 17 }); } catch (e) { /* keep current view */ }
     }
+  }
+
+  // ---- PR5: deep-links -----------------------------------------------------
+  // Same convention as the in-page impact map (impactMapGet/SetUrlParam): a fixed
+  // allow-list of params, replaceState (never a history entry), and a try/catch so an
+  // unavailable URL API can never block the UI. Extended to write several params at once
+  // (plot + farm can coexist, unlike the map's mutually-exclusive view/plot/tree/qr).
+  var URL_PARAMS = ['plot', 'farm', 'tree', 'qr'];
+  function explorerGetUrlParam(name) {
+    try { return new URLSearchParams(window.location.search).get(name); } catch (e) { return null; }
+  }
+  function explorerSetUrlParams(obj) {
+    try {
+      var url = new URL(window.location.href);
+      URL_PARAMS.forEach(function (p) { url.searchParams.delete(p); });
+      Object.keys(obj || {}).forEach(function (k) { if (obj[k]) url.searchParams.set(k, obj[k]); });
+      window.history.replaceState(null, '', url.toString());
+    } catch (e) { /* URL API unavailable -- never block the UI */ }
+  }
+  function syncUrl() {
+    explorerSetUrlParams({ plot: selectedId, farm: filters.farm_id, tree: deep.tree, qr: deep.qr });
+  }
+  function copyLink(btn) {
+    var url = window.location.href;
+    var label = btn.textContent;
+    function ok() {
+      btn.textContent = 'Link copied'; btn.classList.add('ok');
+      setTimeout(function () { btn.textContent = label; btn.classList.remove('ok'); }, 1500);
+    }
+    function fb() {
+      try {
+        var ta = document.createElement('textarea'); ta.value = url; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
+        document.execCommand('copy'); document.body.removeChild(ta); ok();
+      } catch (e) { /* clipboard blocked -- leave the label */ }
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(ok, fb);
+    else fb();
+  }
+  // Restore a deep-link on load: apply ?farm= as a filter, resolve ?tree=/?qr= (or ?plot=) to a
+  // plot, select it, and focus a tree. Runs once, after the plot layers exist.
+  function restoreFromUrl() {
+    var farm = explorerGetUrlParam('farm');
+    if (farm) { filters.farm_id = farm; applyFilters(); }
+    var pid = explorerGetUrlParam('plot');
+    var tid = explorerGetUrlParam('tree');
+    var qr = explorerGetUrlParam('qr');
+    if (!pid && (tid || qr)) pid = treeIndex[(tid ? 't:' + tid : 'q:' + qr)] || null;
+    if (pid && layers[pid]) {
+      // If an active filter would hide the deep-linked plot, clear filters so it is visible.
+      if (!isVisible(layers[pid].props)) {
+        filters = { farm_id: null, plot_type: null, status: null, boundary_authority: null };
+        only = { 'no-media': false, 'no-farm': false, 'unclassified': false };
+        applyFilters();
+      }
+      select(pid, false);
+      try { map.fitBounds(layers[pid].layer.getBounds(), { padding: [40, 40], maxZoom: 17 }); } catch (e) { /* keep view */ }
+    }
+    if (tid || qr) {
+      deep.tree = tid; deep.qr = qr;               // set AFTER select() so select's clear doesn't wipe it
+      if (pid && layers[pid]) renderDetail(pid, layers[pid].props);
+    }
+    syncUrl();
   }
 
   function row(dl, label, value) {
@@ -801,6 +880,9 @@
     var ul = document.createElement('ul'); ul.className = 'treelist';
     ts.forEach(function (t) {
       var li = document.createElement('li');
+      if (t.tree_id) li.dataset.treeId = t.tree_id;
+      if (t.qr_code) li.dataset.qr = t.qr_code;
+      if ((deep.tree && deep.tree === t.tree_id) || (deep.qr && deep.qr === t.qr_code)) li.className = 'hl';
       var left = document.createElement('span');
       if (t.qr_code) {
         var a = document.createElement('a');
@@ -815,6 +897,16 @@
       var sp = document.createElement('span'); sp.className = 'sp';
       sp.textContent = [t.species, t.status].filter(Boolean).join(' · ');
       li.appendChild(sp);
+      var lnk = document.createElement('button');
+      lnk.type = 'button'; lnk.className = 'tlink'; lnk.title = 'Copy a shareable link to this tree';
+      lnk.textContent = '\ud83d\udd17';
+      lnk.addEventListener('click', function (e) {
+        e.stopPropagation();
+        explorerSetUrlParams({ plot: props.plot_id, farm: props.farm_id,
+          qr: t.qr_code || null, tree: t.qr_code ? null : (t.tree_id || null) });
+        copyLink(lnk);
+      });
+      li.appendChild(lnk);
       ul.appendChild(li);
     });
     sec.appendChild(ul);
@@ -868,6 +960,12 @@
     pid.className = 'pid';
     pid.textContent = id + (props.farm_id ? ' · ' + props.farm_id : '');
     wrap.appendChild(pid);
+
+    var share = document.createElement('button');
+    share.type = 'button'; share.className = 'sharelink'; share.textContent = 'Copy link';
+    share.title = 'Copy a shareable link to this plot';
+    share.addEventListener('click', function () { copyLink(share); });
+    wrap.appendChild(share);
 
     var dl = document.createElement('dl');
     var st = String(props.status || '').toLowerCase();
