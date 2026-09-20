@@ -100,6 +100,20 @@
   .prov { margin-top: 12px; display: flex; flex-direction: column; gap: 5px; }
   .prov a { font-size: 12.5px; }
 
+  /* PR8b: per-plot satellite history stepper */
+  .satwrap { margin-top: 6px; }
+  .satframe { position: relative; aspect-ratio: 1/1; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: #f3efe8; }
+  .satframe img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .satframe .satbadge { position: absolute; inset: auto 0 0 0; background: rgba(20,16,12,.72); color: #fff; font-size: 10.5px; padding: 3px 6px; display: flex; justify-content: space-between; gap: 6px; }
+  .satframe.satmissing { display: flex; align-items: center; justify-content: center; }
+  .satframe .satmsgtxt { font-size: 11.5px; color: #8a7f72; }
+  .satctl { display: flex; align-items: center; gap: 6px; margin-top: 6px; }
+  .satctl button { border: 1px solid var(--line); background: #fff; border-radius: 6px; padding: 2px 8px; font-size: 12px; cursor: pointer; color: #4a443d; }
+  .satctl button:disabled { opacity: .4; cursor: default; }
+  .satctl input[type=range] { flex: 1; min-width: 0; }
+  .satctl .satdate { font-size: 11.5px; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .satmeta { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
   #status { position: absolute; left: 12px; top: 12px; z-index: 500; background: rgba(255,255,255,.94); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; font-size: 12px; color: var(--muted); box-shadow: 0 1px 4px rgba(0,0,0,.08); }
   #status.err { color: #b00020; border-color: #f2c3c8; background: #fff5f6; }
 
@@ -177,6 +191,16 @@
   ];
   var GALLERY_BASE = 'https://raw.githubusercontent.com/TrueSightDAO/farm_media_manifests/main/galleries/';
   var ASSET_BASE = 'https://agroverse.shop/assets/images/farms/';
+  // PR8b: per-plot Sentinel-2 history (sunmint/satellite/manifest.json). The 'plots' key is
+  // plot-keyed (each plot carries its own bbox + scenes[date, cloud_cover, asset_url, file]).
+  // We prefer the COMMITTED copy in our own repo (raw.githubusercontent.com, permissive CORS)
+  // over the external sentinel-cogs asset_url -- an external bucket isn't ours long-term, and
+  // durable evidence must live in our own repo (plan SS7b, 2026-09-20).
+  var SATELLITE_URLS = [
+    'https://raw.githubusercontent.com/TrueSightDAO/sunmint/main/satellite/manifest.json?cb=' + Date.now(),
+    'https://cdn.jsdelivr.net/gh/TrueSightDAO/sunmint@main/satellite/manifest.json'
+  ];
+  var SAT_LOCAL_BASE = 'https://raw.githubusercontent.com/TrueSightDAO/sunmint/main/satellite/';
   var SATELLITE_BASEMAP = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
   var CARTO_LIGHT = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
   var PILOT_CENTER = [-3.2940, -52.5780];
@@ -279,6 +303,7 @@
   var treeIndex = {};      // {'t:'+tree_id|'q:'+qr_code -> plot_id} -- reverse index for ?tree=/?qr= deep-links
   var galleryByFarm = {};  // {farm_id: {hero:[tile], gallery:[tile]}} from farm_media_manifests/galleries/*.json
   var galleryTried = {};   // farm_id -> true once we've attempted the fetch (avoid repeated 404s)
+  var satelliteByPlot = null;  // plot_id -> [scene,...] from satellite/manifest.json 'plots' key | null until loaded
   // Faceted filters. Each facet key holds an active value (or null = All). `only` holds the
   // data-quality restrictors (§5: unclassified / no media / no farm).
   var filters = { farm_id: null, plot_type: null, status: null, boundary_authority: null };
@@ -348,6 +373,21 @@
     }).catch(function () { mediaIndex = { has: null, generated_at: null, failed: true }; });
   }
 
+  function fetchSatellite() {
+    // Non-fatal: satellite history is an enhancement; a failure must not break the explorer.
+    return fetchJsonChain(SATELLITE_URLS, 0).then(function (j) {
+      var plots = (j && j.plots) || {};
+      satelliteByPlot = {};
+      Object.keys(plots).forEach(function (id) {
+        var v = plots[id] || {};
+        var scenes = (v.scenes || []).slice();
+        if (scenes.length) satelliteByPlot[id] = scenes;
+      });
+      // If a plot is already open, re-render so the stepper appears (same pattern as ensureGallery).
+      if (selectedId && layers[selectedId]) renderDetail(selectedId, layers[selectedId].props);
+    }).catch(function () { satelliteByPlot = {}; });
+  }
+
   function fetchTrees() {
     // Non-fatal: the tree list is a bonus section; a failure must not break the explorer.
     return fetchJsonChain(TREES_URLS, 0).then(function (gj) {
@@ -389,7 +429,7 @@
   }
 
   function fetchPlots() {
-    fetchMediaIndex().then(function () { return fetchTrees(); }).then(function () { return fetchJsonChain(PLOTS_URLS, 0); }).then(renderPlots).catch(function (err) {
+    fetchMediaIndex().then(function () { return fetchTrees(); }).then(function () { return fetchSatellite(); }).then(function () { return fetchJsonChain(PLOTS_URLS, 0); }).then(renderPlots).catch(function (err) {
       setStatus('Could not load plots/index.geojson — ' + (err && err.message ? err.message : 'network error'), true);
       var sub = $('left-sub'); if (sub) sub.textContent = 'Failed to load';
       var list = $('plot-list');
@@ -945,6 +985,97 @@
     return sec;
   }
 
+  function satelliteScenes(props) {
+    var id = props && (props.plot_id || props.id);
+    if (!id || !satelliteByPlot) return null;
+    var scenes = satelliteByPlot[id];
+    if (!scenes || !scenes.length) return null;
+    return scenes.slice().sort(function (a, b) { return a.date < b.date ? -1 : (a.date > b.date ? 1 : 0); });
+  }
+
+  function satImgUrl(id, sc) {
+    // Prefer the committed local copy; fall back to the external asset_url only if we have no file.
+    if (sc && sc.file) return SAT_LOCAL_BASE + 'plot_' + encodeURIComponent(id) + '/' + encodeURIComponent(sc.file);
+    return (sc && sc.asset_url) || '';
+  }
+
+  // PR8b: a genuine change-over-time control -- prev/next + a slider that SWAPS the displayed
+  // image, with the date and cloud cover shown. Scoped to the single selected plot's own bbox
+  // (the manifest 'plots' key), NOT the marketing page's ~1-degree cell approximation.
+  function renderSatellite(props) {
+    var id = props && (props.plot_id || props.id);
+    var sec = document.createElement('div'); sec.className = 'dsec';
+    var h = document.createElement('h3'); h.textContent = 'Satellite history'; sec.appendChild(h);
+
+    if (!satelliteByPlot) {
+      var e = document.createElement('div'); e.className = 'dempty';
+      e.textContent = 'Satellite history loading\u2026';
+      sec.appendChild(e); return sec;
+    }
+    var scenes = satelliteScenes(props);
+    if (!scenes || !scenes.length) {
+      var e2 = document.createElement('div'); e2.className = 'dempty';
+      e2.textContent = 'No satellite scenes recorded for this plot yet.';
+      sec.appendChild(e2); return sec;
+    }
+
+    var idx = scenes.length - 1;   // start on the most recent scene
+    var wrap = document.createElement('div'); wrap.className = 'satwrap';
+    var frame = document.createElement('div'); frame.className = 'satframe';
+    var img = document.createElement('img'); img.loading = 'lazy';
+    img.alt = (props.name || id) + ' satellite scene';
+    var badge = document.createElement('div'); badge.className = 'satbadge';
+    var bdate = document.createElement('span'); var bcloud = document.createElement('span');
+    badge.appendChild(bdate); badge.appendChild(bcloud);
+    frame.appendChild(img); frame.appendChild(badge);
+    wrap.appendChild(frame);
+
+    var ctl = document.createElement('div'); ctl.className = 'satctl';
+    var prev = document.createElement('button'); prev.type = 'button'; prev.textContent = '\u25c0'; prev.title = 'Earlier scene';
+    var next = document.createElement('button'); next.type = 'button'; next.textContent = '\u25b6'; next.title = 'Later scene';
+    var range = document.createElement('input'); range.type = 'range';
+    range.min = '0'; range.max = String(scenes.length - 1); range.step = '1';
+    range.setAttribute('aria-label', 'Satellite scene date');
+    var dateEl = document.createElement('span'); dateEl.className = 'satdate';
+    ctl.appendChild(prev); ctl.appendChild(range); ctl.appendChild(next); ctl.appendChild(dateEl);
+    wrap.appendChild(ctl);
+
+    var meta = document.createElement('div'); meta.className = 'satmeta';
+    meta.textContent = scenes.length + ' scene' + (scenes.length === 1 ? '' : 's') +
+      ' \u00b7 ' + String(scenes[0].date || '').slice(0, 10) + ' \u2192 ' + String(scenes[scenes.length - 1].date || '').slice(0, 10);
+    wrap.appendChild(meta);
+
+    function show(i) {
+      idx = Math.max(0, Math.min(scenes.length - 1, i));
+      var sc = scenes[idx];
+      img.onerror = function () {
+        // committed copy missing -> try the external asset_url, else an explicit state (not a broken img)
+        var alt = (sc && sc.asset_url) || '';
+        if (alt && img.src !== alt) { img.src = alt; return; }
+        img.onerror = null; img.removeAttribute('src');
+        badge.style.display = 'none'; frame.classList.add('satmissing');
+        if (!frame.querySelector('.satmsgtxt')) {
+          var m = document.createElement('div'); m.className = 'satmsgtxt';
+          m.textContent = 'Scene image unavailable'; frame.appendChild(m);
+        }
+      };
+      img.src = satImgUrl(id, sc);
+      bdate.textContent = String(sc.date || '').slice(0, 10);
+      bcloud.textContent = (sc.cloud_cover != null ? ('cloud ' + Number(sc.cloud_cover).toFixed(1) + '%') : '');
+      dateEl.textContent = String(sc.date || '').slice(0, 10);
+      range.value = String(idx);
+      prev.disabled = idx <= 0;
+      next.disabled = idx >= scenes.length - 1;
+    }
+    prev.addEventListener('click', function () { show(idx - 1); });
+    next.addEventListener('click', function () { show(idx + 1); });
+    range.addEventListener('input', function () { show(parseInt(range.value, 10) || 0); });
+    show(idx);
+
+    sec.appendChild(wrap);
+    return sec;
+  }
+
   function renderDetail(id, props) {
     var host = $('detail');
     if (!host) return;
@@ -990,6 +1121,7 @@
 
     // PR4 sections: media gallery, linked trees, provenance out-links.
     wrap.appendChild(renderGallery(props));
+    wrap.appendChild(renderSatellite(props));
     wrap.appendChild(renderTrees(props));
     wrap.appendChild(renderProvenance(props));
 
