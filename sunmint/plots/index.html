@@ -140,16 +140,16 @@
     <div class="rail-body" id="detail">
       <div class="empty">Pick a plot from the list or click a boundary on the map.</div>
     </div>
-    <div class="hint">Beta surface · plots only. Filters, media gallery, tree list and deep-links arrive in later units.</div>
+    <div class="hint">Beta surface · SunMint plots, per-plot media and provenance.</div>
   </aside>
 </div>
 
 <script>
-/* SunMint Plot Explorer — shell (PR2).
+/* SunMint Plot Explorer.
  * Renders plots/index.geojson on a full-viewport map with a left plot rail and a
  * right detail panel. Data stays machine-generated (never hand-edited).
- * Scope of THIS unit: shell only — plots only. Filters = PR3, gallery/trees/provenance
- * links = PR4, deep-links (?plot=/?farm=/?tree=/?qr=) = PR5.
+ * Features: filters (PR3), media gallery / tree list / provenance out-links (PR4),
+ * deep-links (?plot=/?farm=/?tree=/?qr=) (PR5).
  * Conventions (basemap, CDN fallback, plot styling) mirror truesight_me_beta/sunmint.html.
  */
 (function () {
