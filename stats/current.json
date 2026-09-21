@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-09-21T13:14:48Z",
+  "generated_at_utc": "2026-09-21T22:08:36Z",
   "regenerated_by": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/.github/workflows/stats-refresh.yml",
   "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
   "llms_orientation": "https://truesight.me/llms.txt",
@@ -8,31 +8,23 @@
     "mission": "Restore 10,000 hectares of Amazon rainforest."
   },
   "members": {
-    "generated_at": "2026-09-21T09:27:15Z",
-    "total_contributors": 495,
-    "total_tdg_controlled_sum": 2419605.29,
+    "generated_at": "2026-09-21T21:26:08Z",
+    "total_contributors": 497,
+    "total_tdg_controlled_sum": 2483424.29,
     "governors_count": 10,
     "governors": [
       {
         "display_name": "Gary Teh",
         "slug": "gary-teh",
-        "voting_power_pct": 42.12,
-        "tdg_controlled": 1022292.0,
+        "voting_power_pct": 42.08,
+        "tdg_controlled": 1063350.0,
         "contribution_count": 3625,
         "profile_url": "https://truesight.me/credentials/#gary-teh"
       },
       {
-        "display_name": "Fatima Toledo",
-        "slug": "fatima-toledo",
-        "voting_power_pct": 2.73,
-        "tdg_controlled": 66186.0,
-        "contribution_count": 247,
-        "profile_url": "https://truesight.me/credentials/#fatima-toledo"
-      },
-      {
         "display_name": "Jacob Nelan",
         "slug": "jacob-nelan",
-        "voting_power_pct": 2.64,
+        "voting_power_pct": 2.54,
         "tdg_controlled": 64175.0,
         "contribution_count": 62,
         "profile_url": "https://truesight.me/credentials/#jacob-nelan"
@@ -40,64 +32,72 @@
       {
         "display_name": "Kirsten Ritschel",
         "slug": "kirsten-ritschel",
-        "voting_power_pct": 0.88,
-        "tdg_controlled": 21317.0,
+        "voting_power_pct": 1.01,
+        "tdg_controlled": 25631.0,
         "contribution_count": 110,
         "profile_url": "https://truesight.me/credentials/#kirsten-ritschel"
       },
       {
-        "display_name": "Aga Marecka",
-        "slug": "aga-marecka",
-        "voting_power_pct": 0.57,
-        "tdg_controlled": 13731.0,
-        "contribution_count": 60,
-        "profile_url": "https://truesight.me/credentials/#aga-marecka"
+        "display_name": "Ken Nim",
+        "slug": "ken-nim",
+        "voting_power_pct": 0.41,
+        "tdg_controlled": 10279.0,
+        "contribution_count": 47,
+        "profile_url": "https://truesight.me/credentials/#ken-nim"
       },
       {
         "display_name": "Elizabeth Wong",
         "slug": null,
-        "voting_power_pct": 0.12,
-        "tdg_controlled": 2936.0,
+        "voting_power_pct": 0.3,
+        "tdg_controlled": 7504.0,
         "contribution_count": 0,
         "profile_url": "https://truesight.me/credentials/#None"
       },
       {
         "display_name": "AGL15",
         "slug": "agl15",
-        "voting_power_pct": 0.1,
-        "tdg_controlled": 2471.0,
+        "voting_power_pct": 0.14,
+        "tdg_controlled": 3482.0,
         "contribution_count": 14,
         "profile_url": "https://truesight.me/credentials/#agl15"
       },
       {
-        "display_name": "Nima Kaz",
-        "slug": "nima-kaz",
-        "voting_power_pct": 0.07,
-        "tdg_controlled": 1705.0,
-        "contribution_count": 18,
-        "profile_url": "https://truesight.me/credentials/#nima-kaz"
+        "display_name": "June Jo",
+        "slug": "june-jo",
+        "voting_power_pct": 0.12,
+        "tdg_controlled": 3100.0,
+        "contribution_count": 11,
+        "profile_url": "https://truesight.me/credentials/#june-jo"
       },
       {
-        "display_name": "Andrea Catalina Falcon Rios De Pabst",
-        "slug": "andrea-catalina-falcon-rios-de-pabst",
-        "voting_power_pct": 0.06,
-        "tdg_controlled": 1558.0,
-        "contribution_count": 17,
-        "profile_url": "https://truesight.me/credentials/#andrea-catalina-falcon-rios-de-pabst"
+        "display_name": "Milena - green gulch",
+        "slug": null,
+        "voting_power_pct": 0.12,
+        "tdg_controlled": 3000.0,
+        "contribution_count": 0,
+        "profile_url": "https://truesight.me/credentials/#None"
       },
       {
-        "display_name": "HackerDojo",
-        "slug": "hackerdojo",
-        "voting_power_pct": 0.06,
-        "tdg_controlled": 1436.0,
-        "contribution_count": 3,
-        "profile_url": "https://truesight.me/credentials/#hackerdojo"
+        "display_name": "Paloma",
+        "slug": "paloma",
+        "voting_power_pct": 0.09,
+        "tdg_controlled": 2322.0,
+        "contribution_count": 19,
+        "profile_url": "https://truesight.me/credentials/#paloma"
+      },
+      {
+        "display_name": "Philip Lee - husband of june",
+        "slug": null,
+        "voting_power_pct": 0.03,
+        "tdg_controlled": 800.0,
+        "contribution_count": 0,
+        "profile_url": "https://truesight.me/credentials/#None"
       }
     ],
     "directory_url": "https://truesight.me/members.html"
   },
   "treasury": {
-    "generated_at": "2026-09-21T12:48:49.517Z",
+    "generated_at": "2026-09-21T21:48:44.068Z",
     "schema_version": 5,
     "trigger": "cron",
     "currency_totals": {
@@ -932,7 +932,7 @@
     }
   },
   "sunmint": {
-    "generated_at_utc": "2026-09-21T13:14:48Z",
+    "generated_at_utc": "2026-09-21T22:08:36Z",
     "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
     "schema": "sunmint_index/1",
     "north_star": {
