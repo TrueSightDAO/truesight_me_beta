@@ -771,6 +771,34 @@
   }
   // Restore a deep-link on load: apply ?farm= as a filter, resolve ?tree=/?qr= (or ?plot=) to a
   // plot, select it, and focus a tree. Runs once, after the plot layers exist.
+  // PR11c: on a narrow/mobile viewport the detail rail (order 3) sits BELOW the whole
+  // plot list, so a ?plot= deep link that selects a plot can land the user above a very
+  // long scroll with no visible feedback. Scroll the detail rail into view once the
+  // selection has rendered. Desktop keeps its side-by-side layout and is left untouched.
+  function isNarrowViewport() {
+    try { return window.matchMedia('(max-width: 820px)').matches; }
+    catch (e) { return window.innerWidth <= 820; }
+  }
+  function scrollDetailIntoView() {
+    if (!isNarrowViewport()) return;
+    var rail = document.getElementById('rail-right');
+    if (!rail) return;
+    function go() {
+      try { rail.scrollIntoView({ block: 'start' }); }
+      catch (e) { try { rail.scrollIntoView(); } catch (e2) { /* never block the UI */ } }
+    }
+    // The detail panel fills in asynchronously (media gallery, satellite scenes), so a
+    // single scroll can be undone by the reflow that follows. Re-assert a few times while
+    // the panel settles, stopping as soon as it is actually in view.
+    function inView() {
+      var r = rail.getBoundingClientRect();
+      return r.top < window.innerHeight && r.bottom > 0;
+    }
+    go();
+    if (window.requestAnimationFrame) requestAnimationFrame(function () { requestAnimationFrame(function () { if (!inView()) go(); }); });
+    [350, 900, 1800].forEach(function (ms) { setTimeout(function () { if (!inView()) go(); }, ms); });
+  }
+
   function restoreFromUrl() {
     var farm = explorerGetUrlParam('farm');
     if (farm) { filters.farm_id = farm; applyFilters(); }
@@ -793,6 +821,17 @@
       if (pid && layers[pid]) renderDetail(pid, layers[pid].props);
     }
     syncUrl();
+    // PR11c: after a ?plot= (or ?tree=/?qr=) deep link resolves on mobile, bring the
+    // detail panel into view so the user lands on the satellite slider, not the top of
+    // the plot list. Double-rAF so the panel has laid out before we measure/scroll.
+    if (pid && layers[pid]) {
+      var _scrollOnce = function () { scrollDetailIntoView(); };
+      if (window.requestAnimationFrame) {
+        requestAnimationFrame(function () { requestAnimationFrame(_scrollOnce); });
+      } else {
+        setTimeout(_scrollOnce, 60);
+      }
+    }
   }
 
   function row(dl, label, value) {
