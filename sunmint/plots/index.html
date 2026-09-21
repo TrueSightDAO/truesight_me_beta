@@ -1027,6 +1027,18 @@
     try { return L.latLngBounds(cb); } catch (e) { return null; }
   }
 
+  // PR11b: which scene should the panel/slider open on? The newest scene whose
+  // imagery can actually be placed on the map (a real 10m clip with a file), so a
+  // plot whose most-recent frame is still a legacy whole-tile preview doesn't look
+  // broken on load. Falls back to the newest scene overall when none are clipped.
+  function defaultSceneIdx(scenes) {
+    for (var i = scenes.length - 1; i >= 0; i--) {
+      var s = scenes[i];
+      if (s && s.clip && s.file) return i;
+    }
+    return Math.max(0, scenes.length - 1);
+  }
+
   function clearSatOverlay() {
     if (satOverlay) { try { map.removeLayer(satOverlay); } catch (e) { /* keep */ } }
     satOverlay = null; satOverlayPlot = null;
@@ -1070,7 +1082,8 @@
       sec.appendChild(e2); return sec;
     }
 
-    var idx = scenes.length - 1;   // start on the most recent scene
+    // PR11b: open on the newest scene we can actually draw on the map (Envoy, PL-002).
+    var idx = defaultSceneIdx(scenes);
     var wrap = document.createElement('div'); wrap.className = 'satwrap';
     var frame = document.createElement('div'); frame.className = 'satframe';
     var img = document.createElement('img'); img.loading = 'lazy';
