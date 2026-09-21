@@ -113,6 +113,7 @@
   .satctl input[type=range] { flex: 1; min-width: 0; }
   .satctl .satdate { font-size: 11.5px; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
   .satmeta { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  .sathint { font-size: 11px; color: #8a7f72; margin-top: 4px; }
 
   #status { position: absolute; left: 12px; top: 12px; z-index: 500; background: rgba(255,255,255,.94); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; font-size: 12px; color: var(--muted); box-shadow: 0 1px 4px rgba(0,0,0,.08); }
   #status.err { color: #b00020; border-color: #f2c3c8; background: #fff5f6; }
@@ -304,6 +305,9 @@
   var galleryByFarm = {};  // {farm_id: {hero:[tile], gallery:[tile]}} from farm_media_manifests/galleries/*.json
   var galleryTried = {};   // farm_id -> true once we've attempted the fetch (avoid repeated 404s)
   var satelliteByPlot = null;  // plot_id -> [scene,...] from satellite/manifest.json 'plots' key | null until loaded
+  var satelliteClip = null;    // plot_id -> clip_bounds ([[s,w],[n,e]]) shared per-plot view (PR10/PR11)
+  var satOverlay = null;       // L.ImageOverlay currently shown on the map (PR11) | null
+  var satOverlayPlot = null;   // plot_id the on-map overlay belongs to (PR11)
   // Faceted filters. Each facet key holds an active value (or null = All). `only` holds the
   // data-quality restrictors (§5: unclassified / no media / no farm).
   var filters = { farm_id: null, plot_type: null, status: null, boundary_authority: null };
@@ -331,6 +335,12 @@
 
   function init() {
     map = L.map('map', { maxZoom: 19 }).setView(PILOT_CENTER, 11);
+    // PR11: a dedicated pane for the per-plot Sentinel-2 clip overlay. zIndex 350
+    // sits ABOVE the basemap (tilePane 200) but BELOW plot outlines (overlayPane
+    // 400) and tree markers (markerPane 600) -- so the terrain changes UNDERNEATH
+    // the plot + tree vectors, which is the governor's approved UX.
+    map.createPane('satclipPane');
+    map.getPane('satclipPane').style.zIndex = 350;
     var sat = L.tileLayer(SATELLITE_BASEMAP, {
       attribution: '&copy; Esri, Maxar, Earthstar Geographics',
       maxNativeZoom: 17, maxZoom: 19
@@ -378,10 +388,17 @@
     return fetchJsonChain(SATELLITE_URLS, 0).then(function (j) {
       var plots = (j && j.plots) || {};
       satelliteByPlot = {};
+      satelliteClip = {};
       Object.keys(plots).forEach(function (id) {
         var v = plots[id] || {};
         var scenes = (v.scenes || []).slice();
         if (scenes.length) satelliteByPlot[id] = scenes;
+        // PR11: the per-plot clip_bounds is what lets the SAME imagery be placed
+        // geographically on the map. It is a shared per-plot view (one rect for
+        // every scene of the plot), so dragging the slider changes the IMAGE only
+        // -- the overlay never drifts.
+        var cb = v.clip_bounds;
+        if (cb && cb.length >= 2) satelliteClip[id] = cb;
       });
       // If a plot is already open, re-render so the stepper appears (same pattern as ensureGallery).
       if (selectedId && layers[selectedId]) renderDetail(selectedId, layers[selectedId].props);
@@ -605,6 +622,7 @@
     });
     // if the selected plot just got filtered out, clear the detail panel
     if (selectedId && layers[selectedId] && !isVisible(layers[selectedId].props)) {
+      clearSatOverlay();   // PR11: don't leave a hidden plot's terrain on the map
       selectedId = null;
       var d = $('detail');
       if (d) d.innerHTML = '<div class="empty">Pick a plot from the list or click a boundary on the map.</div>';
@@ -999,6 +1017,39 @@
     return (sc && sc.asset_url) || '';
   }
 
+  // PR11: place the per-plot Sentinel-2 history ON the map, under the plot/tree
+  // layers, and let the existing slider drive it. Only real 10m clips (sc.clip)
+  // with a known clip_bounds are placed -- a legacy whole-tile preview has no
+  // per-plot extent, so we never guess a location for it.
+  function plotClipBounds(id) {
+    var cb = satelliteClip && satelliteClip[id];
+    if (!cb || cb.length < 2) return null;
+    try { return L.latLngBounds(cb); } catch (e) { return null; }
+  }
+
+  function clearSatOverlay() {
+    if (satOverlay) { try { map.removeLayer(satOverlay); } catch (e) { /* keep */ } }
+    satOverlay = null; satOverlayPlot = null;
+  }
+
+  function setSatOverlay(id, sc) {
+    var bounds = plotClipBounds(id);
+    var placeable = !!(bounds && sc && sc.clip && sc.file);
+    if (!placeable) { clearSatOverlay(); return false; }
+    var url = satImgUrl(id, sc);
+    if (satOverlay && satOverlayPlot === id) {
+      satOverlay.setUrl(url);   // same plot, new date: swap the image in place
+    } else {
+      clearSatOverlay();
+      satOverlay = L.imageOverlay(url, bounds, {
+        pane: 'satclipPane', opacity: 0.95, interactive: false, attribution: 'Sentinel-2'
+      });
+      satOverlay.addTo(map);
+      satOverlayPlot = id;
+    }
+    return true;
+  }
+
   // PR8b: a genuine change-over-time control -- prev/next + a slider that SWAPS the displayed
   // image, with the date and cloud cover shown. Scoped to the single selected plot's own bbox
   // (the manifest 'plots' key), NOT the marketing page's ~1-degree cell approximation.
@@ -1029,6 +1080,8 @@
     badge.appendChild(bdate); badge.appendChild(bcloud);
     frame.appendChild(img); frame.appendChild(badge);
     wrap.appendChild(frame);
+    var hint = document.createElement('div'); hint.className = 'sathint';
+    hint.style.display = 'none'; wrap.appendChild(hint);
 
     var ctl = document.createElement('div'); ctl.className = 'satctl';
     var prev = document.createElement('button'); prev.type = 'button'; prev.textContent = '\u25c0'; prev.title = 'Earlier scene';
@@ -1060,6 +1113,13 @@
         }
       };
       img.src = satImgUrl(id, sc);
+      // PR11: the slider also drives the on-map overlay for this scene.
+      var overlaid = setSatOverlay(id, sc);
+      if (overlaid) { hint.style.display = 'none'; }
+      else {
+        hint.textContent = 'Map overlay unavailable for this frame (legacy imagery, shown in the panel only).';
+        hint.style.display = '';
+      }
       bdate.textContent = String(sc.date || '').slice(0, 10);
       bcloud.textContent = (sc.cloud_cover != null ? ('cloud ' + Number(sc.cloud_cover).toFixed(1) + '%') : '');
       dateEl.textContent = String(sc.date || '').slice(0, 10);
