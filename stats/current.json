@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-09-21T05:21:46Z",
+  "generated_at_utc": "2026-09-21T13:14:48Z",
   "regenerated_by": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/.github/workflows/stats-refresh.yml",
   "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
   "llms_orientation": "https://truesight.me/llms.txt",
@@ -8,7 +8,7 @@
     "mission": "Restore 10,000 hectares of Amazon rainforest."
   },
   "members": {
-    "generated_at": "2026-09-21T03:27:43Z",
+    "generated_at": "2026-09-21T09:27:15Z",
     "total_contributors": 495,
     "total_tdg_controlled_sum": 2419605.29,
     "governors_count": 10,
@@ -97,7 +97,7 @@
     "directory_url": "https://truesight.me/members.html"
   },
   "treasury": {
-    "generated_at": "2026-09-21T04:48:43.688Z",
+    "generated_at": "2026-09-21T12:48:49.517Z",
     "schema_version": 5,
     "trigger": "cron",
     "currency_totals": {
@@ -624,11 +624,11 @@
         }
       },
       "Chocolate Mold MHC-CL082 (58 x 125 mm) - Dongguan MHC Industrial Co Ltd": {
-        "total_quantity": 20.0,
-        "total_value_usd": 25.4,
+        "total_quantity": 30.0,
+        "total_value_usd": 38.1,
         "item_count": 1,
         "ledger_breakdown": {
-          "Main Ledger": 20.0
+          "Main Ledger": 30.0
         }
       },
       "Chocolate Mold from Rusty": {
@@ -922,17 +922,17 @@
   },
   "inventory": {
     "stores": {
-      "generated_at": "2026-09-20T11:28:57.000Z",
+      "generated_at": "2026-09-21T12:53:41.000Z",
       "store_count": 0,
       "line_items": 14
     },
     "partners": {
-      "generated_at": "2026-09-20T11:28:57.000Z",
+      "generated_at": "2026-09-21T12:53:41.000Z",
       "partner_count": 23
     }
   },
   "sunmint": {
-    "generated_at_utc": "2026-09-21T05:21:46Z",
+    "generated_at_utc": "2026-09-21T13:14:48Z",
     "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
     "schema": "sunmint_index/1",
     "north_star": {
