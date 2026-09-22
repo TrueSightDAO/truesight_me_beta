@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-09-22T17:12:30Z",
+  "generated_at_utc": "2026-09-22T21:36:51Z",
   "regenerated_by": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/.github/workflows/stats-refresh.yml",
   "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
   "llms_orientation": "https://truesight.me/llms.txt",
@@ -8,64 +8,56 @@
     "mission": "Restore 10,000 hectares of Amazon rainforest."
   },
   "members": {
-    "generated_at": "2026-09-22T12:58:36Z",
-    "total_contributors": 496,
-    "total_tdg_controlled_sum": 2531451.43,
+    "generated_at": "2026-09-22T20:41:08Z",
+    "total_contributors": 497,
+    "total_tdg_controlled_sum": 2494910.43,
     "governors_count": 10,
     "governors": [
       {
         "display_name": "Gary Teh",
         "slug": "gary-teh",
-        "voting_power_pct": 41.9,
-        "tdg_controlled": 1064359.0,
+        "voting_power_pct": 41.6,
+        "tdg_controlled": 1040385.0,
         "contribution_count": 3625,
         "profile_url": "https://truesight.me/credentials/#gary-teh"
       },
       {
         "display_name": "Jacob Nelan",
         "slug": "jacob-nelan",
-        "voting_power_pct": 2.53,
+        "voting_power_pct": 2.57,
         "tdg_controlled": 64175.0,
         "contribution_count": 62,
         "profile_url": "https://truesight.me/credentials/#jacob-nelan"
       },
       {
-        "display_name": "Val Lapidus",
-        "slug": "val-lapidus",
-        "voting_power_pct": 2.52,
-        "tdg_controlled": 63903.0,
-        "contribution_count": 258,
-        "profile_url": "https://truesight.me/credentials/#val-lapidus"
-      },
-      {
         "display_name": "Kirsten Ritschel",
         "slug": "kirsten-ritschel",
-        "voting_power_pct": 1.01,
-        "tdg_controlled": 25631.0,
+        "voting_power_pct": 0.99,
+        "tdg_controlled": 24831.0,
         "contribution_count": 110,
         "profile_url": "https://truesight.me/credentials/#kirsten-ritschel"
       },
       {
-        "display_name": "Elizabeth Wong",
-        "slug": null,
-        "voting_power_pct": 0.7,
-        "tdg_controlled": 17838.0,
-        "contribution_count": 0,
-        "profile_url": "https://truesight.me/credentials/#None"
-      },
-      {
         "display_name": "Ken Nim",
         "slug": "ken-nim",
-        "voting_power_pct": 0.4,
+        "voting_power_pct": 0.41,
         "tdg_controlled": 10279.0,
         "contribution_count": 47,
         "profile_url": "https://truesight.me/credentials/#ken-nim"
       },
       {
+        "display_name": "Elizabeth Wong",
+        "slug": null,
+        "voting_power_pct": 0.32,
+        "tdg_controlled": 7971.0,
+        "contribution_count": 0,
+        "profile_url": "https://truesight.me/credentials/#None"
+      },
+      {
         "display_name": "AGL15",
         "slug": "agl15",
         "voting_power_pct": 0.14,
-        "tdg_controlled": 3482.0,
+        "tdg_controlled": 3421.0,
         "contribution_count": 14,
         "profile_url": "https://truesight.me/credentials/#agl15"
       },
@@ -92,12 +84,20 @@
         "tdg_controlled": 2322.0,
         "contribution_count": 19,
         "profile_url": "https://truesight.me/credentials/#paloma"
+      },
+      {
+        "display_name": "Philip Lee - husband of june",
+        "slug": null,
+        "voting_power_pct": 0.03,
+        "tdg_controlled": 800.0,
+        "contribution_count": 0,
+        "profile_url": "https://truesight.me/credentials/#None"
       }
     ],
     "directory_url": "https://truesight.me/members.html"
   },
   "treasury": {
-    "generated_at": "2026-09-22T16:48:45.750Z",
+    "generated_at": "2026-09-22T20:48:47.761Z",
     "schema_version": 5,
     "trigger": "cron",
     "currency_totals": {
@@ -932,7 +932,7 @@
     }
   },
   "sunmint": {
-    "generated_at_utc": "2026-09-22T17:12:30Z",
+    "generated_at_utc": "2026-09-22T21:36:51Z",
     "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
     "schema": "sunmint_index/1",
     "north_star": {
