@@ -34,6 +34,7 @@
         --status-gift:       #be185d;  /* rose   — given without expectation */
         --status-expensed:   #6d28d9;  /* violet — consumed internally */
         --status-retired:    #525252;  /* gray   — no longer tracked */
+        --status-assigned-tree: #0f766e;  /* teal - linked to a planted tree */
       }
       .qr-page { max-width: 880px; margin: 0 auto; padding: var(--space-xl) 0; }
       .qr-header {
@@ -101,6 +102,15 @@
       .qr-badge.status-GIFT            { background: var(--status-gift); }
       .qr-badge.status-EXPENSED        { background: var(--status-expensed); }
       .qr-badge.status-RETIRED         { background: var(--status-retired); }
+      .qr-badge.status-ASSIGNED_TO_TREE{ background: var(--status-assigned-tree); }
+      .qr-cert-download {
+        display: inline-flex; align-items: center; gap: 0.5rem;
+        padding: 0.7rem 1.1rem; background: var(--surface, #f5f5f5);
+        border: 1px solid var(--border, #e5e5e5); border-radius: 6px;
+        font-size: 0.95rem; font-weight: 600; color: var(--text, #111);
+        text-decoration: none;
+      }
+      .qr-cert-download:hover { background: #ececec; border-color: #cdd; }
       .qr-section {
         margin: var(--space-lg) 0;
       }
@@ -170,6 +180,7 @@
     <script>
       (function () {
         var MANIFEST_BASE = 'https://raw.githubusercontent.com/TrueSightDAO/lineage-assets/main/qrs/';
+        var CERT_BASE = 'https://raw.githubusercontent.com/TrueSightDAO/lineage-assets/main/certs/';
         var LISTING_URL = '/physical-assets/serialized/';
         var SHOP_BASE = 'https://www.agroverse.shop';
 
@@ -230,6 +241,30 @@
           return String(s == null ? '' : s)
             .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
             .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        }
+
+        // SunMint certificate download (2026-09-24, thread 35189).
+        // URL-probe route: a cert is served from a canonical, per-qr_id
+        // cached path. We HEAD it and only surface the button when the cert
+        // genuinely exists - so no manifest field is needed (and the page is
+        // immune to the manifest re-seed wipe). Key convention:
+        //   lineage-assets/certs/<qr_id>__cert.pdf
+        function probeCertificate(qrId) {
+          if (!qrId) return;
+          var url = CERT_BASE + encodeURIComponent(qrId) + '__cert.pdf';
+          fetch(url, { method: 'HEAD' })
+            .then(function (r) {
+              if (!r || !r.ok) return;
+              var slot = document.getElementById('qr-cert-slot');
+              if (!slot) return;
+              slot.innerHTML =
+                '<section class="qr-section">' +
+                '  <h2>Certificate</h2>' +
+                '  <a class="qr-cert-download" href="' + escapeHtml(url) + '" target="_blank" rel="noopener">' +
+                '    \u2b07\ufe0f Download SunMint certificate (PDF)</a>' +
+                '</section>';
+            })
+            .catch(function () { /* cert absent or offline - render nothing */ });
         }
 
         function renderEmpty(qrId, message) {
@@ -461,7 +496,10 @@
           html += '<p>Manifest source: <a href="' + escapeHtml(MANIFEST_BASE + manifest.qr_id + '.json') + '" target="_blank" rel="noopener">lineage-assets/qrs/' + escapeHtml(manifest.qr_id) + '.json</a></p>';
           html += '</div>';
 
+          html += '<div id="qr-cert-slot"></div>';
+
           root.innerHTML = html;
+          probeCertificate(manifest.qr_id);
           document.title = manifest.qr_id + ' · QR Provenance | TrueSight DAO';
         }
 
