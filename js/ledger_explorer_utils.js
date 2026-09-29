@@ -39,7 +39,7 @@
   // does not resolve in the public tree feed). So we link on whichever id the
   // event actually carries, preferring the explicit linked_tree_id when present.
   var MY_TREES_URL = 'https://cfr.truesight.me/my-trees/';
-  var LEDGER_EXPLORER_URL = 'https://beta.dapp.truesight.me/ledger_explorer.html';
+  var LEDGER_EXPLORER_URL = 'https://truesight.me/ledger/explorer/';
 
   // sha256(request_transaction_id) -> 64 lowercase hex (the canonical mirror
   // filename). See sync_sunmint_signatures.py::_txid_key.

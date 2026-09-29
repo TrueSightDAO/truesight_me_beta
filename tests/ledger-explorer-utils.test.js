@@ -291,7 +291,7 @@ test('buildMyTreesLink deep-links the tree id', () => {
   assert.strictEqual(U.buildMyTreesLink(null), '');
 });
 test('buildLedgerExplorerLink deep-links q=', () => {
-  assert.strictEqual(U.buildLedgerExplorerLink('171'), 'https://beta.dapp.truesight.me/ledger_explorer.html?q=171');
+  assert.strictEqual(U.buildLedgerExplorerLink('171'), 'https://truesight.me/ledger/explorer/?q=171');
   assert.strictEqual(U.buildLedgerExplorerLink('  '), '');
 });
 test('the real planting event round-trips to a My Trees link', () => {
