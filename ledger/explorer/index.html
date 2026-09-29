@@ -123,6 +123,55 @@
 <body>
   <div id="site-nav"></div>
   <script src="/js/nav.js"></script>
+  <script>
+    // Mobile nav: hamburger toggle + dropdown accordions. nav.js mounts the
+    // header synchronously above, so .menu-toggle / .nav-menu exist here.
+    // (Members/home pages carry an identical inline copy; the shared markup
+    // came from nav.js but the behavior was never factored out with it.)
+    (function() {
+      var menuToggle = document.querySelector('.menu-toggle');
+      var navMenu = document.querySelector('.nav-menu');
+      var siteHeader = document.querySelector('.site-header');
+      if (!menuToggle || !navMenu) return;
+      menuToggle.addEventListener('click', function() {
+        var isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+        menuToggle.setAttribute('aria-expanded', !isExpanded);
+        navMenu.setAttribute('aria-hidden', isExpanded);
+        siteHeader.classList.toggle('menu-open', !isExpanded);
+      });
+      var dropdownToggles = navMenu.querySelectorAll('.dropdown-toggle');
+      dropdownToggles.forEach(function(toggle) {
+        toggle.addEventListener('click', function(e) {
+          if (window.innerWidth <= 768) {
+            e.preventDefault(); e.stopPropagation();
+            var isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+            var dropdownMenu = toggle.nextElementSibling;
+            toggle.setAttribute('aria-expanded', !isExpanded);
+            if (dropdownMenu) dropdownMenu.setAttribute('aria-expanded', !isExpanded);
+          }
+        });
+      });
+      navMenu.addEventListener('click', function(e) {
+        if (e.target.tagName === 'A') {
+          menuToggle.setAttribute('aria-expanded', 'false');
+          navMenu.setAttribute('aria-hidden', 'true');
+          siteHeader.classList.remove('menu-open');
+          dropdownToggles.forEach(function(toggle) {
+            toggle.setAttribute('aria-expanded', 'false');
+            var dropdownMenu = toggle.nextElementSibling;
+            if (dropdownMenu) dropdownMenu.setAttribute('aria-expanded', 'false');
+          });
+        }
+      });
+      siteHeader.addEventListener('click', function(e) {
+        if (e.target === siteHeader || e.target.classList.contains('site-header')) {
+          menuToggle.setAttribute('aria-expanded', 'false');
+          navMenu.setAttribute('aria-hidden', 'true');
+          siteHeader.classList.remove('menu-open');
+        }
+      });
+    })();
+  </script>
   <div class="page">
     <div class="hero">
       <span class="pill">TrueSight DAO</span>
