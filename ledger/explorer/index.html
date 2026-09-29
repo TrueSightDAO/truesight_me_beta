@@ -90,7 +90,7 @@
     .chip .cnt { color: var(--muted); margin-left: 0.3rem; }
     .chip.active .cnt { color: rgba(255, 255, 255, 0.8); }
     .feed { list-style: none; margin: 0; padding: 0; }
-    .feed li { border-bottom: 1px solid var(--border); }
+    .feed li { border-bottom: 1px solid var(--border); scroll-margin-top: 5.5rem; }
     .feed .feed-head { padding: 0.6rem 0.7rem; display: flex; gap: 0.6rem; align-items: baseline; cursor: pointer; }
     .feed .feed-head:hover { background: var(--surface-light); }
     .feed .feed-head.open { background: var(--bg-secondary); }
@@ -557,6 +557,72 @@
         return h.length > 16 ? h.slice(0, 8) + '\u2026' + h.slice(-6) : h;
       }
 
+      // Expand / collapse a feed row. Used both by the row click handler and by
+      // the deep-link restore pass. opts.updateHash === false suppresses the URL
+      // hash write (used when restoring from a hash, to avoid a feedback loop).
+      function expandLi(li, opts) {
+        opts = opts || {};
+        var head = li.querySelector('.feed-head');
+        var detail = li.querySelector('.feed-detail');
+        if (!head || !detail) return false;
+        var isOpen = !detail.classList.contains('hidden');
+        if (isOpen && opts.open !== true) {
+          detail.classList.add('hidden');
+          head.classList.remove('open');
+          if (opts.updateHash !== false && li.id && hashTxid() === li.id.slice(3)) {
+            try {
+              history.replaceState(null, '', window.location.pathname + window.location.search);
+            } catch (_) {}
+          }
+          return true;
+        }
+        if (!isOpen) {
+          detail.classList.remove('hidden');
+          head.classList.add('open');
+          if (li._ensureLoaded) li._ensureLoaded();
+          if (opts.updateHash !== false && li.id) {
+            try { history.replaceState(null, '', '#' + li.id); } catch (_) {}
+          }
+        }
+        return true;
+      }
+
+      // --- Deep-linking: /ledger/explorer/#tx-<txid> ----------------------
+      // Clicking any feed row writes its id into the URL hash (#tx-<txid>).
+      // On load (or on a later hashchange, e.g. the back/forward button) we
+      // switch to the feed, page the target row into view, scroll to it and
+      // expand it -- so a refresh restores the exact row you were looking at.
+      function hashTxid() {
+        var m = /^#tx-(.+)$/.exec(window.location.hash || '');
+        return m ? m[1] : '';
+      }
+
+      function focusHashTarget() {
+        var txid = hashTxid();
+        if (!txid || !INDEX) return false;
+        // The target may be filtered out or on a page beyond the first 25 rows.
+        FACETS = { event_type: '', contributor_name: '' };
+        var rows = U.filterRows(INDEX, FACETS);
+        var idx = -1;
+        for (var i = 0; i < rows.length; i++) {
+          if (rows[i].txid_hash === txid) { idx = i; break; }
+        }
+        if (idx < 0) return false;
+        if (MODE !== 'feed') setMode('feed');
+        // Page in rows until the target is rendered (bounded to avoid a stall).
+        var guard = 0;
+        while (feedState && feedState.rendered <= idx && guard++ < 1000) appendFeedPage();
+        var li = document.getElementById('tx-' + txid);
+        if (!li) return false;
+        expandLi(li, { open: true, updateHash: false });
+        li.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return true;
+      }
+
+      window.addEventListener('hashchange', function () {
+        if (hashTxid()) focusHashTarget();
+      });
+
       function feedItem(r) {
         var li = document.createElement('li');
         // The transaction id (txid_hash) is carried on the row as a DOM
@@ -587,19 +653,12 @@
         // record (payload, signature, openssl snippet) is fetched lazily on the
         // first expand and cached for subsequent toggles.
         var loaded = false;
-        head.addEventListener('click', function () {
-          if (!detail.classList.contains('hidden')) {
-            detail.classList.add('hidden');
-            head.classList.remove('open');
-            return;
-          }
-          head.classList.add('open');
-          detail.classList.remove('hidden');
-          if (!loaded) {
-            loaded = true;
-            detail.appendChild(renderCard(r, 'message_id'));
-          }
-        });
+        li._ensureLoaded = function () {
+          if (loaded) return;
+          loaded = true;
+          detail.appendChild(renderCard(r, 'message_id'));
+        };
+        head.addEventListener('click', function () { expandLi(li); });
         return li;
       }
 
@@ -683,6 +742,8 @@
       setMode('search');
 
       loadIndex().then(function () {
+        // Deep-link wins: /ledger/explorer/#tx-<txid> restores a specific row.
+        if (focusHashTarget()) return;
         if (U.normalizeQuery(qEl.value)) {
           setMode('search');
           doSearch();
