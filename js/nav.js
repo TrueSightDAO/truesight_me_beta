@@ -51,6 +51,7 @@
     '          <li><a href="https://truesight.me/tokenomics" target="_blank" rel="noreferrer noopener">Tokenomics</a></li>' +
     '          <li><a href="https://truesight.me/dapp" target="_blank" rel="noreferrer noopener">Web App</a></li>' +
     '          <li><a href="https://truesight.me/ledger" target="_blank" rel="noreferrer noopener">Contributions Record</a></li>' +
+'          <li><a href="/ledger/explorer/">Ledger Explorer</a></li>' +
     '          <li><a href="https://truesight.me/roadmap" target="_blank" rel="noreferrer noopener">Roadmap</a></li>' +
     '          <li><a href="/security-dashboard/">Security Dashboard</a></li>' +
     '        </ul>' +
