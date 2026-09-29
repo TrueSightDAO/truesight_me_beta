@@ -355,8 +355,12 @@
             var tref = U.treeRefForEvent(ev);
             if (!tref) return '';
             var href = U.buildMyTreesLink(tref);
+            // 2026-09-29 (Gary): the linked id is the request transaction id
+            // (?tx=) when the event carries one -- the canonical txid, not the
+            // Edgar-internal message id. The label names which id we keyed on.
+            var idLabel = tref.key === 'tx' ? 'Request transaction id' : 'Tree id';
             return '<div class="section-title">Linked tree</div>' +
-              '<div class="txid">' + esc(tref) + '</div>' +
+              '<div class="txid">' + esc(idLabel) + ': ' + esc(tref.id) + '</div>' +
               '<p><a href="' + esc(href) + '" target="_blank" rel="noopener">' +
               'View in My Trees \u2192</a></p>';
           })() +

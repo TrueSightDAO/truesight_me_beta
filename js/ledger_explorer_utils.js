@@ -37,7 +37,11 @@
   // TREE PLANTING event's `telegram_message_id` -- NOT its `linked_tree_id`
   // (a legacy planting label like FOUNDERHAUS_BOUGAINVILLEA_20260821_1, which
   // does not resolve in the public tree feed). So we link on whichever id the
-  // event actually carries, preferring the explicit linked_tree_id when present.
+  // event actually carries. 2026-09-29 (Gary): for a tree-typed event we now
+  // prefer the event's `request_transaction_id` (the txid / RSA signature) --
+  // it equals the feed feature's `request_txid`, so ?tx=<id> resolves, and it
+  // is the canonical id a verifier already holds off the ledger. The
+  // telegram_message_id / linked_tree_id fallbacks are unchanged.
   var MY_TREES_URL = 'https://cfr.truesight.me/my-trees/';
   var LEDGER_EXPLORER_URL = 'https://truesight.me/ledger/explorer/';
 
@@ -310,26 +314,51 @@
   }
 
   /**
-   * The tree id an event should deep-link to on My Trees, or null.
-   * Prefer the explicit `linked_tree_id`; otherwise, for a tree-typed event,
-   * fall back to `telegram_message_id` (the verified My Trees join key).
+   * The My Trees deep-link target for a ledger event, or null.
+   *
+   * 2026-09-29 (Gary): for a tree-typed event, prefer the event's
+   * `request_transaction_id` (the txid / RSA signature) over the Edgar-internal
+   * `telegram_message_id`. Verified live: a TREE PLANTING event's
+   * `request_transaction_id` equals the public tree feed feature's
+   * `request_txid` (and the event's own `signature`), and My Trees' keyless
+   * public view matches on exactly that value via ?tx=<id>. The message-id /
+   * linked_tree_id fallbacks below are unchanged.
+   *
+   * Returns { key, id } with key in {'tx','tree'} (id never empty), or null:
+   *   tree-typed event:  request_transaction_id -> linked_tree_id -> telegram_message_id
+   *   any other event:   linked_tree_id only (unchanged)
    */
   function treeRefForEvent(ev) {
     if (!ev || typeof ev !== 'object') return null;
+    var treeEvent = isTreeEvent(ev.event_type) || isTreeEvent(ev.event_type_folder);
+    if (treeEvent) {
+      var tx = String(ev.request_transaction_id == null ? '' : ev.request_transaction_id).trim();
+      if (tx) return { key: 'tx', id: tx };
+    }
     var lt = String(ev.linked_tree_id == null ? '' : ev.linked_tree_id).trim();
-    if (lt) return lt;
-    if (isTreeEvent(ev.event_type) || isTreeEvent(ev.event_type_folder)) {
+    if (lt) return { key: 'tree', id: lt };
+    if (treeEvent) {
       var mid = String(ev.telegram_message_id == null ? '' : ev.telegram_message_id).trim();
-      if (mid) return mid;
+      if (mid) return { key: 'tree', id: mid };
     }
     return null;
   }
 
-  /** Deep-link into My Trees for a tree id ('' when no id). */
-  function buildMyTreesLink(treeId) {
-    var id = String(treeId == null ? '' : treeId).trim();
+  /**
+   * Deep-link into My Trees for a ref from treeRefForEvent ('' when none).
+   * Accepts the { key, id } ref, or a bare string for backward compatibility
+   * (a bare string is treated as a legacy ?tree= id).
+   */
+  function buildMyTreesLink(ref) {
+    var key = 'tree', id;
+    if (ref && typeof ref === 'object') {
+      key = ref.key === 'tx' ? 'tx' : 'tree';
+      id = String(ref.id == null ? '' : ref.id).trim();
+    } else {
+      id = String(ref == null ? '' : ref).trim();
+    }
     if (!id) return '';
-    return MY_TREES_URL + '?tree=' + encodeURIComponent(id);
+    return MY_TREES_URL + '?' + key + '=' + encodeURIComponent(id);
   }
 
   /** Deep-link into the Ledger Explorer for a txid or message id ('' when none). */

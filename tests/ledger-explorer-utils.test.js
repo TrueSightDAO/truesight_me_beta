@@ -274,34 +274,64 @@ test('isTreeEvent recognises tree/planting/asset_receipt labels', () => {
   assert.ok(!U.isTreeEvent(''));
   assert.ok(!U.isTreeEvent(null));
 });
-test('treeRefForEvent prefers an explicit linked_tree_id', () => {
-  assert.strictEqual(U.treeRefForEvent({ linked_tree_id: 'FOUNDERHAUS_B_1', event_type: '[TREE PLANTING EVENT]', telegram_message_id: 'Edgar_1' }), 'FOUNDERHAUS_B_1');
+test('treeRefForEvent prefers request_transaction_id for tree events', () => {
+  // 2026-09-29 (Gary): the canonical My Trees deep-link key is the event's
+  // request_transaction_id (txid), which == the feed feature's request_txid.
+  const ev = { event_type: '[TREE PLANTING EVENT]', request_transaction_id: 'MB76x/txid', telegram_message_id: 'Edgar_20260821175134_006', linked_tree_id: 'FOUNDERHAUS_B_1' };
+  assert.deepStrictEqual(U.treeRefForEvent(ev), { key: 'tx', id: 'MB76x/txid' });
+  // event_type_folder alone (no event_type) also counts as tree-typed
+  assert.deepStrictEqual(U.treeRefForEvent({ event_type_folder: 'tree_planting', request_transaction_id: 'AAA' }), { key: 'tx', id: 'AAA' });
 });
-test('treeRefForEvent falls back to telegram_message_id for tree events', () => {
-  assert.strictEqual(U.treeRefForEvent({ linked_tree_id: '', event_type: '[TREE PLANTING EVENT]', telegram_message_id: 'Edgar_20260821175134_006' }), 'Edgar_20260821175134_006');
-  assert.strictEqual(U.treeRefForEvent({ linked_tree_id: '', event_type_folder: 'tree_planting', telegram_message_id: '171' }), '171');
+test('treeRefForEvent falls back to linked_tree_id, then telegram_message_id', () => {
+  // no txid -> explicit linked_tree_id wins (legacy label)
+  assert.deepStrictEqual(
+    U.treeRefForEvent({ request_transaction_id: '', linked_tree_id: 'FOUNDERHAUS_B_1', event_type: '[TREE PLANTING EVENT]', telegram_message_id: 'Edgar_1' }),
+    { key: 'tree', id: 'FOUNDERHAUS_B_1' });
+  // no txid, no linked_tree_id -> telegram_message_id (== feed tree_id)
+  assert.deepStrictEqual(
+    U.treeRefForEvent({ request_transaction_id: '', linked_tree_id: '', event_type: '[TREE PLANTING EVENT]', telegram_message_id: 'Edgar_20260821175134_006' }),
+    { key: 'tree', id: 'Edgar_20260821175134_006' });
+  assert.deepStrictEqual(
+    U.treeRefForEvent({ linked_tree_id: '', event_type_folder: 'tree_planting', telegram_message_id: '171' }),
+    { key: 'tree', id: '171' });
 });
 test('treeRefForEvent is null for non-tree events with no linked_tree_id', () => {
   assert.strictEqual(U.treeRefForEvent({ linked_tree_id: '', event_type: 'sales_event', telegram_message_id: '99' }), null);
   assert.strictEqual(U.treeRefForEvent(null), null);
 });
-test('buildMyTreesLink deep-links the tree id', () => {
+test('treeRefForEvent on a non-tree event honours an explicit linked_tree_id (tree key)', () => {
+  assert.deepStrictEqual(
+    U.treeRefForEvent({ linked_tree_id: 'FOUNDERHAUS_B_1', event_type: 'asset_receipt_event', request_transaction_id: 'ZZZ' }),
+    { key: 'tx', id: 'ZZZ' }); // 'asset_receipt' is tree-typed, so txid wins
+  assert.deepStrictEqual(
+    U.treeRefForEvent({ linked_tree_id: 'FOUNDERHAUS_B_1', event_type: 'sales_event', request_transaction_id: 'ZZZ' }),
+    { key: 'tree', id: 'FOUNDERHAUS_B_1' }); // non-tree -> linked_tree_id only
+});
+test('buildMyTreesLink deep-links on ?tx= for a tx ref', () => {
+  assert.strictEqual(U.buildMyTreesLink({ key: 'tx', id: 'ABC/+=x' }), 'https://cfr.truesight.me/my-trees/?tx=ABC%2F%2B%3Dx');
+});
+test('buildMyTreesLink deep-links on ?tree= for a tree ref / bare string', () => {
+  assert.strictEqual(U.buildMyTreesLink({ key: 'tree', id: 'Edgar_20260821175134_006' }), 'https://cfr.truesight.me/my-trees/?tree=Edgar_20260821175134_006');
   assert.strictEqual(U.buildMyTreesLink('Edgar_20260821175134_006'), 'https://cfr.truesight.me/my-trees/?tree=Edgar_20260821175134_006');
   assert.strictEqual(U.buildMyTreesLink(''), '');
   assert.strictEqual(U.buildMyTreesLink(null), '');
+  assert.strictEqual(U.buildMyTreesLink({ key: 'tx', id: '' }), '');
 });
 test('buildLedgerExplorerLink deep-links q=', () => {
   assert.strictEqual(U.buildLedgerExplorerLink('171'), 'https://truesight.me/ledger/explorer/?q=171');
   assert.strictEqual(U.buildLedgerExplorerLink('  '), '');
 });
-test('the real planting event round-trips to a My Trees link', () => {
-  // Verified live: tree_planting/Edgar_20260821175134_006.json carries
-  // linked_tree_id FOUNDERHAUS_BOUGAINVILLEA_20260821_1, and its
-  // telegram_message_id is the GeoJSON tree_id.
-  const ev = { event_type: '[TREE PLANTING EVENT]', telegram_message_id: 'Edgar_20260821175134_006', linked_tree_id: 'FOUNDERHAUS_BOUGAINVILLEA_20260821_1' };
-  assert.strictEqual(U.buildMyTreesLink(U.treeRefForEvent(ev)), 'https://cfr.truesight.me/my-trees/?tree=FOUNDERHAUS_BOUGAINVILLEA_20260821_1');
-  const ev2 = { event_type: '[TREE PLANTING EVENT]', telegram_message_id: 'Edgar_20260821175134_006', linked_tree_id: '' };
-  assert.strictEqual(U.buildMyTreesLink(U.treeRefForEvent(ev2)), 'https://cfr.truesight.me/my-trees/?tree=Edgar_20260821175134_006');
+test('the real planting event round-trips to a ?tx= My Trees link', () => {
+  // Verified live 2026-09-29: tree_planting/Edgar_20260928203818_089.json carries
+  // request_transaction_id "MB76x/xWa/fA4Z5JMzSL+OkeWk73DE4HlfZbdzWxZ3D9lNzfJDcQWIrzPtxYa674Klvv0zo0TBUxMGNi95AQ3M0T0Cbp77ycqPJN",
+  // which equals the feed feature's request_txid for tree_id Edgar_20260928203818_089.
+  const TX = 'MB76x/xWa/fA4Z5JMzSL+OkeWk73DE4HlfZbdzWxZ3D9lNzfJDcQWIrzPtxYa674Klvv0zo0TBUxMGNi95AQ3M0T0Cbp77ycqPJN';
+  const ev = { event_type: '[TREE PLANTING EVENT]', request_transaction_id: TX, telegram_message_id: 'Edgar_20260928203818_089', linked_tree_id: '' };
+  const ref = U.treeRefForEvent(ev);
+  assert.strictEqual(ref.key, 'tx');
+  assert.strictEqual(ref.id, TX);
+  assert.strictEqual(U.buildMyTreesLink(ref),
+    'https://cfr.truesight.me/my-trees/?tx=' + encodeURIComponent(TX));
 });
 
 
