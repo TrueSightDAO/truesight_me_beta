@@ -156,6 +156,10 @@
       border-top: 1px solid #f0f2f5;
     }
     .feed .feed-detail .info-card { margin: 0.5rem 0 0; }
+    /* PR8: infinite scroll affordances */
+    .feed-more { text-align: center; font-size: 0.85rem; color: #999;
+      font-style: italic; margin: 0.9rem 0; }
+    .feed-end { text-align: center; font-size: 0.8rem; color: #bbb; margin: 1rem 0; }
     .result-head { display: flex; align-items: center; justify-content: space-between; margin: 0.6rem 0 0.2rem; }
     .result-head .rt { font-weight: bold; color: #333; }
     @media (max-width: 600px) {
@@ -216,7 +220,6 @@
       // visible; FACETS narrows the feed/browse lists.
       var MODE = 'search';
       var FACETS = { event_type: '', contributor_name: '' };
-      var FEED_LIMIT = 25;
 
       function showStatus(msg, cls) {
         statusEl.textContent = msg;
@@ -402,6 +405,7 @@
       function setMode(mode) {
         MODE = mode;
         renderTabs();
+        resetFeed();
         clearStatus();
         // Search UI is only relevant to the search tab.
         var showSearch = mode === 'search';
@@ -434,33 +438,107 @@
         facetBarEl.appendChild(bar);
       }
 
+      // --- PR8: infinite scroll --------------------------------------------
+      // The feed grows as you scroll: pages of PAGE_SIZE are appended until
+      // every matching event is shown (replacing the old "Show all N items" /
+      // "Show fewer" buttons). Loading is driven by BOTH an IntersectionObserver
+      // on a bottom sentinel AND a scroll/resize listener, and each trigger
+      // fills until the sentinel is out of the near-viewport band. (An observer
+      // alone is not enough: it only fires on intersection *state change*, so
+      // after a page is appended it stays quiet until you scroll again.)
+      var PAGE_SIZE = 25;
+      var FEED_BAND = 800;
+      var feedState = null;
+      var feedObserver = null;
+
+      function feedSentinelInBand() {
+        var st = feedState;
+        if (!st || !st.sentinel || !st.sentinel.parentNode) return false;
+        return st.sentinel.getBoundingClientRect().top <
+          (window.innerHeight || 0) + FEED_BAND;
+      }
+
+      function resetFeed() {
+        if (feedObserver) { feedObserver.disconnect(); feedObserver = null; }
+        if (feedState && feedState.raf) { cancelAnimationFrame(feedState.raf); feedState.raf = 0; }
+        if (feedState && feedState.scrollFn) {
+          window.removeEventListener('scroll', feedState.scrollFn);
+          window.removeEventListener('resize', feedState.scrollFn);
+        }
+        feedState = null;
+      }
+
+      function appendFeedPage() {
+        var st = feedState;
+        if (!st) return;
+        var next = st.rows.slice(st.rendered, st.rendered + PAGE_SIZE);
+        next.forEach(function (r) { st.ul.appendChild(feedItem(r)); });
+        st.rendered += next.length;
+        if (st.rendered >= st.rows.length) {
+          var sentinel = st.sentinel;
+          resetFeed();
+          if (sentinel && sentinel.parentNode) sentinel.parentNode.removeChild(sentinel);
+          var end = document.createElement('p');
+          end.className = 'feed-end';
+          end.textContent = '\u2014 end of ' + st.rows.length + ' event' +
+            (st.rows.length === 1 ? '' : 's') + ' \u2014';
+          browseEl.appendChild(end);
+        } else if (st.sentinel) {
+          st.sentinel.textContent = 'Scroll for more \u00b7 ' +
+            (st.rows.length - st.rendered) + ' remaining';
+        }
+      }
+
+      // Keep appending while the sentinel is still within the near-viewport band,
+      // but only ONE page per animation frame, so a big scroll never blocks the
+      // main thread (a single synchronous loop would dump thousands of rows in
+      // one tick and freeze the page).
+      function fillFeed() {
+        var st = feedState;
+        if (!st || st.raf) return;
+        st.raf = requestAnimationFrame(function tick() {
+          if (!feedState) return;
+          feedState.raf = 0;
+          if (!feedSentinelInBand()) return;
+          appendFeedPage();
+          if (feedState) fillFeed();
+        });
+      }
+
+      function renderPagedFeed(rows) {
+        resetFeed();
+        var ul = document.createElement('ul');
+        ul.className = 'feed';
+        browseEl.appendChild(ul);
+        var sentinel = document.createElement('p');
+        sentinel.className = 'feed-more';
+        sentinel.textContent = 'Loading more\u2026';
+        browseEl.appendChild(sentinel);
+        var onScroll = function () { fillFeed(); };
+        feedState = { ul: ul, rows: rows, rendered: 0, sentinel: sentinel, scrollFn: onScroll };
+        appendFeedPage();
+        if (!feedState) return; // every row fit on the first page
+        if (typeof IntersectionObserver === 'function') {
+          feedObserver = new IntersectionObserver(function (entries) {
+            entries.forEach(function (en) { if (en.isIntersecting) fillFeed(); });
+          }, { rootMargin: FEED_BAND + 'px 0px' });
+          feedObserver.observe(sentinel);
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll, { passive: true });
+        fillFeed();
+      }
+
       function renderFeed() {
         browseEl.innerHTML = '<div class="section-title">Recent activity</div>';
         renderFacetBar();
         var rows = U.filterRows(INDEX, FACETS);
-        var shown = U.recentActivity({ events: rowMap(rows), events_ordered: rows.map(function (r) { return r.txid_hash; }) }, FEED_LIMIT);
-        if (!shown.length) {
+        if (!rows.length) {
           browseEl.innerHTML += '<p class="info-card">No events match.</p>';
+          resetFeed();
           return;
         }
-        var ul = document.createElement('ul');
-        ul.className = 'feed';
-        shown.forEach(function (r) { ul.appendChild(feedItem(r)); });
-        browseEl.appendChild(ul);
-        if (rows.length > shown.length) {
-          var more = document.createElement('button');
-          more.className = 'copy-btn';
-          more.textContent = 'Show all ' + rows.length + ' items';
-          more.addEventListener('click', function () { FEED_LIMIT = 0; renderFeed(); });
-          browseEl.appendChild(more);
-        }
-        if (FEED_LIMIT === 0) {
-          var fewer = document.createElement('button');
-          fewer.className = 'copy-btn';
-          fewer.textContent = 'Show fewer';
-          fewer.addEventListener('click', function () { FEED_LIMIT = 25; renderFeed(); });
-          browseEl.appendChild(fewer);
-        }
+        renderPagedFeed(rows);
       }
 
       // A minimal index wrapper carrying only the filtered rows, so we can reuse
@@ -546,10 +624,12 @@
 
       function renderFacetedList(heading) {
         var rows = U.filterRows(INDEX, FACETS);
-        var ul = document.createElement('ul');
-        ul.className = 'feed';
-        rows.slice(0, FEED_LIMIT || rows.length).forEach(function (r) { ul.appendChild(feedItem(r)); });
-        browseEl.appendChild(ul);
+        if (!rows.length) {
+          browseEl.innerHTML += '<p class="info-card">No events match.</p>';
+          resetFeed();
+          return;
+        }
+        renderPagedFeed(rows);
       }
 
       async function doSearch() {
