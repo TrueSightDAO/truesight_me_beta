@@ -205,6 +205,18 @@
   }
 
   /** The immutable event filename for a row (the canonical mirror, by default). */
+  /**
+   * The canonical, DURABLE citation URL for an event: the sha256(request_transaction_id)
+   * mirror file -- the address the ledger README promises is stable and citable
+   * (plans/TRUESIGHT_LEDGER_EXPLORER_PLAN.md Gap 3). Falls back to the message-id
+   * URL only when a row somehow lacks the mirror URL. 2026-09-29 (Gary): the explorer
+   * cites THIS, never the transport(message)-id URL.
+   */
+  function canonicalLedgerUrl(row) {
+    if (!row) return '';
+    return row.canonical_url || row.message_id_url || '';
+  }
+
   function eventFileName(row, preferMessageId) {
     if (!row) return '';
     var url = preferMessageId ? row.message_id_url || row.canonical_url : row.canonical_url || row.message_id_url;
@@ -397,6 +409,7 @@
     escapeHtml: escapeHtml,
     shortenHash: shortenHash,
     eventFileName: eventFileName,
+    canonicalLedgerUrl: canonicalLedgerUrl,
     buildOpensslVerifySnippet: buildOpensslVerifySnippet
   };
 

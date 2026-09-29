@@ -335,6 +335,25 @@ test('the real planting event round-trips to a ?tx= My Trees link', () => {
 });
 
 
+test('canonicalLedgerUrl: prefers the sha256(txid) mirror over the message-id URL', () => {
+  const row = { canonical_url: U.LEDGER_RAW_BASE + 'tree_planting/' + HASH_A + '.json',
+                message_id_url: U.LEDGER_RAW_BASE + 'tree_planting/Edgar_20260924125541_071.json' };
+  assert.strictEqual(U.canonicalLedgerUrl(row), row.canonical_url);
+});
+
+test('canonicalLedgerUrl: falls back to message-id URL only when the mirror is absent', () => {
+  assert.strictEqual(U.canonicalLedgerUrl({ message_id_url: 'x/y.json' }), 'x/y.json');
+  assert.strictEqual(U.canonicalLedgerUrl({}), '');
+  assert.strictEqual(U.canonicalLedgerUrl(null), '');
+});
+
+test('explorer page cites ONLY the canonical url (no message-id URL row)', () => {
+  const html = require('fs').readFileSync(require('path').join(__dirname, '..', 'ledger', 'explorer', 'index.html'), 'utf8');
+  assert.ok(html.indexOf('Ledger URL (message id)') === -1, 'message-id URL row must be gone');
+  assert.ok(html.indexOf('U.canonicalLedgerUrl(row)') !== -1, 'card must use canonicalLedgerUrl');
+});
+
+
 (async () => {
   for (const [name, fn] of tests) {
     try { await fn(); passed++; console.log('  \u2713 ' + name); }

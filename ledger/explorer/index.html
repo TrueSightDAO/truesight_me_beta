@@ -295,8 +295,7 @@
         var submitted = row.submitted_at || '';
         var who = row.contributor_name || '';
         var folder = row.event_type_folder || '';
-        var canonical = row.canonical_url || '';
-        var msgUrl = row.message_id_url || '';
+        var canonical = U.canonicalLedgerUrl(row);
 
         card.innerHTML =
           '<div class="section-title">' + esc(title) + '</div>' +
@@ -307,10 +306,6 @@
             dl('Message id', esc(row.telegram_message_id)) +
             dl('Ledger URL (canonical, txid-addressed)',
                '<a href="' + esc(canonical) + '" target="_blank" rel="noopener">' + esc(canonical) + '</a>') +
-            (msgUrl && msgUrl !== canonical
-              ? dl('Ledger URL (message id)',
-                   '<a href="' + esc(msgUrl) + '" target="_blank" rel="noopener">' + esc(msgUrl) + '</a>')
-              : '') +
           '</dl>' +
           '<div class="txid">txid_hash: ' + esc(row.txid_hash) + '</div>' +
           '<div id="detail-' + esc(row.txid_hash) + '">' +
@@ -323,7 +318,7 @@
 
       function loadEventDetail(row, card) {
         var detail = card.querySelector('#detail-' + row.txid_hash);
-        var url = row.canonical_url || row.message_id_url;
+        var url = U.canonicalLedgerUrl(row);
         if (!url) { detail.innerHTML = '<p class="error">No URL for this event.</p>'; return; }
 
         fetch(url, { cache: 'no-cache' })
