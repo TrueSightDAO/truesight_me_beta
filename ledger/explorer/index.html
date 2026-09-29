@@ -136,15 +136,26 @@
     .chip .cnt { color: #888; margin-left: 0.3rem; }
     .chip.active .cnt { color: #e8f0f8; }
     .feed { list-style: none; margin: 0; padding: 0; }
-    .feed li {
-      padding: 0.6rem 0.7rem; border-bottom: 1px solid #eee;
+    .feed li { border-bottom: 1px solid #eee; }
+    .feed .feed-head {
+      padding: 0.6rem 0.7rem;
       display: flex; gap: 0.6rem; align-items: baseline; cursor: pointer;
     }
-    .feed li:hover { background-color: #f8f9fa; }
+    .feed .feed-head:hover { background-color: #f8f9fa; }
+    .feed .feed-head.open { background-color: #f1f5f9; }
     .feed .f-type { font-weight: bold; color: #234; min-width: 9rem; }
     .feed .f-who { color: #555; }
     .feed .f-date { color: #999; font-size: 0.85rem; margin-left: auto; white-space: nowrap; }
+    .feed .f-caret { color: #aaa; font-size: 0.8rem; transition: transform 0.15s; }
+    .feed .feed-head.open .f-caret { transform: rotate(180deg); }
     .feed .f-meta { font-size: 0.8rem; color: #aaa; font-family: monospace; }
+    /* Inline expand: the full transaction record opens in place, under its row. */
+    .feed .feed-detail {
+      padding: 0 0.7rem 0.7rem;
+      background-color: #fbfcfd;
+      border-top: 1px solid #f0f2f5;
+    }
+    .feed .feed-detail .info-card { margin: 0.5rem 0 0; }
     .result-head { display: flex; align-items: center; justify-content: space-between; margin: 0.6rem 0 0.2rem; }
     .result-head .rt { font-weight: bold; color: #333; }
     @media (max-width: 600px) {
@@ -462,11 +473,36 @@
 
       function feedItem(r) {
         var li = document.createElement('li');
-        li.innerHTML =
+        var head = document.createElement('div');
+        head.className = 'feed-head';
+        head.innerHTML =
           '<span class="f-type">' + esc(U.typeLabel(r.event_type_folder)) + '</span>' +
           '<span class="f-who">' + esc(r.contributor_name || '(unknown contributor)') + '</span>' +
-          '<span class="f-date">' + esc((r.submitted_at || '').slice(0, 10)) + '</span>';
-        li.addEventListener('click', function () { openRow(r); });
+          '<span class="f-date">' + esc((r.submitted_at || '').slice(0, 10)) + '</span>' +
+          '<span class="f-caret">\u25be</span>';
+        var detail = document.createElement('div');
+        detail.className = 'feed-detail hidden';
+        li.appendChild(head);
+        li.appendChild(detail);
+
+        // PR7: clicking a list item expands the FULL transaction record in
+        // place, right under its row, instead of navigating away. The heavy
+        // record (payload, signature, openssl snippet) is fetched lazily on the
+        // first expand and cached for subsequent toggles.
+        var loaded = false;
+        head.addEventListener('click', function () {
+          if (!detail.classList.contains('hidden')) {
+            detail.classList.add('hidden');
+            head.classList.remove('open');
+            return;
+          }
+          head.classList.add('open');
+          detail.classList.remove('hidden');
+          if (!loaded) {
+            loaded = true;
+            detail.appendChild(renderCard(r, 'message_id'));
+          }
+        });
         return li;
       }
 
@@ -514,13 +550,6 @@
         ul.className = 'feed';
         rows.slice(0, FEED_LIMIT || rows.length).forEach(function (r) { ul.appendChild(feedItem(r)); });
         browseEl.appendChild(ul);
-      }
-
-      // Clicking a feed row opens its full detail card (reuses the search card).
-      function openRow(row) {
-        setMode('search');
-        clearStatus();
-        renderRows([row], 'message_id', '', 'Event detail');
       }
 
       async function doSearch() {
