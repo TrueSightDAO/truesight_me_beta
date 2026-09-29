@@ -96,6 +96,12 @@
     .feed .feed-head.open { background: var(--bg-secondary); }
     .feed .f-type { font-weight: 600; color: var(--text); min-width: 9rem; }
     .feed .f-who { color: var(--muted); }
+    .feed .f-txid {
+      color: var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.78rem; letter-spacing: 0.01em; white-space: nowrap;
+      margin-left: 0.5rem; padding: 0.05rem 0.4rem; border-radius: 6px;
+      background: var(--bg-secondary); cursor: help;
+    }
     .feed .f-date { color: var(--muted); font-size: 0.85rem; margin-left: auto; white-space: nowrap; }
     .feed .f-caret { color: var(--muted); font-size: 0.8rem; transition: transform 0.15s; }
     .feed .feed-head.open .f-caret { transform: rotate(180deg); }
@@ -496,13 +502,30 @@
         return m;
       }
 
+      // Short form of a 64-hex hash for display in the row: first 8 + last 6.
+      function shortHash(h) {
+        h = String(h || '');
+        return h.length > 16 ? h.slice(0, 8) + '\u2026' + h.slice(-6) : h;
+      }
+
       function feedItem(r) {
         var li = document.createElement('li');
+        // The transaction id (txid_hash) is carried on the row as a DOM
+        // attribute as well as shown visibly, so scripts / deep-links / tests
+        // can target a specific transaction: document.querySelector('li[data-txid="…"]').
+        var txid = r.txid_hash || '';
+        li.setAttribute('data-txid', txid);
+        if (r.telegram_message_id) li.setAttribute('data-message-id', String(r.telegram_message_id));
+        li.setAttribute('data-event-type', r.event_type_folder || '');
+        if (txid) li.id = 'tx-' + txid;
         var head = document.createElement('div');
         head.className = 'feed-head';
         head.innerHTML =
           '<span class="f-type">' + esc(U.typeLabel(r.event_type_folder)) + '</span>' +
           '<span class="f-who">' + esc(r.contributor_name || '(unknown contributor)') + '</span>' +
+          (txid
+            ? '<span class="f-txid" title="txid_hash: ' + esc(txid) + '">' + esc(shortHash(txid)) + '</span>'
+            : '') +
           '<span class="f-date">' + esc((r.submitted_at || '').slice(0, 10)) + '</span>' +
           '<span class="f-caret">\u25be</span>';
         var detail = document.createElement('div');
