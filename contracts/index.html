@@ -951,7 +951,7 @@ Request Transaction ID: sF6gx9D+U3mk6SKBJ0a5r7DZB/PAcESxCu4wPzb4c+nJHEzWJnVMXUyd
     </div>
 
     <div class="contract-card">
-      <h3>Program Registration Event <span class="event-name">[PROGRAM REGISTRATION EVENT]</span></h3>
+      <h3>Program Registration Event <span class="event-name">[PROGRAM REGISTRATION REQUEST]</span></h3>
       <p class="purpose">Register a new program or initiative within the DAO ecosystem (e.g. credentialing cohort, community challenge, reforestation drive). Programs are the primary organizational unit for DAO activities — they group related contributions, track budgets, and measure impact. Only governors can create programs to ensure alignment with the DAO's strategic roadmap.</p>
       <div class="meta">
         <span class="tag">Governor</span>
@@ -975,7 +975,7 @@ Request Transaction ID: sF6gx9D+U3mk6SKBJ0a5r7DZB/PAcESxCu4wPzb4c+nJHEzWJnVMXUyd
       </details>
       <details class="payload">
         <summary>📋 Sample Payload</summary>
-        <pre><code>[PROGRAM REGISTRATION EVENT]
+        <pre><code>[PROGRAM REGISTRATION REQUEST]
 - Program Name: Sunmint Phase 3
 - Program Type: Reforestation
 - Start Date: 2026-07-01
@@ -1002,7 +1002,7 @@ Request Transaction ID: YDVXvKFuBnzy+fF5leSskdf2KDD6T0XnzjzY1SV0VCvBOcHuN6skghPG
     </div>
 
     <div class="contract-card">
-      <h3>QR Code Registration <span class="event-name">[QR CODE REGISTRATION]</span></h3>
+      <h3>QR Code Registration <span class="event-name">[BATCH QR CODE REQUEST]</span></h3>
       <p class="purpose">Register a new batch of QR codes for cacao bags. Each QR code uniquely identifies a bag in the supply chain from farm to consumer. This contract creates the digital twin for each physical bag — without a registered QR code, a bag cannot be moved, sold, or tracked. Used at the start of the supply chain when empty bags are printed with QR labels or when new stock arrives from farms.</p>
       <div class="meta">
         <span class="tag">Governor / Inventory Manager</span>
@@ -1026,7 +1026,7 @@ Request Transaction ID: YDVXvKFuBnzy+fF5leSskdf2KDD6T0XnzjzY1SV0VCvBOcHuN6skghPG
       </details>
       <details class="payload">
         <summary>📋 Sample Payload</summary>
-        <pre><code>[QR CODE REGISTRATION]
+        <pre><code>[BATCH QR CODE REQUEST]
 - QR Code(s): QR-CACAO-2026-001, QR-CACAO-2026-002
 - Batch ID: BATCH-2026-06
 - Product Type: Cacao Beans (Organic)
@@ -1168,7 +1168,7 @@ Request Transaction ID: u796wVLEOXWzV3HquqIGgdiZb7IlTi62cHIB/zmhIqz1avzrxISb4JO2
     </div>
 
     <div class="contract-card">
-      <h3>Asset Receipt <span class="event-name">[ASSET RECEIPT]</span></h3>
+      <h3>Asset Receipt <span class="event-name">[ASSET RECEIPT EVENT]</span></h3>
       <p class="purpose">Confirm receipt of physical assets (cacao bags, materials) into inventory. Creates the initial inventory record. This contract is used when new stock arrives from farms, suppliers, or partner cooperatives. It establishes the first link in the chain of custody by recording who received the assets, from what source, and in what quantity. Without an Asset Receipt, no subsequent inventory movement or sale can occur.</p>
       <div class="meta">
         <span class="tag">Inventory Manager</span>
@@ -1192,7 +1192,7 @@ Request Transaction ID: u796wVLEOXWzV3HquqIGgdiZb7IlTi62cHIB/zmhIqz1avzrxISb4JO2
       </details>
       <details class="payload">
         <summary>📋 Sample Payload</summary>
-        <pre><code>[ASSET RECEIPT]
+        <pre><code>[ASSET RECEIPT EVENT]
 - Asset Type: Cacao Beans (Organic)
 - Quantity: 50
 - Received By: Maria Santos
@@ -1209,7 +1209,7 @@ Request Transaction ID: wreVZ2oKppSVrwI7s2zzdEMGRAbf7b01qiYpdEa11Q86Nt+Hq69JK0dw
     </div>
 
     <div class="contract-card">
-      <h3>Currency Conversion <span class="event-name">[CURRENCY CONVERSION]</span></h3>
+      <h3>Currency Conversion <span class="event-name">[CURRENCY CONVERSION EVENT]</span></h3>
       <p class="purpose">Record a currency conversion event (e.g. USD to BRL) for financial tracking across the supply chain. The DAO operates across multiple currencies — USD for international sales, BRL for Brazilian operations, and TDG for internal tokenomics. This contract records when funds are converted between currencies, capturing the exchange rate and timestamp for accurate financial reporting and audit trails.</p>
       <div class="meta">
         <span class="tag">Treasury Manager</span>
@@ -1233,7 +1233,7 @@ Request Transaction ID: wreVZ2oKppSVrwI7s2zzdEMGRAbf7b01qiYpdEa11Q86Nt+Hq69JK0dw
       </details>
       <details class="payload">
         <summary>📋 Sample Payload</summary>
-        <pre><code>[CURRENCY CONVERSION]
+        <pre><code>[CURRENCY CONVERSION EVENT]
 - From Currency: USD
 - To Currency: BRL
 - Amount: 1000.00
@@ -1403,7 +1403,7 @@ Request Transaction ID: Z4bwigNtBgGY0xAd1qDyXmtHg4MsTCcTALve+76RbTWcuXfSZOe/r1mv
     </div>
 
     <div class="contract-card">
-      <h3>DAO Expenses Event <span class="event-name">[DAO EXPENSES EVENT]</span></h3>
+      <h3>DAO Expenses Event <span class="event-name">[DAO Inventory Expense Event]</span></h3>
       <p class="purpose">Record an expense paid from the DAO treasury. Tracks operational costs and reimbursements. Every outflow from the treasury is recorded via this contract — including operational costs (hosting, tools, subscriptions), contributor reimbursements, program expenses, and marketing spend. Expenses are categorized for budgeting and financial analysis. This contract, together with Capital Injection and Sales Events, provides a complete picture of the DAO's financial position.</p>
       <div class="meta">
         <span class="tag">Treasury Manager</span>
@@ -1428,7 +1428,7 @@ Request Transaction ID: Z4bwigNtBgGY0xAd1qDyXmtHg4MsTCcTALve+76RbTWcuXfSZOe/r1mv
     </div>
 
     <div class="contract-card">
-      <h3>Mint Donation Event <span class="event-name">[MINT DONATION EVENT]</span></h3>
+      <h3>Mint Donation Event <span class="event-name">[DONATION MINT EVENT]</span></h3>
       <p class="purpose">Mint a donation receipt as an on-chain record. Used for charitable contributions and tax receipting. When donors contribute to the DAO's charitable programs (e.g. Sunmint reforestation, community development), this contract creates a permanent, timestamped record of the donation. The receipt includes the donor's name, amount, currency, and project — providing verifiable documentation for tax purposes and impact reporting.</p>
       <div class="meta">
         <span class="tag">Treasury Manager</span>
@@ -1478,7 +1478,7 @@ Request Transaction ID: Z4bwigNtBgGY0xAd1qDyXmtHg4MsTCcTALve+76RbTWcuXfSZOe/r1mv
     </div>
 
     <div class="contract-card">
-      <h3>Notarize Event <span class="event-name">[NOTARIZE EVENT]</span></h3>
+      <h3>Notarize Event <span class="event-name">[NOTARIZATION EVENT]</span></h3>
       <p class="purpose">Notarize a document or record by hashing it and storing the hash on-chain. Provides timestamped proof of existence. This contract serves as the DAO's notary public — any contributor can submit a SHA-256 hash of a document, and Edgar records it with a timestamp on the TrueChain audit trail. This proves the document existed at a specific point in time without revealing its contents. Used for: intellectual property protection, agreement timestamps, and verifiable record-keeping.</p>
       <div class="meta">
         <span class="tag">Any Contributor</span>
@@ -1562,7 +1562,7 @@ Request Transaction ID: Z4bwigNtBgGY0xAd1qDyXmtHg4MsTCcTALve+76RbTWcuXfSZOe/r1mv
     </div>
 
     <div class="contract-card">
-      <h3>Create Proposal Event <span class="event-name">[CREATE PROPOSAL EVENT]</span></h3>
+      <h3>Create Proposal Event <span class="event-name">[PROPOSAL CREATION]</span></h3>
       <p class="purpose">Submit a new governance proposal to the DAO. Proposals can cover treasury allocation, policy changes, or new initiatives. This is the primary mechanism for decentralized decision-making. A governor submits a proposal with a title, description, and voting period. The proposal is then reviewed by other governors and put to a vote. Proposals that pass are executed by Edgar — triggering the appropriate state transitions. This contract is the foundation of the DAO's governance system.</p>
       <div class="meta">
         <span class="tag">Governor</span>
@@ -1746,7 +1746,7 @@ Request Transaction ID: Z4bwigNtBgGY0xAd1qDyXmtHg4MsTCcTALve+76RbTWcuXfSZOe/r1mv
     </div>
 
     <div class="contract-card">
-      <h3>Register Farm Event <span class="event-name">[REGISTER FARM EVENT]</span></h3>
+      <h3>Register Farm Event <span class="event-name">[FARM REGISTRATION EVENT]</span></h3>
       <p class="purpose">Register a farm in the DAO's supply chain. Tracks farm location, farmer details, and certification status. This contract records farms that supply cacao to the DAO. Each farm entry includes the farm name, farmer details, GPS location, and certification status (organic, fair trade, etc.). This creates transparency in the supply chain — consumers can trace their cacao back to the farm of origin. Used by the Agroverse program to connect farmers directly to the market.</p>
       <div class="meta">
         <span class="tag">Supply Chain Manager</span>
@@ -1835,7 +1835,7 @@ Request Transaction ID: v2gZ0x6uulSrH5JVnzEZH7YhckF2jHShl0ihuin7U7v19RpEiM+9a6Ai
     </div>
 
     <div class="contract-card">
-      <h3>Update QR Code Event <span class="event-name">[UPDATE QR CODE EVENT]</span></h3>
+      <h3>Update QR Code Event <span class="event-name">[QR CODE UPDATE EVENT]</span></h3>
       <p class="purpose">Update the status or metadata of an existing QR code. Used for corrections and lifecycle management. When a QR code's metadata needs to change — correcting a misprint, updating product type, changing status from LOST to IN INVENTORY, or marking a bag as DAMAGED — this contract records the update. It provides an audit trail of all changes to QR code records, ensuring the inventory ledger remains accurate even when corrections are needed.</p>
       <div class="meta">
         <span class="tag">Inventory Manager</span>
