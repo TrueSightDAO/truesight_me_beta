@@ -1326,25 +1326,78 @@ Request Transaction ID: Z4bwigNtBgGY0xAd1qDyXmtHg4MsTCcTALve+76RbTWcuXfSZOe/r1mv
 
     <div class="contract-card">
       <h3>Capital Injection Event <span class="event-name">[CAPITAL INJECTION EVENT]</span></h3>
-      <p class="purpose">Record a capital injection into the DAO treasury. Tracks funding sources and amounts. Used when external investors, grants, or DAO members contribute capital to the treasury. Each injection is recorded with its source, amount, currency, and purpose — enabling the DAO to track where its funding comes from and what it's earmarked for. This contract is essential for treasury transparency and investor reporting.</p>
+      <p class="purpose">Record a capital injection into the DAO treasury. Used when external investors, grants, or DAO members contribute capital to the treasury. The handler parses the ledger, ledger URL, USD amount, description and the destination file location, then files a row in the <code>Capital Injection</code> tab of the Main Ledger — enabling the DAO to track where its funding comes from. For moving value between ledgers in any currency, use MANAGED LEDGER TRANSACTION EVENT instead.</p>
       <div class="meta">
         <span class="tag">Treasury Manager / Governor</span>
-        <span>Required: Amount, Source, Currency, Purpose</span>
+        <span>Required: Ledger, Amount (USD)</span>
       </div>
       <div class="authority">
         <span class="auth-label">Authority: </span><span class="auth-value">Treasury Manager or Governor</span>
         <div class="auth-note">Only wallets with Treasury Manager or Governor role can sign. Unauthorized signers are rejected by Edgar with a 403 Forbidden response.</div>
       </div>
       <div class="sheets">
-        <span class="sheet-label">Sheet: </span><span class="sheet-value"><a href="https://docs.google.com/spreadsheets/d/1qL2W1_d1oY1Z5z5X5X5X5X5X5X5X5X5X5X5X5X5X/edit#gid=0" target="_blank" rel="noreferrer">Capital Injections</a> tab</span>
+        <span class="sheet-label">Sheet: </span><span class="sheet-value"><a href="https://docs.google.com/spreadsheets/d/1GE7PUq-UT6x2rBN-Q2ksogbWpgyuh2SaxJyG_uEK6PU/edit" target="_blank" rel="noreferrer">Capital Injection</a> tab (Main Ledger)</span>
       </div>
       <details class="source-code">
         <summary>Source Code</summary>
         <ul>
           <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/server/dispatch.py" target="_blank" rel="noreferrer">Dispatch Module (dao_protocol/server/dispatch.py)</a></li>
           <li><a href="https://github.com/TrueSightDAO/dao_protocol/blob/main/truesight_dao_client/modules/report_capital_injection.py" target="_blank" rel="noreferrer">Module: report_capital_injection.py</a></li>
-          <li><a href="https://github.com/TrueSightDAO/tokenomics/blob/main/google_app_scripts/tdg_finance/capital_injection_handler.gs" target="_blank" rel="noreferrer">GAS Handler: capital_injection_handler.gs</a></li>
+          <li><a href="https://github.com/TrueSightDAO/tokenomics/blob/main/google_app_scripts/1orWgdGckts55owiYOysR_y4sde52T_eUmrtDGAEkb4YV5DlUfJ0JZC5J/capital_injection_processing.js" target="_blank" rel="noreferrer">GAS Handler: capital_injection_processing.js</a></li>
           <li><a href="https://github.com/TrueSightDAO/sentiment_importer/blob/main/app/controllers/dao_controller.rb" target="_blank" rel="noreferrer">Edgar Controller: dao_controller.rb</a></li>
+        </ul>
+      </details>
+    </div>
+
+    <div class="contract-card">
+      <h3>Managed Ledger Transaction Event <span class="event-name">[MANAGED LEDGER TRANSACTION EVENT]</span></h3>
+      <p class="purpose">Move assets between ledgers, or record a capital injection as a two-legged double entry. Generalises CAPITAL INJECTION EVENT: instead of naming a single amount, you declare a source ledger, a destination ledger, and one or more asset lines, and the handler derives and commits the balanced ledger rows on both sides. Kept deliberately separate from the capital injection handler.</p>
+      <div class="meta">
+        <span class="tag">Governor</span>
+        <span>Required: Source Ledger URL, Destination Ledger URL, Effective Date, Description, Assets Entity, Equity Entity, Asset lines</span>
+      </div>
+      <div class="authority">
+        <span class="auth-label">Authority: </span><span class="auth-value">Governor</span>
+        <div class="auth-note">This event writes balance rows into live ledger <code>Transactions</code> tabs. The Assets Entity must be the human custodian on every Assets leg (INTER_LEDGER_HOLDINGS.md §3.4), and must never be the same name as the Equity Entity — the handler throws on both conditions.</div>
+      </div>
+      <details class="fields">
+        <summary>Transaction types</summary>
+        <div class="variant">
+          <h4>Injection <span class="var-name">(committable)</span></h4>
+          <p>Assets move onto the destination ledger, with the mirroring equity leg against the declared Equity Entity. Negative row on source, positive row on destination.</p>
+        </div>
+        <div class="variant">
+          <h4>Movement <span class="var-name">(committable)</span></h4>
+          <p>Assets relocate from source ledger to destination ledger with no change in ownership economics.</p>
+        </div>
+        <div class="variant">
+          <h4>Retirement <span class="var-name">(derived, write gated)</span></h4>
+          <p>Derived and tested, but the live ledger write is deliberately gated. A retirement submission is recorded but does not move balances.</p>
+        </div>
+      </details>
+      <details class="fields">
+        <summary>Field rules</summary>
+        <div class="variant">
+          <h4>Amounts are unsigned</h4>
+          <p>Each asset line is a currency key plus a quantity. A negative quantity is rejected — direction is implied by which leg the row sits on, not by sign.</p>
+        </div>
+        <div class="variant">
+          <h4>Unknown currency fails loudly</h4>
+          <p>Every currency key must exist in the <code>Currencies</code> tab. An unknown key throws rather than being valued at $0 — a missing rates row must never silently mis-price a transfer.</p>
+        </div>
+        <div class="variant">
+          <h4>Valuation</h4>
+          <p>Total USD value is derived from the <code>Currencies</code> price table at commit time; it is not supplied by the submitter.</p>
+        </div>
+      </details>
+      <div class="sheets">
+        <span class="sheet-label">Sheet: </span><span class="sheet-value"><a href="https://docs.google.com/spreadsheets/d/1GE7PUq-UT6x2rBN-Q2ksogbWpgyuh2SaxJyG_uEK6PU/edit" target="_blank" rel="noreferrer">Managed Ledger Transactions</a> tab (Main Ledger) · balance rows land in each ledger's <code>Transactions</code> tab</span>
+      </div>
+      <details class="source-code">
+        <summary>Source Code</summary>
+        <ul>
+          <li><a href="https://github.com/TrueSightDAO/tokenomics/blob/main/google_app_scripts/1orWgdGckts55owiYOysR_y4sde52T_eUmrtDGAEkb4YV5DlUfJ0JZC5J/managed_ledger_transaction_processing.js" target="_blank" rel="noreferrer">GAS Handler: managed_ledger_transaction_processing.js</a></li>
+          <li><a href="https://github.com/TrueSightDAO/tokenomics/blob/main/google_app_scripts/1orWgdGckts55owiYOysR_y4sde52T_eUmrtDGAEkb4YV5DlUfJ0JZC5J/capital_injection_processing.js" target="_blank" rel="noreferrer">Sibling: capital_injection_processing.js</a></li>
         </ul>
       </details>
     </div>
