@@ -460,7 +460,7 @@
             html += '      <img src="' + escapeHtml(manifest.qr_image_url) + '" alt="QR image for ' + escapeHtml(manifest.qr_id) +
                     '" onerror="this.style.display=\'none\';this.parentNode.style.display=\'none\';var n=document.getElementById(\'qr-image-missing\');if(n){n.style.display=\'flex\';}console.warn(\'[qr] label image missing for\', \'' + escapeHtml(manifest.qr_id) + '\');" />';
             html += '    </a>';
-            html += '    <div class="qr-image-placeholder" id="qr-image-missing" style="display:none">QR label image<br/>not yet published</div>';
+            html += '    <div class="qr-image-placeholder" id="qr-image-missing" style="display:none">QR label image<br/> not yet published</div>';
             html += '    <div class="qr-image-caption">scan to verify</div>';
             html += '  </div>';
           }
