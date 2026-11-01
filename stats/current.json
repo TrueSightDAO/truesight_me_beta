@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-01T06:44:06Z",
+  "generated_at_utc": "2026-11-01T18:03:15Z",
   "regenerated_by": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/.github/workflows/stats-refresh.yml",
   "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
   "llms_orientation": "https://truesight.me/llms.txt",
@@ -8,9 +8,9 @@
     "mission": "Restore 10,000 hectares of Amazon rainforest."
   },
   "members": {
-    "generated_at": "2026-11-01T03:30:10Z",
-    "total_contributors": 500,
-    "total_tdg_controlled_sum": 2493633.1,
+    "generated_at": "2026-11-01T17:29:28Z",
+    "total_contributors": 499,
+    "total_tdg_controlled_sum": 2492833.1,
     "governors_count": 10,
     "governors": [
       {
@@ -44,6 +44,14 @@
         "tdg_controlled": 10279.0,
         "contribution_count": 47,
         "profile_url": "https://truesight.me/credentials/#ken-nim"
+      },
+      {
+        "display_name": "Shena Davenport",
+        "slug": "shena-davenport",
+        "voting_power_pct": 0.39,
+        "tdg_controlled": 9837.0,
+        "contribution_count": 19,
+        "profile_url": "https://truesight.me/credentials/#shena-davenport"
       },
       {
         "display_name": "Elizabeth Wong",
@@ -84,20 +92,12 @@
         "tdg_controlled": 2322.0,
         "contribution_count": 19,
         "profile_url": "https://truesight.me/credentials/#paloma"
-      },
-      {
-        "display_name": "Philip Lee - husband of june",
-        "slug": null,
-        "voting_power_pct": 0.03,
-        "tdg_controlled": 800.0,
-        "contribution_count": 0,
-        "profile_url": "https://truesight.me/credentials/#None"
       }
     ],
     "directory_url": "https://truesight.me/members.html"
   },
   "treasury": {
-    "generated_at": "2026-11-01T05:48:38.344Z",
+    "generated_at": "2026-11-01T17:48:40.085Z",
     "schema_version": 5,
     "trigger": "cron",
     "currency_totals": {
@@ -994,17 +994,17 @@
   },
   "inventory": {
     "stores": {
-      "generated_at": "2026-10-31T12:38:12.000Z",
+      "generated_at": "2026-11-01T13:29:59.000Z",
       "store_count": 0,
       "line_items": 15
     },
     "partners": {
-      "generated_at": "2026-10-31T12:38:12.000Z",
+      "generated_at": "2026-11-01T13:29:59.000Z",
       "partner_count": 22
     }
   },
   "sunmint": {
-    "generated_at_utc": "2026-11-01T06:44:06Z",
+    "generated_at_utc": "2026-11-01T18:03:15Z",
     "source_script": "https://github.com/TrueSightDAO/truesight_me_beta/blob/main/scripts/build_stats_current.py",
     "schema": "sunmint_index/1",
     "north_star": {
